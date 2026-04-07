@@ -7,96 +7,116 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap');
 :root {
-  --purple-50:#f3f0ff;--purple-100:#e4deff;--purple-200:#cdc0ff;--purple-400:#9b7ae8;--purple-500:#7c5cd4;--purple-600:#6344b8;--purple-700:#4f3494;--purple-800:#3d2873;
+  --purple-50:#eee8ff;--purple-100:#d8ccff;--purple-200:#c0a8ff;--purple-400:#8b5cf6;--purple-500:#7c3aed;--purple-600:#6d28d9;--purple-700:#5b21b6;--purple-800:#4c1d95;--purple-900:#3b0f7a;
   --mint-50:#ecfdf5;--mint-100:#d1fae5;--mint-200:#a7f3d0;--mint-400:#34d399;--mint-500:#10b981;--mint-600:#059669;
   --coral-400:#f87171;--coral-500:#ef4444;--amber-400:#fbbf24;--amber-500:#f59e0b;
   --gray-50:#fafafa;--gray-100:#f4f4f5;--gray-200:#e4e4e7;--gray-300:#d4d4d8;--gray-400:#a1a1aa;--gray-500:#71717a;--gray-600:#52525b;--gray-700:#3f3f46;--gray-800:#27272a;
-  --bg:linear-gradient(135deg,var(--purple-50) 0%,#f8f6ff 40%,var(--mint-50) 100%);
-  --card-bg:rgba(255,255,255,0.85);--card-border:rgba(124,92,212,0.12);--shadow:0 4px 24px rgba(124,92,212,0.08);--radius:16px;
+  --bg:linear-gradient(135deg,#2e1065 0%,#4c1d95 30%,#5b21b6 60%,#6d28d9 100%);
+  --card-bg:rgba(255,255,255,0.92);--card-border:rgba(124,92,212,0.18);--shadow:0 4px 24px rgba(0,0,0,0.15);--radius:16px;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Noto Sans TC','Outfit',sans-serif;background:var(--bg);min-height:100vh;color:var(--gray-800);line-height:1.7}
 .app{max-width:720px;margin:0 auto;padding:20px 16px 60px}
 .header{text-align:center;padding:32px 0 24px}
-.header h1{font-family:'Outfit','Noto Sans TC',sans-serif;font-size:24px;font-weight:600;background:linear-gradient(135deg,var(--purple-600),var(--mint-500));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.header p{font-size:14px;color:var(--gray-500);margin-top:4px}
+.header h1{font-family:'Outfit','Noto Sans TC',sans-serif;font-size:28px;font-weight:700;color:#fff;text-shadow:0 2px 8px rgba(0,0,0,0.2)}
+.header p{font-size:16px;color:rgba(255,255,255,0.8);margin-top:6px;font-weight:500}
 .card{background:var(--card-bg);backdrop-filter:blur(12px);border:1px solid var(--card-border);border-radius:var(--radius);padding:28px 24px;margin-bottom:16px;box-shadow:var(--shadow);animation:fadeUp .4s ease}
 @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-.card-title{font-size:18px;font-weight:600;color:var(--purple-700);margin-bottom:16px;display:flex;align-items:center;gap:10px}
-.card-title .icon{width:32px;height:32px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.card-title{font-size:20px;font-weight:700;color:var(--purple-700);margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.card-title .icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
 .icon-purple{background:var(--purple-100);color:var(--purple-600)}
 .icon-mint{background:var(--mint-100);color:var(--mint-600)}
 .icon-coral{background:rgba(248,113,113,0.15);color:var(--coral-500)}
 .form-group{margin-bottom:18px}
-.form-label{display:block;font-size:14px;font-weight:500;color:var(--gray-700);margin-bottom:6px}
+.form-label{display:block;font-size:15px;font-weight:500;color:var(--gray-700);margin-bottom:6px}
 .form-label .required{color:var(--coral-500);margin-left:2px}
-.form-input{width:100%;padding:10px 14px;border:1.5px solid var(--gray-200);border-radius:10px;font-size:15px;font-family:inherit;background:#fff;transition:border-color .2s,box-shadow .2s;outline:none}
+.form-input{width:100%;padding:12px 14px;border:1.5px solid var(--gray-200);border-radius:10px;font-size:16px;font-family:inherit;background:#fff;transition:border-color .2s,box-shadow .2s;outline:none}
 .form-input:focus{border-color:var(--purple-400);box-shadow:0 0 0 3px rgba(124,92,212,0.1)}
 .form-input.error{border-color:var(--coral-500);box-shadow:0 0 0 3px rgba(239,68,68,0.1)}
-.error-msg{font-size:12px;color:var(--coral-500);margin-top:4px;display:none}
+.error-msg{font-size:13px;color:var(--coral-500);margin-top:4px;display:none}
 .error-msg.show{display:block}
 .radio-group{display:flex;flex-direction:column;gap:8px}
-.radio-option{display:flex;align-items:center;gap:10px;padding:8px 12px;border:1.5px solid var(--gray-200);border-radius:10px;cursor:pointer;transition:all .2s}
+.radio-option{display:flex;align-items:center;gap:10px;padding:10px 14px;border:1.5px solid var(--gray-200);border-radius:10px;cursor:pointer;transition:all .2s;font-size:15px}
 .radio-option:hover{border-color:var(--purple-300);background:var(--purple-50)}
 .radio-option.selected{border-color:var(--purple-400);background:var(--purple-50)}
 .radio-option input{display:none}
 .radio-dot{width:18px;height:18px;border-radius:50%;border:2px solid var(--gray-300);transition:all .2s;flex-shrink:0}
 .radio-option.selected .radio-dot{border-color:var(--purple-500);background:var(--purple-500);box-shadow:inset 0 0 0 3px #fff}
 .likert-row{display:flex;gap:4px;justify-content:center;margin-top:8px}
-.likert-btn{flex:1;padding:8px 2px;border:1.5px solid var(--gray-200);border-radius:8px;background:#fff;cursor:pointer;text-align:center;font-size:13px;font-family:inherit;transition:all .2s;min-width:0}
+.likert-btn{flex:1;padding:10px 2px;border:1.5px solid var(--gray-200);border-radius:8px;background:#fff;cursor:pointer;text-align:center;font-size:14px;font-family:inherit;transition:all .2s;min-width:0;font-weight:500}
 .likert-btn:hover{border-color:var(--purple-300);background:var(--purple-50)}
 .likert-btn.selected{border-color:var(--purple-500);background:var(--purple-500);color:#fff}
-.likert-labels{display:flex;justify-content:space-between;font-size:11px;color:var(--gray-400);margin-top:4px;padding:0 4px}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 28px;border:none;border-radius:12px;font-size:15px;font-weight:500;font-family:inherit;cursor:pointer;transition:all .2s}
+.likert-labels{display:flex;justify-content:space-between;font-size:12px;color:var(--gray-400);margin-top:4px;padding:0 4px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 28px;border:none;border-radius:12px;font-size:16px;font-weight:600;font-family:inherit;cursor:pointer;transition:all .2s}
 .btn-primary{background:linear-gradient(135deg,var(--purple-500),var(--purple-600));color:#fff;box-shadow:0 4px 16px rgba(124,92,212,0.25)}
 .btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(124,92,212,0.35)}
 .btn-primary:disabled{opacity:0.5;cursor:not-allowed;transform:none}
-.btn-outline{background:transparent;border:1.5px solid var(--purple-400);color:var(--purple-600);padding:6px 14px;font-size:13px;border-radius:8px}
+.btn-outline{background:transparent;border:1.5px solid var(--purple-400);color:var(--purple-600);padding:8px 16px;font-size:14px;border-radius:8px;font-weight:500}
 .btn-outline:hover{background:var(--purple-50)}
 .btn-block{width:100%}
 .stage-list{display:flex;flex-direction:column;gap:10px}
-.stage-item{display:flex;align-items:center;gap:14px;padding:14px 16px;border:1.5px solid var(--gray-200);border-radius:12px;cursor:pointer;transition:all .2s}
+.stage-item{display:flex;align-items:center;gap:14px;padding:16px 18px;border:1.5px solid var(--gray-200);border-radius:12px;cursor:pointer;transition:all .2s}
 .stage-item:hover:not(.locked):not(.completed){border-color:var(--purple-300);background:var(--purple-50)}
 .stage-item.completed{border-color:var(--mint-400);background:var(--mint-50);cursor:default}
 .stage-item.locked{opacity:0.45;cursor:not-allowed}
-.stage-num{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:14px;flex-shrink:0;background:var(--purple-100);color:var(--purple-600)}
+.stage-num{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;flex-shrink:0;background:var(--purple-100);color:var(--purple-600)}
 .stage-item.completed .stage-num{background:var(--mint-400);color:#fff}
 .stage-item.locked .stage-num{background:var(--gray-200);color:var(--gray-400)}
 .stage-info{flex:1}
-.stage-title{font-weight:500;font-size:15px}
-.stage-sub{font-size:12px;color:var(--gray-500)}
-.stage-badge{font-size:11px;padding:3px 10px;border-radius:20px;font-weight:500}
+.stage-title{font-weight:600;font-size:16px}
+.stage-sub{font-size:13px;color:var(--gray-500)}
+.stage-badge{font-size:12px;padding:4px 12px;border-radius:20px;font-weight:600}
 .badge-done{background:var(--mint-100);color:var(--mint-600)}
 .badge-pending{background:var(--purple-50);color:var(--purple-500)}
 .badge-locked{background:var(--gray-100);color:var(--gray-400)}
 .q-item{padding:16px 0;border-bottom:1px solid var(--gray-100)}
 .q-item:last-child{border-bottom:none}
 .q-item.missing{background:rgba(239,68,68,0.04);border-radius:8px;padding:16px 12px;border:1px solid rgba(239,68,68,0.2)}
-.q-text{font-size:15px;font-weight:400;color:var(--gray-700);margin-bottom:10px}
-.q-num{font-weight:600;color:var(--purple-500);margin-right:6px}
-.section-header{font-size:16px;font-weight:600;color:var(--purple-600);margin:28px 0 8px;padding-top:20px;border-top:1px solid var(--gray-200)}
+.q-text{font-size:16px;font-weight:400;color:var(--gray-700);margin-bottom:10px}
+.q-num{font-weight:700;color:var(--purple-500);margin-right:6px}
+.section-header{font-size:17px;font-weight:700;color:var(--purple-600);margin:28px 0 8px;padding-top:20px;border-top:1px solid var(--gray-200)}
 .section-header:first-child{border-top:none;margin-top:0;padding-top:0}
-.section-sub{font-size:12px;font-weight:400;color:var(--gray-400);margin-left:8px}
+.section-sub{font-size:13px;font-weight:400;color:var(--gray-400);margin-left:8px}
 .feedback-section{margin-top:16px}
-.feedback-label{font-size:14px;font-weight:500;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.feedback-label{font-size:15px;font-weight:500;margin-bottom:8px;display:flex;align-items:center;gap:6px}
 .feedback-label .pos{color:var(--mint-600)}
 .feedback-label .neg{color:var(--coral-500)}
-.feedback-input{width:100%;padding:10px 14px;border:1.5px solid var(--gray-200);border-radius:10px;font-size:14px;font-family:inherit;resize:vertical;min-height:60px;outline:none;transition:border-color .2s}
+.feedback-input{width:100%;padding:12px 14px;border:1.5px solid var(--gray-200);border-radius:10px;font-size:15px;font-family:inherit;resize:vertical;min-height:60px;outline:none;transition:border-color .2s}
 .feedback-input:focus{border-color:var(--purple-400)}
 .feedback-input.error{border-color:var(--coral-500)}
 .topbar{display:flex;justify-content:space-between;align-items:center;padding:12px 0;margin-bottom:8px}
-.topbar-user{font-size:13px;color:var(--gray-500)}
-.topbar-user strong{color:var(--purple-600)}
-.btn-logout{padding:6px 16px;font-size:13px;border-radius:8px;background:var(--gray-100);color:var(--gray-600);border:none;cursor:pointer;font-family:inherit}
-.btn-logout:hover{background:var(--gray-200)}
+.topbar-user{font-size:15px;color:rgba(255,255,255,0.85);font-weight:500}
+.topbar-user strong{color:#fff}
+.btn-logout{padding:10px 24px;font-size:14px;border-radius:10px;background:rgba(255,255,255,0.2);color:#fff;border:2px solid rgba(255,255,255,0.5);cursor:pointer;font-family:inherit;font-weight:600;transition:all .2s;backdrop-filter:blur(4px)}
+.btn-logout:hover{background:rgba(255,255,255,0.35);border-color:#fff}
 .consent-box{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;background:var(--purple-50);border-radius:12px;margin-top:16px;cursor:pointer}
 .consent-box input{margin-top:3px;width:18px;height:18px;accent-color:var(--purple-500)}
-.consent-text{font-size:14px;line-height:1.6}
-.week-tag{display:inline-block;font-size:11px;padding:2px 10px;border-radius:20px;background:var(--purple-100);color:var(--purple-600);font-weight:500;margin-left:8px}
+.consent-text{font-size:15px;line-height:1.6}
+.week-tag{display:inline-block;font-size:12px;padding:2px 10px;border-radius:20px;background:var(--purple-100);color:var(--purple-600);font-weight:600;margin-left:8px}
 .page{display:none}.page.active{display:block}
 .thank-you{text-align:center;padding:40px 0}
 .thank-you h2{font-size:28px;background:linear-gradient(135deg,var(--purple-500),var(--mint-500));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:16px}
-@media(max-width:480px){.app{padding:12px 10px 40px}.card{padding:20px 16px}.likert-btn{font-size:11px;padding:6px 1px}}
+
+/* ===== 流程圖 ===== */
+.flow-chart{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:0;margin-bottom:20px;padding:16px 8px;background:linear-gradient(135deg,#f5f0ff,#ede5ff);border-radius:14px;border:1px solid var(--purple-100)}
+.flow-step{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:56px;position:relative}
+.flow-icon{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;border:2.5px solid var(--purple-200);background:#fff;color:var(--purple-600);transition:all .3s}
+.flow-step.done .flow-icon{background:var(--mint-400);border-color:var(--mint-400);color:#fff}
+.flow-step.current .flow-icon{background:var(--purple-500);border-color:var(--purple-500);color:#fff;box-shadow:0 0 0 4px rgba(124,58,237,0.2);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 4px rgba(124,58,237,0.2)}50%{box-shadow:0 0 0 8px rgba(124,58,237,0.1)}}
+.flow-step.locked .flow-icon{background:var(--gray-100);border-color:var(--gray-200);color:var(--gray-400)}
+.flow-label{font-size:10px;color:var(--gray-500);text-align:center;max-width:60px;line-height:1.2;font-weight:500}
+.flow-step.done .flow-label{color:var(--mint-600)}
+.flow-step.current .flow-label{color:var(--purple-600);font-weight:700}
+.flow-arrow{font-size:16px;color:var(--purple-300);margin:0 2px;flex-shrink:0;align-self:center;margin-bottom:16px}
+.flow-step.done + .flow-arrow{color:var(--mint-400)}
+
+/* ===== 傳送狀態提示 ===== */
+.sync-status{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);padding:10px 20px;border-radius:10px;font-size:13px;font-weight:500;z-index:9999;transition:opacity .3s;pointer-events:none}
+.sync-ok{background:#059669;color:#fff;box-shadow:0 4px 12px rgba(5,150,105,0.3)}
+.sync-fail{background:#ef4444;color:#fff;box-shadow:0 4px 12px rgba(239,68,68,0.3)}
+
+@media(max-width:480px){.app{padding:12px 10px 40px}.card{padding:20px 16px}.likert-btn{font-size:12px;padding:8px 1px}.flow-chart{gap:0;padding:12px 4px}.flow-icon{width:32px;height:32px;font-size:13px}.flow-label{font-size:9px;max-width:48px}.flow-arrow{font-size:12px}}
 </style>
 </head>
 <body>
@@ -125,7 +145,7 @@ body{font-family:'Noto Sans TC','Outfit',sans-serif;background:var(--bg);min-hei
   <div class="header"><h1>消費者決策研究</h1><p>課程互動平台</p></div>
   <div class="card">
     <div class="card-title"><div class="icon icon-purple">📋</div>研究參與知情同意書</div>
-    <div style="font-size:14px;line-height:1.8;color:var(--gray-600)">
+    <div style="font-size:15px;line-height:1.8;color:var(--gray-600)">
       <p><strong>研究主題：</strong>擬人化社交AI代理人對使用者學習體驗之影響</p>
       <p style="margin-top:12px"><strong>研究說明：</strong></p>
       <p>本研究旨在探討不同社群回饋來源對消費者行為學習成效的影響。您將在為期四週的課程中，完成消費者決策五階段的學習任務，並收集社群回饋意見。</p>
@@ -174,8 +194,8 @@ body{font-family:'Noto Sans TC','Outfit',sans-serif;background:var(--bg);min-hei
   <div class="header"><h1>消費者決策研究</h1><p>前測問卷</p></div>
   <div class="card">
     <div class="card-title"><div class="icon icon-purple">📝</div>前測問卷</div>
-    <p style="font-size:13px;color:var(--gray-500);margin-bottom:4px">請依據您目前的真實感受作答</p>
-    <p style="font-size:13px;color:var(--gray-400);margin-bottom:16px">1＝非常不同意　2＝不同意　3＝有點不同意　4＝普通　5＝有點同意　6＝同意　7＝非常同意</p>
+    <p style="font-size:14px;color:var(--gray-500);margin-bottom:4px">請依據您目前的真實感受作答</p>
+    <p style="font-size:14px;color:var(--gray-400);margin-bottom:16px">1＝非常不同意　2＝不同意　3＝有點不同意　4＝普通　5＝有點同意　6＝同意　7＝非常同意</p>
     <div id="pretest-items"></div>
     <button class="btn btn-primary btn-block" style="margin-top:20px" onclick="handlePretest()">送出前測</button>
   </div>
@@ -183,21 +203,23 @@ body{font-family:'Noto Sans TC','Outfit',sans-serif;background:var(--bg);min-hei
 
 <!-- DASHBOARD -->
 <div class="page" id="page-dashboard">
-  <div class="topbar"><div class="topbar-user">您好，<strong id="dash-name"></strong></div><button class="btn-logout" onclick="handleLogout()">登出</button></div>
+  <div class="topbar"><div class="topbar-user">您好，<strong id="dash-name"></strong></div><button class="btn-logout" onclick="handleLogout()">⏻ 登出</button></div>
   <div class="card">
     <div class="card-title"><div class="icon icon-purple">📊</div>課程總覽</div>
-    <p style="font-size:13px;color:var(--gray-500);margin-bottom:16px">請依序完成各階段回饋紀錄。前一階段完成後，下一階段才會開放。</p>
+    <!-- 流程圖 -->
+    <div class="flow-chart" id="flow-chart"></div>
+    <p style="font-size:14px;color:var(--gray-500);margin-bottom:16px">請依序完成各階段回饋紀錄。前一階段完成後，下一階段才會開放。</p>
     <div class="stage-list" id="stage-list"></div>
   </div>
 </div>
 
 <!-- FEEDBACK -->
 <div class="page" id="page-feedback">
-  <div class="topbar"><button class="btn-outline" onclick="showPage('page-dashboard')">← 返回總覽</button><button class="btn-logout" onclick="handleLogout()">登出</button></div>
+  <div class="topbar"><button class="btn-outline" onclick="showPage('page-dashboard')">← 返回總覽</button><button class="btn-logout" onclick="handleLogout()">⏻ 登出</button></div>
   <div class="card">
     <div class="card-title" id="fb-title"></div>
-    <div id="fb-prompt" style="background:var(--purple-50);border-radius:12px;padding:14px 16px;margin-bottom:20px;font-size:14px;color:var(--purple-700)"></div>
-    <p style="font-size:13px;color:var(--gray-500);margin-bottom:16px">請走動詢問同學或從LINE群組收集回饋後，挑選最具代表性的3個正面意見和3個反面意見記錄於下方。</p>
+    <div id="fb-prompt" style="background:var(--purple-50);border-radius:12px;padding:14px 16px;margin-bottom:20px;font-size:15px;color:var(--purple-700)"></div>
+    <p style="font-size:14px;color:var(--gray-500);margin-bottom:16px">請走動詢問同學或從LINE群組收集回饋後，挑選最具代表性的3個正面意見和3個反面意見記錄於下方。</p>
     <div class="feedback-section">
       <div class="feedback-label"><span class="pos">👍</span> 正面意見</div>
       <div class="form-group"><label class="form-label">正面意見 1<span class="required">*</span></label><textarea class="feedback-input" id="fb-pos-1" placeholder="記錄收到的正面回饋..."></textarea></div>
@@ -224,11 +246,11 @@ body{font-family:'Noto Sans TC','Outfit',sans-serif;background:var(--bg);min-hei
 
 <!-- POST-TEST -->
 <div class="page" id="page-posttest">
-  <div class="topbar"><button class="btn-outline" onclick="showPage('page-dashboard')">← 返回總覽</button><button class="btn-logout" onclick="handleLogout()">登出</button></div>
+  <div class="topbar"><button class="btn-outline" onclick="showPage('page-dashboard')">← 返回總覽</button><button class="btn-logout" onclick="handleLogout()">⏻ 登出</button></div>
   <div class="card">
     <div class="card-title"><div class="icon icon-coral">📝</div>後測問卷</div>
-    <p style="font-size:13px;color:var(--gray-500);margin-bottom:4px">請依據您參與本課程後的真實感受作答</p>
-    <p style="font-size:13px;color:var(--gray-400);margin-bottom:16px">Likert量表：1＝非常不同意 ～ 7＝非常同意（知識測驗除外）</p>
+    <p style="font-size:14px;color:var(--gray-500);margin-bottom:4px">請依據您參與本課程後的真實感受作答</p>
+    <p style="font-size:14px;color:var(--gray-400);margin-bottom:16px">Likert量表：1＝非常不同意 ～ 7＝非常同意（知識測驗除外）</p>
     <div id="posttest-items"></div>
     <button class="btn btn-primary btn-block" style="margin-top:20px" onclick="handlePosttest()">送出後測</button>
   </div>
@@ -239,8 +261,8 @@ body{font-family:'Noto Sans TC','Outfit',sans-serif;background:var(--bg);min-hei
   <div class="header"><h1>消費者決策研究</h1></div>
   <div class="card thank-you">
     <h2>感謝您的參與！</h2>
-    <p style="color:var(--gray-500);margin-bottom:20px">您已完成所有問卷填答。您的回覆對本研究非常有價值。</p>
-    <p style="font-size:14px;color:var(--gray-600);text-align:left;line-height:1.8">
+    <p style="color:var(--gray-500);margin-bottom:20px;font-size:16px">您已完成所有問卷填答。您的回覆對本研究非常有價值。</p>
+    <p style="font-size:15px;color:var(--gray-600);text-align:left;line-height:1.8">
       <strong>研究說明：</strong><br>
       本研究比較不同社群回饋來源（AI虛擬社群 vs. 真人同儕）對消費者行為學習成效的影響。您所屬的組別是「真人社群組」，透過走動詢問同學來收集回饋意見。<br><br>
       如有任何疑問，歡迎聯繫研究負責人：蕭君華老師。
@@ -249,6 +271,10 @@ body{font-family:'Noto Sans TC','Outfit',sans-serif;background:var(--bg);min-hei
 </div>
 
 </div>
+
+<!-- 傳送狀態提示 -->
+<div class="sync-status" id="sync-status" style="opacity:0"></div>
+
 <script>
 const LIKERT_N = 7;
 const STAGES = [
@@ -258,6 +284,8 @@ const STAGES = [
   {id:4,title:'階段四：購買決策',sub:'Purchase Decision',week:'W3',prompt:'我們決定買 [X] 了，但室友說那品牌很爛。你覺得該聽他的嗎？為什麼？'},
   {id:5,title:'階段五：購後行為',sub:'Post-Purchase Behavior',week:'W3',prompt:'買了之後發現 [請描述問題]。如果是你，會退貨還是留著？為什麼？'},
 ];
+
+const FLOW_LABELS = ['前測','需求\n認知','資訊\n蒐集','方案\n評估','購買\n決策','購後\n行為','後測'];
 
 const PRETEST = [
   {sec:'自我效能 Self-Efficacy (SE)',items:[
@@ -316,13 +344,45 @@ function loadState(){const s=localStorage.getItem('socialai_ctrl_v2');if(s)state
 function saveState(){localStorage.setItem('socialai_ctrl_v2',JSON.stringify(state))}
 
 const SHEET_URL='https://script.google.com/macros/s/AKfycbzTEM5Wt4em-4ezpId6gHwD5yKvYgiNiMqq1St8x6KNtnMfNBD6Mq49av8wiVW2T34r/exec';
-function sendToSheet(d){if(!SHEET_URL)return;fetch(SHEET_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)}).catch(()=>{})}
+
+// ===== 修正：改用 Google Apps Script 可接受的方式送資料 =====
+function sendToSheet(d){
+  if(!SHEET_URL)return;
+  
+  // 方法1: 使用 beacon API (最可靠，不受 CORS 限制)
+  const blob = new Blob([JSON.stringify(d)], {type:'application/json'});
+  const sent = navigator.sendBeacon && navigator.sendBeacon(SHEET_URL, blob);
+  
+  if(!sent){
+    // 方法2: 使用 fetch + no-cors 備援（但改用 text/plain 讓 Apps Script 能收到）
+    fetch(SHEET_URL,{
+      method:'POST',
+      mode:'no-cors',
+      headers:{'Content-Type':'text/plain'},
+      body:JSON.stringify(d)
+    }).then(()=>{
+      showSyncStatus('✓ 資料已送出','ok');
+    }).catch(()=>{
+      showSyncStatus('✗ 傳送失敗，請檢查網路','fail');
+    });
+    return;
+  }
+  showSyncStatus('✓ 資料已送出','ok');
+}
+
+function showSyncStatus(msg, type){
+  const el=document.getElementById('sync-status');
+  el.textContent=msg;
+  el.className='sync-status '+(type==='ok'?'sync-ok':'sync-fail');
+  el.style.opacity='1';
+  setTimeout(()=>{el.style.opacity='0'},3000);
+}
 
 function showPage(id){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0)}
 
 function selR(el,gid){document.querySelectorAll('#'+gid+' .radio-option').forEach(o=>o.classList.remove('selected'));el.classList.add('selected');el.querySelector('input').checked=true}
 
-// LOGIN
+// ===== LOGIN（修正：第二次登入不用再輸入兩次學號）=====
 function handleLogin(){
   const id1=document.getElementById('login-id1').value.trim().toUpperCase();
   const id2=document.getElementById('login-id2').value.trim().toUpperCase();
@@ -335,7 +395,8 @@ function handleLogin(){
   loadState();
   if(state.studentId===id1&&state.consented){
     if(state.posttest_done){showPage('page-thankyou')}
-    else{renderDashboard();showPage('page-dashboard')}
+    else if(state.pretest){renderDashboard();showPage('page-dashboard')}
+    else{showPage('page-consent')}
   }else{
     state={studentId:id1,group:'control'};saveState();showPage('page-consent');
   }
@@ -417,11 +478,72 @@ function handlePretest(){
   renderDashboard();showPage('page-dashboard');
 }
 
+// ===== 流程圖渲染 =====
+function renderFlowChart(){
+  const fc=document.getElementById('flow-chart');
+  fc.innerHTML='';
+  const pretestDone=!!state.pretest;
+  const allStagesDone=STAGES.every(s=>state.stages&&state.stages[s.id]);
+  const posttestDone=!!state.posttest_done;
+
+  // 計算每個步驟的狀態
+  let firstIncomplete=0;
+  if(state.stages){
+    for(let i=0;i<STAGES.length;i++){
+      if(!state.stages[STAGES[i].id]){firstIncomplete=i;break}
+      if(i===STAGES.length-1)firstIncomplete=STAGES.length;
+    }
+  }
+
+  const steps = [
+    {label:'前測', done:pretestDone, current:false},
+    ...STAGES.map((s,i)=>({
+      label:s.title.replace(/階段.：/,''),
+      done:!!(state.stages&&state.stages[s.id]),
+      current:pretestDone && i===firstIncomplete && !(state.stages&&state.stages[s.id]),
+      locked:i>firstIncomplete
+    })),
+    {label:'後測', done:posttestDone, current:allStagesDone&&!posttestDone, locked:!allStagesDone}
+  ];
+
+  steps.forEach((step,i)=>{
+    // step circle
+    const stepEl=document.createElement('div');
+    stepEl.className='flow-step';
+    if(step.done) stepEl.classList.add('done');
+    else if(step.current) stepEl.classList.add('current');
+    else if(step.locked) stepEl.classList.add('locked');
+
+    const icon=document.createElement('div');
+    icon.className='flow-icon';
+    icon.textContent=step.done?'✓':(i===0?'前':i===steps.length-1?'後':i);
+
+    const label=document.createElement('div');
+    label.className='flow-label';
+    label.textContent=step.label;
+
+    stepEl.appendChild(icon);
+    stepEl.appendChild(label);
+    fc.appendChild(stepEl);
+
+    // arrow
+    if(i<steps.length-1){
+      const arrow=document.createElement('span');
+      arrow.className='flow-arrow';
+      arrow.textContent='→';
+      fc.appendChild(arrow);
+    }
+  });
+}
+
 // DASHBOARD
 function renderDashboard(){
   document.getElementById('dash-name').textContent=state.name||state.studentId;
   const list=document.getElementById('stage-list');list.innerHTML='';
   if(!state.stages)state.stages={};
+
+  // 渲染流程圖
+  renderFlowChart();
 
   // Find first incomplete stage
   let firstIncomplete=0;
@@ -446,7 +568,7 @@ function renderDashboard(){
   const ptDiv=document.createElement('div');
   ptDiv.className=`stage-item ${state.posttest_done?'completed':allDone?'':'locked'}`;
   ptDiv.innerHTML=`
-    <div class="stage-num" style="${state.posttest_done?'background:var(--mint-400);color:#fff':allDone?'background:var(--coral-400);background:rgba(248,113,113,0.15);color:var(--coral-500)':'background:var(--gray-200);color:var(--gray-400)'}">📝</div>
+    <div class="stage-num" style="${state.posttest_done?'background:var(--mint-400);color:#fff':allDone?'background:rgba(248,113,113,0.15);color:var(--coral-500)':'background:var(--gray-200);color:var(--gray-400)'}">📝</div>
     <div class="stage-info"><div class="stage-title">後測問卷<span class="week-tag">W4</span></div><div class="stage-sub">Post-test Survey</div></div>
     <span class="stage-badge ${state.posttest_done?'badge-done':allDone?'badge-pending':'badge-locked'}">${state.posttest_done?'已完成':allDone?'待填寫':'未開放'}</span>`;
   if(allDone&&!state.posttest_done){ptDiv.onclick=()=>{renderSurvey('posttest-items',POSTTEST,'post_');showPage('page-posttest')}}
