@@ -104,7 +104,7 @@ body{font-family:'Noto Sans TC','Outfit',sans-serif;background:var(--bg);min-hei
 
 <!-- LOGIN -->
 <div class="page active" id="page-login">
-  <div class="header"><h1>消費者決策研究</h1><p>課程互動平台（控制組）</p></div>
+  <div class="header"><h1 onclick="secretReset()" style="cursor:default">消費者決策研究</h1><p>課程互動平台（控制組）</p></div>
   <div class="card">
     <div class="card-title"><div class="icon icon-purple">🔑</div>登入</div>
     <div class="form-group">
@@ -496,6 +496,10 @@ function handlePosttest(){
 }
 
 function handleLogout(){showPage('page-login');document.getElementById('login-id1').value='';document.getElementById('login-id2').value=''}
+
+// SECRET RESET
+let _tapCount=0,_tapTimer=null;
+function secretReset(){_tapCount++;if(_tapTimer)clearTimeout(_tapTimer);_tapTimer=setTimeout(()=>{_tapCount=0},2000);if(_tapCount>=5){if(confirm("確定要清除所有測試資料嗎？")){localStorage.removeItem("socialai_ctrl_v2");_tapCount=0;alert("資料已清除，頁面將重新載入");location.reload()}}}
 
 // INIT
 loadState();
