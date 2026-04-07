@@ -704,21 +704,16 @@ function handleLogout(){showPage('page-login');document.getElementById('login-id
 let _tapCount=0,_tapTimer=null;
 function secretReset(){_tapCount++;if(_tapTimer)clearTimeout(_tapTimer);_tapTimer=setTimeout(()=>{_tapCount=0},2000);if(_tapCount>=5){if(confirm("確定要清除所有測試資料嗎？")){localStorage.removeItem("socialai_ctrl_v2");_tapCount=0;alert("資料已清除，頁面將重新載入");location.reload()}}}
 
-// INIT
+// INIT — 永遠從登入頁開始，回訪用戶只需輸入學號1次
 loadState();
-if(state.studentId&&state.consented&&!state.posttest_done&&state.pretest){
-  renderDashboard();showPage('page-dashboard');
-}
 
-// 頁面載入時，先檢查 localStorage 是否有回訪用戶資料
-// 如果有，隱藏第二個學號欄位（回訪只需輸入1次）
+// 檢查是否為回訪用戶，如果是就隱藏第二個學號欄位
 (function(){
   const saved = localStorage.getItem('socialai_ctrl_v2');
   if(saved){
     try{
       const s=JSON.parse(saved);
       if(s.studentId && s.consented && s.pretest){
-        // 回訪用戶：隱藏第二個學號欄位
         document.getElementById('login-id2-group').style.display='none';
       }
     }catch(e){}
