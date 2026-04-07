@@ -122,7 +122,7 @@ body{font-family:'Noto Sans TC','Outfit',sans-serif;background:var(--bg);min-hei
 <body>
 <div class="app" id="app">
 
-<!-- LOGIN -->
+<!-- LOGIN (首次：輸入2次學號 / 回訪：輸入1次) -->
 <div class="page active" id="page-login">
   <div class="header"><h1 onclick="secretReset()" style="cursor:default">消費者決策研究</h1><p>課程互動平台（控制組）</p></div>
   <div class="card">
@@ -131,11 +131,11 @@ body{font-family:'Noto Sans TC','Outfit',sans-serif;background:var(--bg);min-hei
       <label class="form-label">請輸入學號<span class="required">*</span></label>
       <input class="form-input" id="login-id1" placeholder="例：B11234567" maxlength="20" style="text-transform:uppercase">
     </div>
-    <div class="form-group">
+    <div class="form-group" id="login-id2-group">
       <label class="form-label">請再次輸入學號<span class="required">*</span></label>
       <input class="form-input" id="login-id2" placeholder="再次輸入確認" maxlength="20" style="text-transform:uppercase">
-      <div class="error-msg" id="login-error"></div>
     </div>
+    <div class="error-msg" id="login-error"></div>
     <button class="btn btn-primary btn-block" onclick="handleLogin()">進入平台</button>
   </div>
 </div>
@@ -160,11 +160,14 @@ body{font-family:'Noto Sans TC','Outfit',sans-serif;background:var(--bg);min-hei
   </div>
 </div>
 
-<!-- DEMOGRAPHICS -->
+<!-- DEMOGRAPHICS (首次：填寫 / 回訪：確認或修改) -->
 <div class="page" id="page-demo">
-  <div class="header"><h1>消費者決策研究</h1><p>基本資料</p></div>
+  <div class="header"><h1>消費者決策研究</h1><p id="demo-header-sub">基本資料</p></div>
   <div class="card">
-    <div class="card-title"><div class="icon icon-mint">👤</div>基本資料</div>
+    <div class="card-title"><div class="icon icon-mint">👤</div><span id="demo-card-title">基本資料</span></div>
+    <div id="demo-confirm-banner" style="display:none;background:var(--purple-50);border-radius:12px;padding:14px 16px;margin-bottom:20px;font-size:15px;color:var(--purple-700)">
+      歡迎回來！請確認以下資料是否正確，如需修改可直接編輯。
+    </div>
     <div class="form-group"><label class="form-label">姓名<span class="required">*</span></label><input class="form-input" id="demo-name" placeholder="請輸入姓名"></div>
     <div class="form-group">
       <label class="form-label">性別<span class="required">*</span></label>
@@ -185,7 +188,7 @@ body{font-family:'Noto Sans TC','Outfit',sans-serif;background:var(--bg);min-hei
         <label class="radio-option" onclick="selR(this,'demo-ai')"><input type="radio" name="ai" value="5"><span class="radio-dot"></span>非常熟悉</label>
       </div>
     </div>
-    <button class="btn btn-primary btn-block" onclick="handleDemo()">下一步：前測問卷</button>
+    <button class="btn btn-primary btn-block" id="demo-submit-btn" onclick="handleDemo()">下一步：前測問卷</button>
   </div>
 </div>
 
@@ -382,31 +385,97 @@ function showPage(id){document.querySelectorAll('.page').forEach(p=>p.classList.
 
 function selR(el,gid){document.querySelectorAll('#'+gid+' .radio-option').forEach(o=>o.classList.remove('selected'));el.classList.add('selected');el.querySelector('input').checked=true}
 
-// ===== LOGIN（修正：第二次登入不用再輸入兩次學號）=====
+// ===== LOGIN =====
+// 首次：輸入2次學號 → 同意書 → 基本資料 → 前測
+// 回訪：輸入1次學號 → 顯示基本資料(確認/修改) → 課程總覽
+let isReturningUser = false;
+
 function handleLogin(){
   const id1=document.getElementById('login-id1').value.trim().toUpperCase();
-  const id2=document.getElementById('login-id2').value.trim().toUpperCase();
   const err=document.getElementById('login-error');
-  if(!id1||!id2){err.textContent='請輸入學號';err.classList.add('show');return}
-  if(id1!==id2){err.textContent='兩次輸入的學號不一致，請重新確認';err.classList.add('show');return}
-  err.classList.remove('show');
-  document.getElementById('login-id1').value=id1;
-  document.getElementById('login-id2').value=id2;
+  
+  if(!id1){err.textContent='請輸入學號';err.classList.add('show');return}
+  
+  // 檢查是否為回訪用戶
   loadState();
-  if(state.studentId===id1&&state.consented){
-    if(state.posttest_done){showPage('page-thankyou')}
-    else if(state.pretest){renderDashboard();showPage('page-dashboard')}
-    else{showPage('page-consent')}
-  }else{
-    state={studentId:id1,group:'control'};saveState();showPage('page-consent');
+  const returning = state.studentId===id1 && state.consented && state.pretest;
+  
+  if(returning){
+    // 回訪用戶：學號只要1次，直接進入基本資料確認頁
+    err.classList.remove('show');
+    isReturningUser = true;
+    
+    if(state.posttest_done){
+      showPage('page-thankyou');
+    } else {
+      // 顯示基本資料確認頁（帶入已存資料）
+      fillDemoFromState();
+      showPage('page-demo');
+    }
+  } else {
+    // 首次用戶：需要輸入2次學號
+    const id2el = document.getElementById('login-id2');
+    const id2 = id2el.value.trim().toUpperCase();
+    
+    // 顯示第二次輸入欄位
+    document.getElementById('login-id2-group').style.display='block';
+    
+    if(!id2){err.textContent='請再次輸入學號確認';err.classList.add('show');id2el.focus();return}
+    if(id1!==id2){err.textContent='兩次輸入的學號不一致，請重新確認';err.classList.add('show');return}
+    
+    err.classList.remove('show');
+    isReturningUser = false;
+    state={studentId:id1,group:'control'};saveState();
+    showPage('page-consent');
   }
+}
+
+// 把 state 裡已有的基本資料填回表單
+function fillDemoFromState(){
+  document.getElementById('demo-name').value = state.name || '';
+  document.getElementById('demo-birth').value = state.birth || '';
+  
+  // 設定性別 radio
+  if(state.gender){
+    document.querySelectorAll('#demo-gender input').forEach(inp=>{
+      if(inp.value===state.gender){
+        inp.checked=true;
+        inp.closest('.radio-option').classList.add('selected');
+      }
+    });
+  }
+  
+  // 設定 AI 熟悉度 radio
+  if(state.ai_familiarity){
+    document.querySelectorAll('#demo-ai input').forEach(inp=>{
+      if(inp.value===state.ai_familiarity){
+        inp.checked=true;
+        inp.closest('.radio-option').classList.add('selected');
+      }
+    });
+  }
+  
+  // 切換為確認模式
+  document.getElementById('demo-header-sub').textContent='確認基本資料';
+  document.getElementById('demo-card-title').textContent='確認基本資料';
+  document.getElementById('demo-confirm-banner').style.display='block';
+  document.getElementById('demo-submit-btn').textContent='確認，進入課程總覽';
+  document.getElementById('demo-submit-btn').onclick = handleDemoConfirm;
 }
 
 // CONSENT
 document.getElementById('consent-check').addEventListener('change',function(){document.getElementById('consent-btn').disabled=!this.checked});
-function handleConsent(){if(!document.getElementById('consent-check').checked)return;state.consented=true;state.consent_time=new Date().toISOString();saveState();showPage('page-demo')}
+function handleConsent(){if(!document.getElementById('consent-check').checked)return;state.consented=true;state.consent_time=new Date().toISOString();saveState();
+  // 首次用戶：進入基本資料填寫模式
+  document.getElementById('demo-header-sub').textContent='基本資料';
+  document.getElementById('demo-card-title').textContent='基本資料';
+  document.getElementById('demo-confirm-banner').style.display='none';
+  document.getElementById('demo-submit-btn').textContent='下一步：前測問卷';
+  document.getElementById('demo-submit-btn').onclick = handleDemo;
+  showPage('page-demo');
+}
 
-// DEMOGRAPHICS
+// DEMOGRAPHICS（首次填寫）
 function handleDemo(){
   const n=document.getElementById('demo-name').value.trim();
   const g=document.querySelector('#demo-gender input:checked');
@@ -415,6 +484,18 @@ function handleDemo(){
   if(!n||!g||!b||!a){alert('請填寫所有必填項目');return}
   state.name=n;state.gender=g.value;state.birth=b;state.ai_familiarity=a.value;state.demo_time=new Date().toISOString();saveState();
   renderSurvey('pretest-items',PRETEST,'pre_');showPage('page-pretest');
+}
+
+// DEMOGRAPHICS（回訪確認/修改）
+function handleDemoConfirm(){
+  const n=document.getElementById('demo-name').value.trim();
+  const g=document.querySelector('#demo-gender input:checked');
+  const b=document.getElementById('demo-birth').value.trim();
+  const a=document.querySelector('#demo-ai input:checked');
+  if(!n||!g||!b||!a){alert('請填寫所有必填項目');return}
+  // 更新 state（如果用戶有修改的話）
+  state.name=n;state.gender=g.value;state.birth=b;state.ai_familiarity=a.value;saveState();
+  renderDashboard();showPage('page-dashboard');
 }
 
 // LIKERT RENDER
@@ -625,7 +706,24 @@ function secretReset(){_tapCount++;if(_tapTimer)clearTimeout(_tapTimer);_tapTime
 
 // INIT
 loadState();
-if(state.studentId&&state.consented&&!state.posttest_done&&state.pretest){renderDashboard();showPage('page-dashboard')}
+if(state.studentId&&state.consented&&!state.posttest_done&&state.pretest){
+  renderDashboard();showPage('page-dashboard');
+}
+
+// 頁面載入時，先檢查 localStorage 是否有回訪用戶資料
+// 如果有，隱藏第二個學號欄位（回訪只需輸入1次）
+(function(){
+  const saved = localStorage.getItem('socialai_ctrl_v2');
+  if(saved){
+    try{
+      const s=JSON.parse(saved);
+      if(s.studentId && s.consented && s.pretest){
+        // 回訪用戶：隱藏第二個學號欄位
+        document.getElementById('login-id2-group').style.display='none';
+      }
+    }catch(e){}
+  }
+})();
 </script>
 </body>
 </html>
