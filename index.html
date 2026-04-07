@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>消費者決策研究 — 課程互動平台</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap');
+:root {
+  --purple-50:#f3f0ff;--purple-100:#e4deff;--purple-200:#cdc0ff;--purple-400:#9b7ae8;--purple-500:#7c5cd4;--purple-600:#6344b8;--purple-700:#4f3494;--purple-800:#3d2873;
+  --mint-50:#ecfdf5;--mint-100:#d1fae5;--mint-200:#a7f3d0;--mint-400:#34d399;--mint-500:#10b981;--mint-600:#059669;
+  --coral-400:#f87171;--coral-500:#ef4444;--amber-400:#fbbf24;--amber-500:#f59e0b;
+  --gray-50:#fafafa;--gray-100:#f4f4f5;--gray-200:#e4e4e7;--gray-300:#d4d4d8;--gray-400:#a1a1aa;--gray-500:#71717a;--gray-600:#52525b;--gray-700:#3f3f46;--gray-800:#27272a;
+  --bg:linear-gradient(135deg,var(--purple-50) 0%,#f8f6ff 40%,var(--mint-50) 100%);
+  --card-bg:rgba(255,255,255,0.85);--card-border:rgba(124,92,212,0.12);--shadow:0 4px 24px rgba(124,92,212,0.08);--radius:16px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans TC','Outfit',sans-serif;background:var(--bg);min-height:100vh;color:var(--gray-800);line-height:1.7}
+.app{max-width:720px;margin:0 auto;padding:20px 16px 60px}
+.header{text-align:center;padding:32px 0 24px}
+.header h1{font-family:'Outfit','Noto Sans TC',sans-serif;font-size:24px;font-weight:600;background:linear-gradient(135deg,var(--purple-600),var(--mint-500));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.header p{font-size:14px;color:var(--gray-500);margin-top:4px}
+.card{background:var(--card-bg);backdrop-filter:blur(12px);border:1px solid var(--card-border);border-radius:var(--radius);padding:28px 24px;margin-bottom:16px;box-shadow:var(--shadow);animation:fadeUp .4s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.card-title{font-size:18px;font-weight:600;color:var(--purple-700);margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.card-title .icon{width:32px;height:32px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.icon-purple{background:var(--purple-100);color:var(--purple-600)}
+.icon-mint{background:var(--mint-100);color:var(--mint-600)}
+.icon-coral{background:rgba(248,113,113,0.15);color:var(--coral-500)}
+.form-group{margin-bottom:18px}
+.form-label{display:block;font-size:14px;font-weight:500;color:var(--gray-700);margin-bottom:6px}
+.form-label .required{color:var(--coral-500);margin-left:2px}
+.form-input{width:100%;padding:10px 14px;border:1.5px solid var(--gray-200);border-radius:10px;font-size:15px;font-family:inherit;background:#fff;transition:border-color .2s,box-shadow .2s;outline:none}
+.form-input:focus{border-color:var(--purple-400);box-shadow:0 0 0 3px rgba(124,92,212,0.1)}
+.form-input.error{border-color:var(--coral-500);box-shadow:0 0 0 3px rgba(239,68,68,0.1)}
+.error-msg{font-size:12px;color:var(--coral-500);margin-top:4px;display:none}
+.error-msg.show{display:block}
+.radio-group{display:flex;flex-direction:column;gap:8px}
+.radio-option{display:flex;align-items:center;gap:10px;padding:8px 12px;border:1.5px solid var(--gray-200);border-radius:10px;cursor:pointer;transition:all .2s}
+.radio-option:hover{border-color:var(--purple-300);background:var(--purple-50)}
+.radio-option.selected{border-color:var(--purple-400);background:var(--purple-50)}
+.radio-option input{display:none}
+.radio-dot{width:18px;height:18px;border-radius:50%;border:2px solid var(--gray-300);transition:all .2s;flex-shrink:0}
+.radio-option.selected .radio-dot{border-color:var(--purple-500);background:var(--purple-500);box-shadow:inset 0 0 0 3px #fff}
+.likert-row{display:flex;gap:4px;justify-content:center;margin-top:8px}
+.likert-btn{flex:1;padding:8px 2px;border:1.5px solid var(--gray-200);border-radius:8px;background:#fff;cursor:pointer;text-align:center;font-size:13px;font-family:inherit;transition:all .2s;min-width:0}
+.likert-btn:hover{border-color:var(--purple-300);background:var(--purple-50)}
+.likert-btn.selected{border-color:var(--purple-500);background:var(--purple-500);color:#fff}
+.likert-labels{display:flex;justify-content:space-between;font-size:11px;color:var(--gray-400);margin-top:4px;padding:0 4px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 28px;border:none;border-radius:12px;font-size:15px;font-weight:500;font-family:inherit;cursor:pointer;transition:all .2s}
+.btn-primary{background:linear-gradient(135deg,var(--purple-500),var(--purple-600));color:#fff;box-shadow:0 4px 16px rgba(124,92,212,0.25)}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(124,92,212,0.35)}
+.btn-primary:disabled{opacity:0.5;cursor:not-allowed;transform:none}
+.btn-outline{background:transparent;border:1.5px solid var(--purple-400);color:var(--purple-600);padding:6px 14px;font-size:13px;border-radius:8px}
+.btn-outline:hover{background:var(--purple-50)}
+.btn-block{width:100%}
+.stage-list{display:flex;flex-direction:column;gap:10px}
+.stage-item{display:flex;align-items:center;gap:14px;padding:14px 16px;border:1.5px solid var(--gray-200);border-radius:12px;cursor:pointer;transition:all .2s}
+.stage-item:hover:not(.locked):not(.completed){border-color:var(--purple-300);background:var(--purple-50)}
+.stage-item.completed{border-color:var(--mint-400);background:var(--mint-50);cursor:default}
+.stage-item.locked{opacity:0.45;cursor:not-allowed}
+.stage-num{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:14px;flex-shrink:0;background:var(--purple-100);color:var(--purple-600)}
+.stage-item.completed .stage-num{background:var(--mint-400);color:#fff}
+.stage-item.locked .stage-num{background:var(--gray-200);color:var(--gray-400)}
+.stage-info{flex:1}
+.stage-title{font-weight:500;font-size:15px}
+.stage-sub{font-size:12px;color:var(--gray-500)}
+.stage-badge{font-size:11px;padding:3px 10px;border-radius:20px;font-weight:500}
+.badge-done{background:var(--mint-100);color:var(--mint-600)}
+.badge-pending{background:var(--purple-50);color:var(--purple-500)}
+.badge-locked{background:var(--gray-100);color:var(--gray-400)}
+.q-item{padding:16px 0;border-bottom:1px solid var(--gray-100)}
+.q-item:last-child{border-bottom:none}
+.q-item.missing{background:rgba(239,68,68,0.04);border-radius:8px;padding:16px 12px;border:1px solid rgba(239,68,68,0.2)}
+.q-text{font-size:15px;font-weight:400;color:var(--gray-700);margin-bottom:10px}
+.q-num{font-weight:600;color:var(--purple-500);margin-right:6px}
+.section-header{font-size:16px;font-weight:600;color:var(--purple-600);margin:28px 0 8px;padding-top:20px;border-top:1px solid var(--gray-200)}
+.section-header:first-child{border-top:none;margin-top:0;padding-top:0}
+.section-sub{font-size:12px;font-weight:400;color:var(--gray-400);margin-left:8px}
+.feedback-section{margin-top:16px}
+.feedback-label{font-size:14px;font-weight:500;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.feedback-label .pos{color:var(--mint-600)}
+.feedback-label .neg{color:var(--coral-500)}
+.feedback-input{width:100%;padding:10px 14px;border:1.5px solid var(--gray-200);border-radius:10px;font-size:14px;font-family:inherit;resize:vertical;min-height:60px;outline:none;transition:border-color .2s}
+.feedback-input:focus{border-color:var(--purple-400)}
+.feedback-input.error{border-color:var(--coral-500)}
+.topbar{display:flex;justify-content:space-between;align-items:center;padding:12px 0;margin-bottom:8px}
+.topbar-user{font-size:13px;color:var(--gray-500)}
+.topbar-user strong{color:var(--purple-600)}
+.btn-logout{padding:6px 16px;font-size:13px;border-radius:8px;background:var(--gray-100);color:var(--gray-600);border:none;cursor:pointer;font-family:inherit}
+.btn-logout:hover{background:var(--gray-200)}
+.consent-box{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;background:var(--purple-50);border-radius:12px;margin-top:16px;cursor:pointer}
+.consent-box input{margin-top:3px;width:18px;height:18px;accent-color:var(--purple-500)}
+.consent-text{font-size:14px;line-height:1.6}
+.week-tag{display:inline-block;font-size:11px;padding:2px 10px;border-radius:20px;background:var(--purple-100);color:var(--purple-600);font-weight:500;margin-left:8px}
+.page{display:none}.page.active{display:block}
+.thank-you{text-align:center;padding:40px 0}
+.thank-you h2{font-size:28px;background:linear-gradient(135deg,var(--purple-500),var(--mint-500));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:16px}
+@media(max-width:480px){.app{padding:12px 10px 40px}.card{padding:20px 16px}.likert-btn{font-size:11px;padding:6px 1px}}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+
+<!-- LOGIN -->
+<div class="page active" id="page-login">
+  <div class="header"><h1>消費者決策研究</h1><p>課程互動平台（控制組）</p></div>
+  <div class="card">
+    <div class="card-title"><div class="icon icon-purple">🔑</div>登入</div>
+    <div class="form-group">
+      <label class="form-label">請輸入學號<span class="required">*</span></label>
+      <input class="form-input" id="login-id1" placeholder="例：B11234567" maxlength="20" style="text-transform:uppercase">
+    </div>
+    <div class="form-group">
+      <label class="form-label">請再次輸入學號<span class="required">*</span></label>
+      <input class="form-input" id="login-id2" placeholder="再次輸入確認" maxlength="20" style="text-transform:uppercase">
+      <div class="error-msg" id="login-error"></div>
+    </div>
+    <button class="btn btn-primary btn-block" onclick="handleLogin()">進入平台</button>
+  </div>
+</div>
+
+<!-- CONSENT -->
+<div class="page" id="page-consent">
+  <div class="header"><h1>消費者決策研究</h1><p>課程互動平台</p></div>
+  <div class="card">
+    <div class="card-title"><div class="icon icon-purple">📋</div>研究參與知情同意書</div>
+    <div style="font-size:14px;line-height:1.8;color:var(--gray-600)">
+      <p><strong>研究主題：</strong>擬人化社交AI代理人對使用者學習體驗之影響</p>
+      <p style="margin-top:12px"><strong>研究說明：</strong></p>
+      <p>本研究旨在探討不同社群回饋來源對消費者行為學習成效的影響。您將在為期四週的課程中，完成消費者決策五階段的學習任務，並收集社群回饋意見。</p>
+      <p style="margin-top:12px"><strong>您的權益：</strong></p>
+      <p>• 參與本研究完全自願，不影響您的課程成績。</p>
+      <p>• 您可以隨時退出研究，無需說明理由。</p>
+      <p>• 所有資料僅供學術研究使用，將以匿名方式處理。</p>
+      <p>• 您的個人資料（姓名、學號）僅用於前後測配對，不會出現在研究報告中。</p>
+    </div>
+    <label class="consent-box"><input type="checkbox" id="consent-check"><span class="consent-text">我已閱讀並了解上述說明，<strong>同意自願參與本研究</strong>。</span></label>
+    <div style="margin-top:20px"><button class="btn btn-primary btn-block" id="consent-btn" onclick="handleConsent()" disabled>同意並繼續</button></div>
+  </div>
+</div>
+
+<!-- DEMOGRAPHICS -->
+<div class="page" id="page-demo">
+  <div class="header"><h1>消費者決策研究</h1><p>基本資料</p></div>
+  <div class="card">
+    <div class="card-title"><div class="icon icon-mint">👤</div>基本資料</div>
+    <div class="form-group"><label class="form-label">姓名<span class="required">*</span></label><input class="form-input" id="demo-name" placeholder="請輸入姓名"></div>
+    <div class="form-group">
+      <label class="form-label">性別<span class="required">*</span></label>
+      <div class="radio-group" id="demo-gender">
+        <label class="radio-option" onclick="selR(this,'demo-gender')"><input type="radio" name="gender" value="男"><span class="radio-dot"></span>男</label>
+        <label class="radio-option" onclick="selR(this,'demo-gender')"><input type="radio" name="gender" value="女"><span class="radio-dot"></span>女</label>
+        <label class="radio-option" onclick="selR(this,'demo-gender')"><input type="radio" name="gender" value="不想回答"><span class="radio-dot"></span>不想回答</label>
+      </div>
+    </div>
+    <div class="form-group"><label class="form-label">出生年份（西元）<span class="required">*</span></label><input class="form-input" id="demo-birth" type="number" placeholder="例：2003" min="1980" max="2010"></div>
+    <div class="form-group">
+      <label class="form-label">您自評對生成式AI工具的操作與溝通（下達指令）熟悉度為何？<span class="required">*</span></label>
+      <div class="radio-group" id="demo-ai">
+        <label class="radio-option" onclick="selR(this,'demo-ai')"><input type="radio" name="ai" value="1"><span class="radio-dot"></span>非常不熟悉</label>
+        <label class="radio-option" onclick="selR(this,'demo-ai')"><input type="radio" name="ai" value="2"><span class="radio-dot"></span>不熟悉</label>
+        <label class="radio-option" onclick="selR(this,'demo-ai')"><input type="radio" name="ai" value="3"><span class="radio-dot"></span>普通</label>
+        <label class="radio-option" onclick="selR(this,'demo-ai')"><input type="radio" name="ai" value="4"><span class="radio-dot"></span>熟悉</label>
+        <label class="radio-option" onclick="selR(this,'demo-ai')"><input type="radio" name="ai" value="5"><span class="radio-dot"></span>非常熟悉</label>
+      </div>
+    </div>
+    <button class="btn btn-primary btn-block" onclick="handleDemo()">下一步：前測問卷</button>
+  </div>
+</div>
+
+<!-- PRE-TEST -->
+<div class="page" id="page-pretest">
+  <div class="header"><h1>消費者決策研究</h1><p>前測問卷</p></div>
+  <div class="card">
+    <div class="card-title"><div class="icon icon-purple">📝</div>前測問卷</div>
+    <p style="font-size:13px;color:var(--gray-500);margin-bottom:4px">請依據您目前的真實感受作答</p>
+    <p style="font-size:13px;color:var(--gray-400);margin-bottom:16px">1＝非常不同意　2＝不同意　3＝有點不同意　4＝普通　5＝有點同意　6＝同意　7＝非常同意</p>
+    <div id="pretest-items"></div>
+    <button class="btn btn-primary btn-block" style="margin-top:20px" onclick="handlePretest()">送出前測</button>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div class="page" id="page-dashboard">
+  <div class="topbar"><div class="topbar-user">您好，<strong id="dash-name"></strong></div><button class="btn-logout" onclick="handleLogout()">登出</button></div>
+  <div class="card">
+    <div class="card-title"><div class="icon icon-purple">📊</div>課程總覽</div>
+    <p style="font-size:13px;color:var(--gray-500);margin-bottom:16px">請依序完成各階段回饋紀錄。前一階段完成後，下一階段才會開放。</p>
+    <div class="stage-list" id="stage-list"></div>
+  </div>
+</div>
+
+<!-- FEEDBACK -->
+<div class="page" id="page-feedback">
+  <div class="topbar"><button class="btn-outline" onclick="showPage('page-dashboard')">← 返回總覽</button><button class="btn-logout" onclick="handleLogout()">登出</button></div>
+  <div class="card">
+    <div class="card-title" id="fb-title"></div>
+    <div id="fb-prompt" style="background:var(--purple-50);border-radius:12px;padding:14px 16px;margin-bottom:20px;font-size:14px;color:var(--purple-700)"></div>
+    <p style="font-size:13px;color:var(--gray-500);margin-bottom:16px">請走動詢問同學或從LINE群組收集回饋後，挑選最具代表性的3個正面意見和3個反面意見記錄於下方。</p>
+    <div class="feedback-section">
+      <div class="feedback-label"><span class="pos">👍</span> 正面意見</div>
+      <div class="form-group"><label class="form-label">正面意見 1<span class="required">*</span></label><textarea class="feedback-input" id="fb-pos-1" placeholder="記錄收到的正面回饋..."></textarea></div>
+      <div class="form-group"><label class="form-label">正面意見 2<span class="required">*</span></label><textarea class="feedback-input" id="fb-pos-2" placeholder="記錄收到的正面回饋..."></textarea></div>
+      <div class="form-group"><label class="form-label">正面意見 3<span class="required">*</span></label><textarea class="feedback-input" id="fb-pos-3" placeholder="記錄收到的正面回饋..."></textarea></div>
+    </div>
+    <div class="feedback-section" style="margin-top:20px">
+      <div class="feedback-label"><span class="neg">👎</span> 反面意見</div>
+      <div class="form-group"><label class="form-label">反面意見 1<span class="required">*</span></label><textarea class="feedback-input" id="fb-neg-1" placeholder="記錄收到的反面回饋..."></textarea></div>
+      <div class="form-group"><label class="form-label">反面意見 2<span class="required">*</span></label><textarea class="feedback-input" id="fb-neg-2" placeholder="記錄收到的反面回饋..."></textarea></div>
+      <div class="form-group"><label class="form-label">反面意見 3<span class="required">*</span></label><textarea class="feedback-input" id="fb-neg-3" placeholder="記錄收到的反面回饋..."></textarea></div>
+    </div>
+    <div class="form-group" style="margin-top:16px">
+      <label class="form-label">回饋來源<span class="required">*</span></label>
+      <div class="radio-group" id="fb-source">
+        <label class="radio-option" onclick="selR(this,'fb-source')"><input type="radio" name="fb-source" value="面對面"><span class="radio-dot"></span>面對面詢問同學</label>
+        <label class="radio-option" onclick="selR(this,'fb-source')"><input type="radio" name="fb-source" value="LINE群組"><span class="radio-dot"></span>LINE群組</label>
+        <label class="radio-option" onclick="selR(this,'fb-source')"><input type="radio" name="fb-source" value="其他"><span class="radio-dot"></span>其他</label>
+      </div>
+    </div>
+    <button class="btn btn-primary btn-block" style="margin-top:20px" onclick="handleFeedback()">送出回饋紀錄</button>
+  </div>
+</div>
+
+<!-- POST-TEST -->
+<div class="page" id="page-posttest">
+  <div class="topbar"><button class="btn-outline" onclick="showPage('page-dashboard')">← 返回總覽</button><button class="btn-logout" onclick="handleLogout()">登出</button></div>
+  <div class="card">
+    <div class="card-title"><div class="icon icon-coral">📝</div>後測問卷</div>
+    <p style="font-size:13px;color:var(--gray-500);margin-bottom:4px">請依據您參與本課程後的真實感受作答</p>
+    <p style="font-size:13px;color:var(--gray-400);margin-bottom:16px">Likert量表：1＝非常不同意 ～ 7＝非常同意（知識測驗除外）</p>
+    <div id="posttest-items"></div>
+    <button class="btn btn-primary btn-block" style="margin-top:20px" onclick="handlePosttest()">送出後測</button>
+  </div>
+</div>
+
+<!-- THANK YOU -->
+<div class="page" id="page-thankyou">
+  <div class="header"><h1>消費者決策研究</h1></div>
+  <div class="card thank-you">
+    <h2>感謝您的參與！</h2>
+    <p style="color:var(--gray-500);margin-bottom:20px">您已完成所有問卷填答。您的回覆對本研究非常有價值。</p>
+    <p style="font-size:14px;color:var(--gray-600);text-align:left;line-height:1.8">
+      <strong>研究說明：</strong><br>
+      本研究比較不同社群回饋來源（AI虛擬社群 vs. 真人同儕）對消費者行為學習成效的影響。您所屬的組別是「真人社群組」，透過走動詢問同學來收集回饋意見。<br><br>
+      如有任何疑問，歡迎聯繫研究負責人：蕭君華老師。
+    </p>
+  </div>
+</div>
+
+</div>
+<script>
+const LIKERT_N = 7;
+const STAGES = [
+  {id:1,title:'階段一：需求認知',sub:'Need Recognition',week:'W1',prompt:'我們發現了這個消費者需求：[請描述你們的痛點與情境]。這是一個真實且迫切的需求嗎？'},
+  {id:2,title:'階段二：資訊蒐集',sub:'Information Search',week:'W2',prompt:'針對這個產品，你會從哪裡蒐集資訊？你最擔心什麼風險？'},
+  {id:3,title:'階段三：方案評估',sub:'Evaluation of Alternatives',week:'W2',prompt:'我們比較了三個品牌 [請列出]，最終選了 [X]。你會選哪個？為什麼？我們的評估有什麼盲點嗎？'},
+  {id:4,title:'階段四：購買決策',sub:'Purchase Decision',week:'W3',prompt:'我們決定買 [X] 了，但室友說那品牌很爛。你覺得該聽他的嗎？為什麼？'},
+  {id:5,title:'階段五：購後行為',sub:'Post-Purchase Behavior',week:'W3',prompt:'買了之後發現 [請描述問題]。如果是你，會退貨還是留著？為什麼？'},
+];
+
+const PRETEST = [
+  {sec:'自我效能 Self-Efficacy (SE)',items:[
+    {id:'SE1',text:'我有信心自己具備有效使用生成式AI的能力。'},
+    {id:'SE2',text:'即使身邊沒有人指導，我也相信自己能獨立使用生成式AI。'},
+    {id:'SE3',text:'我有信心能將生成式AI的優勢有效地運用在課業中。'},
+  ]},
+  {sec:'互動焦慮 Interaction Anxiety (IA)',items:[
+    {id:'IA1',text:'當我和不太熟識的人交談時，我會感到緊張。'},
+    {id:'IA2',text:'當我必須向他人談論自己的想法或表現時，我會感到緊張。'},
+    {id:'IA3',text:'當我需要向他人尋求協助或建議時，我會感到猶豫。'},
+    {id:'IA4',text:'當接收回饋時，我會害怕受到他人的評判。'},
+  ]},
+];
+
+const POSTTEST = [
+  {sec:'自我效能 Self-Efficacy (SE)',items:[
+    {id:'SE1_post',text:'我有信心自己具備有效使用生成式AI的能力。'},
+    {id:'SE2_post',text:'即使身邊沒有人指導，我也相信自己能獨立使用生成式AI。'},
+    {id:'SE3_post',text:'我有信心能將生成式AI的優勢有效地運用在課業中。'},
+  ]},
+  {sec:'互動焦慮 Interaction Anxiety (IA)',items:[
+    {id:'IA1_post',text:'當我和不太熟識的人交談時，我會感到緊張。'},
+    {id:'IA2_post',text:'當我必須向他人談論自己的想法或表現時，我會感到緊張。'},
+    {id:'IA3_post',text:'當我需要向他人尋求協助或建議時，我會感到猶豫。'},
+    {id:'IA4_post',text:'當接收回饋時，我會害怕受到他人的評判。'},
+  ]},
+  {sec:'課程滿意度 Satisfaction (SA)',items:[
+    {id:'SA1',text:'這門課程符合我的期望。'},
+    {id:'SA2',text:'參與這門課程讓我感到愉快。'},
+    {id:'SA3',text:'我覺得這門課程是值得的。'},
+    {id:'SA4',text:'我認為這門課程中的回饋機制對我的學習非常有幫助。'},
+    {id:'SA5',text:'整體而言，我對這門課程感到非常滿意。'},
+  ]},
+  {sec:'學習成效 Learning Performance (LP)',items:[
+    {id:'LP1',text:'我達成了這門課程的學習目標。'},
+    {id:'LP2',text:'我在這門課程中學到了有價值的知識。'},
+    {id:'LP3',text:'我成功完成了這門課程的作業。'},
+    {id:'LP4',text:'整體而言，我覺得自己在這門課程中的學習表現很好。'},
+  ]},
+  {sec:'知識測驗 Knowledge Test (KT)',type:'mc',note:'請選擇最佳答案',items:[
+    {id:'KT1',text:'小美看到YouTuber開箱最新筆電後，突然覺得自己的舊筆電很慢，這屬於哪種刺激？',opts:['(A) 內在刺激','(B) 外在刺激','(C) 理想狀態','(D) 實際狀態']},
+    {id:'KT2',text:'消費者在購買前搜尋資訊，主要目的是？',opts:['(A) 增加購買慾望','(B) 降低知覺風險','(C) 比較價格','(D) 跟隨潮流']},
+    {id:'KT3',text:'小明不管評分如何，只要是Apple就直接買，這屬於？',opts:['(A) 補償性決策','(B) 逐層剔除法','(C) 捷思法','(D) 依序比較法']},
+    {id:'KT4',text:'小華本來要買A牌，室友說「那牌很爛」後改買B牌，影響因素是？',opts:['(A) 知覺風險','(B) 情境因素','(C) 他人的態度','(D) 衝動性購買']},
+    {id:'KT5',text:'買了高價商品後懷疑是否選對，這種心理不適稱為？',opts:['(A) 期望落差','(B) 購後認知失調','(C) 規範性從眾','(D) 衝動性購買']},
+  ]},
+  {sec:'操弄檢核 Manipulation Check (MC)',items:[
+    {id:'MC1',text:'在回饋過程中，我覺得對方理解了我的需求。'},
+    {id:'MC2',text:'我覺得收到的回饋是真誠的。'},
+  ]},
+];
+
+let state={}, currentStage=null;
+function loadState(){const s=localStorage.getItem('socialai_ctrl_v2');if(s)state=JSON.parse(s)}
+function saveState(){localStorage.setItem('socialai_ctrl_v2',JSON.stringify(state))}
+
+const SHEET_URL='https://script.google.com/macros/s/AKfycbzTEM5Wt4em-4ezpId6gHwD5yKvYgiNiMqq1St8x6KNtnMfNBD6Mq49av8wiVW2T34r/exec';
+function sendToSheet(d){if(!SHEET_URL)return;fetch(SHEET_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)}).catch(()=>{})}
+
+function showPage(id){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0)}
+
+function selR(el,gid){document.querySelectorAll('#'+gid+' .radio-option').forEach(o=>o.classList.remove('selected'));el.classList.add('selected');el.querySelector('input').checked=true}
+
+// LOGIN
+function handleLogin(){
+  const id1=document.getElementById('login-id1').value.trim().toUpperCase();
+  const id2=document.getElementById('login-id2').value.trim().toUpperCase();
+  const err=document.getElementById('login-error');
+  if(!id1||!id2){err.textContent='請輸入學號';err.classList.add('show');return}
+  if(id1!==id2){err.textContent='兩次輸入的學號不一致，請重新確認';err.classList.add('show');return}
+  err.classList.remove('show');
+  document.getElementById('login-id1').value=id1;
+  document.getElementById('login-id2').value=id2;
+  loadState();
+  if(state.studentId===id1&&state.consented){
+    if(state.posttest_done){showPage('page-thankyou')}
+    else{renderDashboard();showPage('page-dashboard')}
+  }else{
+    state={studentId:id1,group:'control'};saveState();showPage('page-consent');
+  }
+}
+
+// CONSENT
+document.getElementById('consent-check').addEventListener('change',function(){document.getElementById('consent-btn').disabled=!this.checked});
+function handleConsent(){if(!document.getElementById('consent-check').checked)return;state.consented=true;state.consent_time=new Date().toISOString();saveState();showPage('page-demo')}
+
+// DEMOGRAPHICS
+function handleDemo(){
+  const n=document.getElementById('demo-name').value.trim();
+  const g=document.querySelector('#demo-gender input:checked');
+  const b=document.getElementById('demo-birth').value.trim();
+  const a=document.querySelector('#demo-ai input:checked');
+  if(!n||!g||!b||!a){alert('請填寫所有必填項目');return}
+  state.name=n;state.gender=g.value;state.birth=b;state.ai_familiarity=a.value;state.demo_time=new Date().toISOString();saveState();
+  renderSurvey('pretest-items',PRETEST,'pre_');showPage('page-pretest');
+}
+
+// LIKERT RENDER
+function renderSurvey(containerId,sections,prefix){
+  const c=document.getElementById(containerId);c.innerHTML='';
+  sections.forEach(sec=>{
+    const sh=document.createElement('div');sh.className='section-header';
+    sh.textContent=sec.sec;
+    if(sec.note)sh.innerHTML+=`<span class="section-sub">${sec.note}</span>`;
+    c.appendChild(sh);
+    if(sec.type==='mc'){
+      sec.items.forEach(item=>{
+        const d=document.createElement('div');d.className='q-item';d.id='qi-'+prefix+item.id;
+        d.innerHTML=`<div class="q-text"><span class="q-num">${item.id}</span>${item.text}</div>
+          <div class="radio-group" id="mc-${prefix}${item.id}">
+            ${item.opts.map(o=>`<label class="radio-option" onclick="selR(this,'mc-${prefix}${item.id}')"><input type="radio" name="mc-${prefix}${item.id}" value="${o.charAt(1)}"><span class="radio-dot"></span>${o}</label>`).join('')}
+          </div>`;
+        c.appendChild(d);
+      });
+    }else{
+      sec.items.forEach(item=>{
+        const d=document.createElement('div');d.className='q-item';d.id='qi-'+prefix+item.id;
+        d.innerHTML=`<div class="q-text"><span class="q-num">${item.id.replace(/_post$/,'')}</span>${item.text}</div>
+          <div class="likert-row">${Array.from({length:LIKERT_N},(_,i)=>i+1).map(v=>`<button type="button" class="likert-btn" data-id="${prefix}${item.id}" data-val="${v}" onclick="selL(this)">${v}</button>`).join('')}</div>
+          <div class="likert-labels"><span>非常不同意</span><span>非常同意</span></div>`;
+        c.appendChild(d);
+      });
+    }
+  });
+}
+
+function selL(btn){btn.parentElement.querySelectorAll('.likert-btn').forEach(b=>b.classList.remove('selected'));btn.classList.add('selected')}
+
+function collectSurvey(sections,prefix){
+  const vals={};let firstMissing=null;
+  document.querySelectorAll('.q-item.missing').forEach(el=>el.classList.remove('missing'));
+  sections.forEach(sec=>{
+    sec.items.forEach(item=>{
+      const key=item.id;
+      if(sec.type==='mc'){
+        const sel=document.querySelector(`#mc-${prefix}${item.id} input:checked`);
+        if(sel)vals[key]=sel.value;
+        else{if(!firstMissing){firstMissing=document.getElementById('qi-'+prefix+item.id);firstMissing.classList.add('missing')}}
+      }else{
+        const sel=document.querySelector(`.likert-btn.selected[data-id="${prefix}${item.id}"]`);
+        if(sel)vals[key]=parseInt(sel.dataset.val);
+        else{if(!firstMissing){firstMissing=document.getElementById('qi-'+prefix+item.id);firstMissing.classList.add('missing')}}
+      }
+    });
+  });
+  if(firstMissing){firstMissing.scrollIntoView({behavior:'smooth',block:'center'});return null}
+  return vals;
+}
+
+// PRE-TEST
+function handlePretest(){
+  const vals=collectSurvey(PRETEST,'pre_');
+  if(!vals)return;
+  state.pretest=vals;state.pretest_time=new Date().toISOString();state.stages={};saveState();
+  sendToSheet({type:'pretest',studentId:state.studentId,data:state});
+  renderDashboard();showPage('page-dashboard');
+}
+
+// DASHBOARD
+function renderDashboard(){
+  document.getElementById('dash-name').textContent=state.name||state.studentId;
+  const list=document.getElementById('stage-list');list.innerHTML='';
+  if(!state.stages)state.stages={};
+
+  // Find first incomplete stage
+  let firstIncomplete=0;
+  for(let i=0;i<STAGES.length;i++){if(!state.stages[STAGES[i].id]){firstIncomplete=i;break}if(i===STAGES.length-1)firstIncomplete=STAGES.length}
+
+  STAGES.forEach((s,i)=>{
+    const done=!!state.stages[s.id];
+    const locked=i>firstIncomplete;
+    const isNext=i===firstIncomplete;
+    const div=document.createElement('div');
+    div.className=`stage-item ${done?'completed':locked?'locked':''}`;
+    div.innerHTML=`
+      <div class="stage-num">${done?'✓':s.id}</div>
+      <div class="stage-info"><div class="stage-title">${s.title}<span class="week-tag">${s.week}</span></div><div class="stage-sub">${s.sub}</div></div>
+      <span class="stage-badge ${done?'badge-done':locked?'badge-locked':'badge-pending'}">${done?'已完成':locked?'未開放':'待填寫'}</span>`;
+    if(!done&&!locked)div.onclick=()=>openFeedback(s.id);
+    list.appendChild(div);
+  });
+
+  // Post-test row
+  const allDone=STAGES.every(s=>state.stages[s.id]);
+  const ptDiv=document.createElement('div');
+  ptDiv.className=`stage-item ${state.posttest_done?'completed':allDone?'':'locked'}`;
+  ptDiv.innerHTML=`
+    <div class="stage-num" style="${state.posttest_done?'background:var(--mint-400);color:#fff':allDone?'background:var(--coral-400);background:rgba(248,113,113,0.15);color:var(--coral-500)':'background:var(--gray-200);color:var(--gray-400)'}">📝</div>
+    <div class="stage-info"><div class="stage-title">後測問卷<span class="week-tag">W4</span></div><div class="stage-sub">Post-test Survey</div></div>
+    <span class="stage-badge ${state.posttest_done?'badge-done':allDone?'badge-pending':'badge-locked'}">${state.posttest_done?'已完成':allDone?'待填寫':'未開放'}</span>`;
+  if(allDone&&!state.posttest_done){ptDiv.onclick=()=>{renderSurvey('posttest-items',POSTTEST,'post_');showPage('page-posttest')}}
+  list.appendChild(ptDiv);
+}
+
+// FEEDBACK
+function openFeedback(stageId){
+  if(state.stages&&state.stages[stageId])return;
+  currentStage=STAGES.find(s=>s.id===stageId);
+  document.getElementById('fb-title').innerHTML=`<div class="icon icon-mint">💬</div>${currentStage.title}：回饋紀錄`;
+  document.getElementById('fb-prompt').innerHTML=`<strong>統一提問指令：</strong><br>「${currentStage.prompt}」`;
+  for(let i=1;i<=3;i++){document.getElementById('fb-pos-'+i).value='';document.getElementById('fb-neg-'+i).value='';
+    document.getElementById('fb-pos-'+i).classList.remove('error');document.getElementById('fb-neg-'+i).classList.remove('error')}
+  document.querySelectorAll('#fb-source .radio-option').forEach(o=>o.classList.remove('selected'));
+  document.querySelectorAll('#fb-source input').forEach(i=>i.checked=false);
+  showPage('page-feedback');
+}
+
+function handleFeedback(){
+  const pos=[],neg=[];let firstEmpty=null;
+  for(let i=1;i<=3;i++){
+    const pEl=document.getElementById('fb-pos-'+i),nEl=document.getElementById('fb-neg-'+i);
+    const p=pEl.value.trim(),n=nEl.value.trim();
+    pEl.classList.remove('error');nEl.classList.remove('error');
+    if(!p){pEl.classList.add('error');if(!firstEmpty)firstEmpty=pEl}
+    if(!n){nEl.classList.add('error');if(!firstEmpty)firstEmpty=nEl}
+    pos.push(p);neg.push(n);
+  }
+  const srcEl=document.querySelector('#fb-source input:checked');
+  if(!srcEl&&!firstEmpty)firstEmpty=document.querySelector('#fb-source');
+  if(firstEmpty||pos.some(p=>!p)||neg.some(n=>!n)||!srcEl){
+    if(firstEmpty)firstEmpty.scrollIntoView({behavior:'smooth',block:'center'});
+    if(!srcEl)alert('請選擇回饋來源');return}
+  if(!state.stages)state.stages={};
+  state.stages[currentStage.id]={positive:pos,negative:neg,source:srcEl.value,time:new Date().toISOString()};
+  saveState();sendToSheet({type:'feedback',studentId:state.studentId,stage:currentStage.id,data:state.stages[currentStage.id]});
+  renderDashboard();showPage('page-dashboard');
+}
+
+// POST-TEST
+function handlePosttest(){
+  const vals=collectSurvey(POSTTEST,'post_');
+  if(!vals)return;
+  state.posttest=vals;state.posttest_time=new Date().toISOString();state.posttest_done=true;saveState();
+  sendToSheet({type:'posttest',studentId:state.studentId,data:state});showPage('page-thankyou');
+}
+
+function handleLogout(){showPage('page-login');document.getElementById('login-id1').value='';document.getElementById('login-id2').value=''}
+
+// INIT
+loadState();
+if(state.studentId&&state.consented&&!state.posttest_done&&state.pretest){renderDashboard();showPage('page-dashboard')}
+</script>
+</body>
+</html>
