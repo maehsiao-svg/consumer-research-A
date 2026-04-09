@@ -7,122 +7,132 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap');
 :root {
-  --purple-50:#eee8ff;--purple-100:#d8ccff;--purple-200:#c0a8ff;--purple-400:#8b5cf6;--purple-500:#7c3aed;--purple-600:#6d28d9;--purple-700:#5b21b6;--purple-800:#4c1d95;--purple-900:#3b0f7a;
-  --mint-50:#ecfdf5;--mint-100:#d1fae5;--mint-200:#a7f3d0;--mint-400:#34d399;--mint-500:#10b981;--mint-600:#059669;
-  --coral-400:#f87171;--coral-500:#ef4444;--amber-400:#fbbf24;--amber-500:#f59e0b;
-  --gray-50:#fafafa;--gray-100:#f4f4f5;--gray-200:#e4e4e7;--gray-300:#d4d4d8;--gray-400:#a1a1aa;--gray-500:#71717a;--gray-600:#52525b;--gray-700:#3f3f46;--gray-800:#27272a;
-  --bg:linear-gradient(135deg,#1e1b4b 0%,#312e81 25%,#4c1d95 50%,#5b21b6 75%,#4338ca 100%);
-  --card-bg:rgba(255,255,255,0.92);--card-border:rgba(124,92,212,0.18);--shadow:0 4px 24px rgba(0,0,0,0.15);--radius:16px;
+  /* Notion-style soft palette */
+  --blue:#DBEAFE;--green:#D1FAE5;--pink:#FCE7F3;--yellow:#FEF3C7;--purple:#EDE9FE;--orange:#FFEDD5;
+  --teal-500:#2B7A78;--teal-600:#1F6B69;--sage:#8CB4A0;--peach:#F4A261;--coral:#E76F51;
+  --cover:#2B4C6F;--cover-alt:#3D6B8E;
+  --gray-50:#fafafa;--gray-100:#f4f4f5;--gray-200:#e4e4e7;--gray-300:#d4d4d8;--gray-400:#9CA3AF;--gray-500:#6B7280;--gray-600:#4B5563;--gray-700:#374151;--gray-800:#1F2937;
+  --bg:linear-gradient(135deg,#E8F4F8 0%,#F0E6FF 30%,#FCE7F3 60%,#FEF3C7 100%);
+  --card-bg:rgba(255,255,255,0.92);--card-border:rgba(43,76,111,0.12);--shadow:0 4px 24px rgba(0,0,0,0.08);--radius:16px;
 }
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Noto Sans TC','Outfit',sans-serif;background:var(--bg);min-height:100vh;color:var(--gray-800);line-height:1.7}
+body{font-family:'Noto Sans TC','Outfit',sans-serif;background:var(--bg);background-attachment:fixed;min-height:100vh;color:var(--gray-800);line-height:1.7}
 .app{max-width:720px;margin:0 auto;padding:20px 16px 60px}
 .header{text-align:center;padding:32px 0 24px}
-.header h1{font-family:'Outfit','Noto Sans TC',sans-serif;font-size:28px;font-weight:700;color:#fff;text-shadow:0 2px 8px rgba(0,0,0,0.2)}
-.header p{font-size:16px;color:rgba(255,255,255,0.8);margin-top:6px;font-weight:500}
+.header h1{font-family:'Outfit','Noto Sans TC',sans-serif;font-size:28px;font-weight:700;color:var(--cover);text-shadow:0 1px 4px rgba(0,0,0,0.06)}
+.header p{font-size:16px;color:var(--gray-600);margin-top:6px;font-weight:500}
 .card{background:var(--card-bg);backdrop-filter:blur(12px);border:1px solid var(--card-border);border-radius:var(--radius);padding:28px 24px;margin-bottom:16px;box-shadow:var(--shadow);animation:fadeUp .4s ease}
 @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-.card-title{font-size:20px;font-weight:700;color:var(--purple-700);margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.card-title{font-size:20px;font-weight:700;color:var(--cover);margin-bottom:16px;display:flex;align-items:center;gap:10px}
 .card-title .icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
-.icon-purple{background:var(--purple-100);color:var(--purple-600)}
-.icon-mint{background:var(--mint-100);color:var(--mint-600)}
-.icon-coral{background:rgba(248,113,113,0.15);color:var(--coral-500)}
+.icon-purple{background:var(--purple);color:var(--cover)}
+.icon-mint{background:var(--green);color:var(--teal-500)}
+.icon-coral{background:var(--pink);color:var(--coral)}
 .form-group{margin-bottom:18px}
 .form-label{display:block;font-size:15px;font-weight:500;color:var(--gray-700);margin-bottom:6px}
-.form-label .required{color:var(--coral-500);margin-left:2px}
+.form-label .required{color:var(--coral);margin-left:2px}
 .form-input{width:100%;padding:12px 14px;border:1.5px solid var(--gray-200);border-radius:10px;font-size:16px;font-family:inherit;background:#fff;transition:border-color .2s,box-shadow .2s;outline:none}
-.form-input:focus{border-color:var(--purple-400);box-shadow:0 0 0 3px rgba(124,92,212,0.1)}
-.form-input.error{border-color:var(--coral-500);box-shadow:0 0 0 3px rgba(239,68,68,0.1)}
-.error-msg{font-size:13px;color:var(--coral-500);margin-top:4px;display:none}
+.form-input:focus{border-color:var(--teal-500);box-shadow:0 0 0 3px rgba(43,122,120,0.1)}
+.form-input.error{border-color:var(--coral);box-shadow:0 0 0 3px rgba(231,111,81,0.1)}
+.error-msg{font-size:13px;color:var(--coral);margin-top:4px;display:none}
 .error-msg.show{display:block}
 .radio-group{display:flex;flex-direction:column;gap:8px}
 .radio-option{display:flex;align-items:center;gap:10px;padding:10px 14px;border:1.5px solid var(--gray-200);border-radius:10px;cursor:pointer;transition:all .2s;font-size:15px}
-.radio-option:hover{border-color:var(--purple-300);background:var(--purple-50)}
-.radio-option.selected{border-color:var(--purple-400);background:var(--purple-50)}
+.radio-option:hover{border-color:var(--teal-500);background:var(--green)}
+.radio-option.selected{border-color:var(--teal-500);background:var(--green)}
 .radio-option input{display:none}
 .radio-dot{width:18px;height:18px;border-radius:50%;border:2px solid var(--gray-300);transition:all .2s;flex-shrink:0}
-.radio-option.selected .radio-dot{border-color:var(--purple-500);background:var(--purple-500);box-shadow:inset 0 0 0 3px #fff}
+.radio-option.selected .radio-dot{border-color:var(--teal-500);background:var(--teal-500);box-shadow:inset 0 0 0 3px #fff}
 .likert-row{display:flex;gap:4px;justify-content:center;margin-top:8px}
-.likert-btn{flex:1;padding:10px 2px;border:1.5px solid var(--gray-200);border-radius:8px;background:#fff;cursor:pointer;text-align:center;font-size:14px;font-family:inherit;transition:all .2s;min-width:0;font-weight:500}
-.likert-btn:hover{border-color:var(--purple-300);background:var(--purple-50)}
-.likert-btn.selected{border-color:var(--purple-500);background:var(--purple-500);color:#fff}
-.likert-labels{display:flex;justify-content:space-between;font-size:12px;color:var(--gray-400);margin-top:4px;padding:0 4px}
+.likert-btn{flex:1;padding:10px 2px;border:1.5px solid var(--gray-200);border-radius:8px;background:#fff;cursor:pointer;text-align:center;font-size:15px;font-family:inherit;transition:all .2s;min-width:0;font-weight:600}
+.likert-btn:hover{border-color:var(--teal-500);background:var(--green)}
+.likert-btn.selected{border-color:var(--teal-500);background:var(--teal-500);color:#fff}
+.likert-labels{display:flex;justify-content:space-between;font-size:14px;color:var(--gray-700);margin-top:6px;padding:0 4px;font-weight:600}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 28px;border:none;border-radius:12px;font-size:16px;font-weight:600;font-family:inherit;cursor:pointer;transition:all .2s}
-.btn-primary{background:linear-gradient(135deg,var(--purple-500),var(--purple-600));color:#fff;box-shadow:0 4px 16px rgba(124,92,212,0.25)}
-.btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(124,92,212,0.35)}
+.btn-primary{background:linear-gradient(135deg,var(--teal-500),var(--teal-600));color:#fff;box-shadow:0 4px 16px rgba(43,122,120,0.25)}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(43,122,120,0.35)}
 .btn-primary:disabled{opacity:0.5;cursor:not-allowed;transform:none}
-.btn-outline{background:transparent;border:1.5px solid var(--purple-400);color:var(--purple-600);padding:8px 16px;font-size:14px;border-radius:8px;font-weight:500}
-.btn-outline:hover{background:var(--purple-50)}
+.btn-outline{background:transparent;border:1.5px solid var(--teal-500);color:var(--teal-500);padding:8px 16px;font-size:14px;border-radius:8px;font-weight:500}
+.btn-outline:hover{background:var(--green)}
 .btn-block{width:100%}
 .stage-list{display:flex;flex-direction:column;gap:10px}
 .stage-item{display:flex;align-items:center;gap:14px;padding:16px 18px;border:1.5px solid var(--gray-200);border-radius:12px;cursor:pointer;transition:all .2s}
-.stage-item:hover:not(.locked):not(.completed){border-color:var(--purple-300);background:var(--purple-50)}
-.stage-item.completed{border-color:var(--mint-400);background:var(--mint-50);cursor:default}
+.stage-item:hover:not(.locked):not(.completed){border-color:var(--teal-500);background:var(--green)}
+.stage-item.completed{border-color:var(--sage);background:var(--green);cursor:default}
 .stage-item.locked{opacity:0.45;cursor:not-allowed}
-.stage-num{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;flex-shrink:0;background:var(--purple-100);color:var(--purple-600)}
-.stage-item.completed .stage-num{background:var(--mint-400);color:#fff}
+.stage-num{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;flex-shrink:0;background:var(--purple);color:var(--cover)}
+.stage-item.completed .stage-num{background:var(--teal-500);color:#fff}
 .stage-item.locked .stage-num{background:var(--gray-200);color:var(--gray-400)}
 .stage-info{flex:1}
 .stage-title{font-weight:600;font-size:16px}
 .stage-sub{font-size:13px;color:var(--gray-500)}
 .stage-badge{font-size:12px;padding:4px 12px;border-radius:20px;font-weight:600}
-.badge-done{background:var(--mint-100);color:var(--mint-600)}
-.badge-pending{background:var(--purple-50);color:var(--purple-500)}
+.badge-done{background:var(--green);color:var(--teal-500)}
+.badge-pending{background:var(--yellow);color:var(--peach)}
 .badge-locked{background:var(--gray-100);color:var(--gray-400)}
 .q-item{padding:16px 0;border-bottom:1px solid var(--gray-100)}
 .q-item:last-child{border-bottom:none}
-.q-item.missing{background:rgba(239,68,68,0.04);border-radius:8px;padding:16px 12px;border:1px solid rgba(239,68,68,0.2)}
+.q-item.missing{background:rgba(231,111,81,0.05);border-radius:8px;padding:16px 12px;border:1px solid rgba(231,111,81,0.2)}
 .q-text{font-size:16px;font-weight:400;color:var(--gray-700);margin-bottom:10px}
-.q-num{font-weight:700;color:var(--purple-500);margin-right:6px}
-.section-header{font-size:17px;font-weight:700;color:var(--purple-600);margin:28px 0 8px;padding-top:20px;border-top:1px solid var(--gray-200)}
+.q-num{font-weight:700;color:var(--teal-500);margin-right:6px}
+.section-header{font-size:17px;font-weight:700;color:var(--cover);margin:28px 0 8px;padding-top:20px;border-top:1px solid var(--gray-200)}
 .section-header:first-child{border-top:none;margin-top:0;padding-top:0}
 .section-sub{font-size:13px;font-weight:400;color:var(--gray-400);margin-left:8px}
 .feedback-section{margin-top:16px}
 .feedback-label{font-size:15px;font-weight:500;margin-bottom:8px;display:flex;align-items:center;gap:6px}
-.feedback-label .pos{color:var(--mint-600)}
-.feedback-label .neg{color:var(--coral-500)}
+.feedback-label .pos{color:var(--teal-500)}
+.feedback-label .neg{color:var(--coral)}
 .feedback-input{width:100%;padding:12px 14px;border:1.5px solid var(--gray-200);border-radius:10px;font-size:15px;font-family:inherit;resize:vertical;min-height:60px;outline:none;transition:border-color .2s}
-.feedback-input:focus{border-color:var(--purple-400)}
-.feedback-input.error{border-color:var(--coral-500)}
+.feedback-input:focus{border-color:var(--teal-500)}
+.feedback-input.error{border-color:var(--coral)}
 .topbar{display:flex;justify-content:space-between;align-items:center;padding:12px 0;margin-bottom:8px}
-.topbar-user{font-size:15px;color:rgba(255,255,255,0.85);font-weight:500}
-.topbar-user strong{color:#fff}
-.btn-logout{padding:10px 24px;font-size:14px;border-radius:10px;background:rgba(255,255,255,0.2);color:#fff;border:2px solid rgba(255,255,255,0.5);cursor:pointer;font-family:inherit;font-weight:600;transition:all .2s;backdrop-filter:blur(4px)}
-.btn-logout:hover{background:rgba(255,255,255,0.35);border-color:#fff}
-.consent-box{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;background:var(--purple-50);border-radius:12px;margin-top:16px;cursor:pointer}
-.consent-box input{margin-top:3px;width:18px;height:18px;accent-color:var(--purple-500)}
+.topbar-user{font-size:15px;color:var(--gray-700);font-weight:500}
+.topbar-user strong{color:var(--cover)}
+.btn-logout{padding:10px 24px;font-size:14px;border-radius:10px;background:var(--pink);color:var(--coral);border:1.5px solid rgba(231,111,81,0.3);cursor:pointer;font-family:inherit;font-weight:600;transition:all .2s}
+.btn-logout:hover{background:rgba(231,111,81,0.15);border-color:var(--coral)}
+.consent-box{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;background:var(--green);border-radius:12px;margin-top:16px;cursor:pointer}
+.consent-box input{margin-top:3px;width:18px;height:18px;accent-color:var(--teal-500)}
 .consent-text{font-size:15px;line-height:1.6}
-.week-tag{display:inline-block;font-size:12px;padding:2px 10px;border-radius:20px;background:var(--purple-100);color:var(--purple-600);font-weight:600;margin-left:8px}
 .page{display:none}.page.active{display:block}
 .thank-you{text-align:center;padding:40px 0}
-.thank-you h2{font-size:28px;background:linear-gradient(135deg,var(--purple-500),var(--mint-500));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:16px}
+.thank-you h2{font-size:28px;background:linear-gradient(135deg,var(--teal-500),var(--peach));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:16px}
 
 /* ===== 流程圖 ===== */
-.flow-chart{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:0;margin-bottom:20px;padding:16px 8px;background:linear-gradient(135deg,#f5f0ff,#ede5ff);border-radius:14px;border:1px solid var(--purple-100)}
-.flow-step{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:56px;position:relative}
-.flow-icon{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;border:2.5px solid var(--purple-200);background:#fff;color:var(--purple-600);transition:all .3s}
-.flow-step.done .flow-icon{background:var(--mint-400);border-color:var(--mint-400);color:#fff}
-.flow-step.current .flow-icon{background:var(--purple-500);border-color:var(--purple-500);color:#fff;box-shadow:0 0 0 4px rgba(124,58,237,0.2);animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{box-shadow:0 0 0 4px rgba(124,58,237,0.2)}50%{box-shadow:0 0 0 8px rgba(124,58,237,0.1)}}
+.flow-chart{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:0;margin-bottom:20px;padding:16px 8px;background:linear-gradient(135deg,var(--blue),var(--purple));border-radius:14px;border:1px solid rgba(43,76,111,0.1)}
+.flow-step{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:44px;position:relative}
+.flow-icon{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;border:2.5px solid rgba(43,76,111,0.2);background:#fff;color:var(--cover);transition:all .3s}
+.flow-step.done .flow-icon{background:var(--teal-500);border-color:var(--teal-500);color:#fff}
+.flow-step.current .flow-icon{background:var(--peach);border-color:var(--peach);color:#fff;box-shadow:0 0 0 4px rgba(244,162,97,0.25);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 4px rgba(244,162,97,0.25)}50%{box-shadow:0 0 0 8px rgba(244,162,97,0.1)}}
 .flow-step.locked .flow-icon{background:var(--gray-100);border-color:var(--gray-200);color:var(--gray-400)}
-.flow-label{font-size:10px;color:var(--gray-500);text-align:center;max-width:60px;line-height:1.2;font-weight:500}
-.flow-step.done .flow-label{color:var(--mint-600)}
-.flow-step.current .flow-label{color:var(--purple-600);font-weight:700}
-.flow-arrow{font-size:16px;color:var(--purple-300);margin:0 2px;flex-shrink:0;align-self:center;margin-bottom:16px}
-.flow-step.done + .flow-arrow{color:var(--mint-400)}
+.flow-label{font-size:9px;color:var(--gray-600);text-align:center;max-width:50px;line-height:1.2;font-weight:500}
+.flow-step.done .flow-label{color:var(--teal-500)}
+.flow-step.current .flow-label{color:var(--coral);font-weight:700}
+.flow-arrow{font-size:14px;color:var(--gray-400);margin:0 1px;flex-shrink:0;align-self:center;margin-bottom:16px}
+.flow-step.done + .flow-arrow{color:var(--teal-500)}
+
+/* ===== 影片區塊 ===== */
+.video-section{margin-bottom:20px}
+.video-section .video-title{font-size:15px;font-weight:600;color:var(--cover);margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.video-wrap{position:relative;padding-bottom:56.25%;height:0;border-radius:12px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.1)}
+.video-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none}
+
+/* ===== 結論欄位 ===== */
+.conclusion-section{margin-bottom:20px;padding:16px;background:var(--yellow);border-radius:12px;border:1px solid rgba(244,162,97,0.2)}
+.conclusion-label{font-size:15px;font-weight:600;color:var(--cover);margin-bottom:8px;display:flex;align-items:center;gap:6px}
 
 /* ===== 傳送狀態提示 ===== */
 .sync-status{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);padding:10px 20px;border-radius:10px;font-size:13px;font-weight:500;z-index:9999;transition:opacity .3s;pointer-events:none}
-.sync-ok{background:#059669;color:#fff;box-shadow:0 4px 12px rgba(5,150,105,0.3)}
-.sync-fail{background:#ef4444;color:#fff;box-shadow:0 4px 12px rgba(239,68,68,0.3)}
+.sync-ok{background:var(--teal-500);color:#fff;box-shadow:0 4px 12px rgba(43,122,120,0.3)}
+.sync-fail{background:var(--coral);color:#fff;box-shadow:0 4px 12px rgba(231,111,81,0.3)}
 
-@media(max-width:480px){.app{padding:12px 10px 40px}.card{padding:20px 16px}.likert-btn{font-size:12px;padding:8px 1px}.flow-chart{gap:0;padding:12px 4px}.flow-icon{width:32px;height:32px;font-size:13px}.flow-label{font-size:9px;max-width:48px}.flow-arrow{font-size:12px}}
+@media(max-width:480px){.app{padding:12px 10px 40px}.card{padding:20px 16px}.likert-btn{font-size:13px;padding:8px 1px}.likert-labels{font-size:12px}.flow-chart{gap:0;padding:12px 4px}.flow-icon{width:28px;height:28px;font-size:11px}.flow-label{font-size:8px;max-width:40px}.flow-arrow{font-size:10px}}
 </style>
 </head>
 <body>
 <div class="app" id="app">
 
-<!-- LOGIN (一律先顯示1個學號輸入) -->
+<!-- LOGIN -->
 <div class="page active" id="page-login">
   <div class="header"><h1 onclick="secretReset()" style="cursor:default">消費者決策研究</h1><p>課程互動平台（控制組）</p></div>
   <div class="card">
@@ -154,18 +164,20 @@ body{font-family:'Noto Sans TC','Outfit',sans-serif;background:var(--bg);min-hei
       <p>• 您可以隨時退出研究，無需說明理由。</p>
       <p>• 所有資料僅供學術研究使用，將以匿名方式處理。</p>
       <p>• 您的個人資料（姓名、學號）僅用於前後測配對，不會出現在研究報告中。</p>
+      <p>• 研究資料將於研究結束後妥善保存5年，届時將安全銷毀。</p>
+      <p style="margin-top:12px"><strong>研究聯絡人：</strong>開南大學商學院 蕭君華老師 (maehsaio@gapps.knu.edu.tw)</p>
     </div>
     <label class="consent-box"><input type="checkbox" id="consent-check"><span class="consent-text">我已閱讀並了解上述說明，<strong>同意自願參與本研究</strong>。</span></label>
     <div style="margin-top:20px"><button class="btn btn-primary btn-block" id="consent-btn" onclick="handleConsent()" disabled>同意並繼續</button></div>
   </div>
 </div>
 
-<!-- DEMOGRAPHICS (首次：填寫 / 回訪：確認或修改) -->
+<!-- DEMOGRAPHICS -->
 <div class="page" id="page-demo">
   <div class="header"><h1>消費者決策研究</h1><p id="demo-header-sub">基本資料</p></div>
   <div class="card">
     <div class="card-title"><div class="icon icon-mint">👤</div><span id="demo-card-title">基本資料</span></div>
-    <div id="demo-confirm-banner" style="display:none;background:var(--purple-50);border-radius:12px;padding:14px 16px;margin-bottom:20px;font-size:15px;color:var(--purple-700)">
+    <div id="demo-confirm-banner" style="display:none;background:var(--green);border-radius:12px;padding:14px 16px;margin-bottom:20px;font-size:15px;color:var(--teal-500)">
       歡迎回來！請確認以下資料是否正確，如需修改可直接編輯。
     </div>
     <div class="form-group"><label class="form-label">姓名<span class="required">*</span></label><input class="form-input" id="demo-name" placeholder="請輸入姓名"></div>
@@ -198,7 +210,7 @@ body{font-family:'Noto Sans TC','Outfit',sans-serif;background:var(--bg);min-hei
   <div class="card">
     <div class="card-title"><div class="icon icon-purple">📝</div>前測問卷</div>
     <p style="font-size:14px;color:var(--gray-500);margin-bottom:4px">請依據您目前的真實感受作答</p>
-    <p style="font-size:14px;color:var(--gray-400);margin-bottom:16px">1＝非常不同意　2＝不同意　3＝有點不同意　4＝普通　5＝有點同意　6＝同意　7＝非常同意</p>
+    <p style="font-size:15px;color:var(--gray-700);margin-bottom:16px;font-weight:600;background:var(--yellow);padding:8px 12px;border-radius:8px">1＝非常不同意　2＝不同意　3＝有點不同意　4＝普通　5＝有點同意　6＝同意　7＝非常同意</p>
     <div id="pretest-items"></div>
     <button class="btn btn-primary btn-block" style="margin-top:20px" onclick="handlePretest()">送出前測</button>
   </div>
@@ -209,19 +221,29 @@ body{font-family:'Noto Sans TC','Outfit',sans-serif;background:var(--bg);min-hei
   <div class="topbar"><div class="topbar-user">您好，<strong id="dash-name"></strong></div><button class="btn-logout" onclick="handleLogout()">⏻ 登出</button></div>
   <div class="card">
     <div class="card-title"><div class="icon icon-purple">📊</div>課程總覽</div>
-    <!-- 流程圖 -->
     <div class="flow-chart" id="flow-chart"></div>
-    <p style="font-size:14px;color:var(--gray-500);margin-bottom:16px">請依序完成各階段回饋紀錄。前一階段完成後，下一階段才會開放。</p>
+    <p style="font-size:14px;color:var(--gray-500);margin-bottom:16px">請依序完成各階段。觀看課程影片後，上傳結論與回饋。</p>
     <div class="stage-list" id="stage-list"></div>
   </div>
 </div>
 
-<!-- FEEDBACK -->
+<!-- FEEDBACK (with video + conclusion) -->
 <div class="page" id="page-feedback">
   <div class="topbar"><button class="btn-outline" onclick="showPage('page-dashboard')">← 返回總覽</button><button class="btn-logout" onclick="handleLogout()">⏻ 登出</button></div>
   <div class="card">
     <div class="card-title" id="fb-title"></div>
-    <div id="fb-prompt" style="background:var(--purple-50);border-radius:12px;padding:14px 16px;margin-bottom:20px;font-size:15px;color:var(--purple-700)"></div>
+    <!-- Video -->
+    <div class="video-section" id="fb-video-section">
+      <div class="video-title">🎬 課程影片</div>
+      <div class="video-wrap"><iframe id="fb-video" src="" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe></div>
+    </div>
+    <div id="fb-prompt" style="background:var(--blue);border-radius:12px;padding:14px 16px;margin-bottom:20px;font-size:15px;color:var(--cover)"></div>
+    <!-- Conclusion -->
+    <div class="conclusion-section">
+      <div class="conclusion-label">📌 小組結論答案<span class="required">*</span></div>
+      <p style="font-size:13px;color:var(--gray-500);margin-bottom:8px">請填寫小組討論後的最終結論（同組成員應填寫相同結論）</p>
+      <textarea class="feedback-input" id="fb-conclusion" placeholder="輸入你們小組的結論答案..." style="min-height:80px"></textarea>
+    </div>
     <p style="font-size:14px;color:var(--gray-500);margin-bottom:16px">請走動詢問同學或從LINE群組收集回饋後，挑選最具代表性的3個正面意見和3個反面意見記錄於下方。</p>
     <div class="feedback-section">
       <div class="feedback-label"><span class="pos">👍</span> 正面意見</div>
@@ -253,7 +275,7 @@ body{font-family:'Noto Sans TC','Outfit',sans-serif;background:var(--bg);min-hei
   <div class="card">
     <div class="card-title"><div class="icon icon-coral">📝</div>後測問卷</div>
     <p style="font-size:14px;color:var(--gray-500);margin-bottom:4px">請依據您參與本課程後的真實感受作答</p>
-    <p style="font-size:14px;color:var(--gray-400);margin-bottom:16px">Likert量表：1＝非常不同意 ～ 7＝非常同意（知識測驗除外）</p>
+    <p style="font-size:15px;color:var(--gray-700);margin-bottom:16px;font-weight:600;background:var(--yellow);padding:8px 12px;border-radius:8px">Likert量表：1＝非常不同意 ～ 7＝非常同意（知識測驗除外）</p>
     <div id="posttest-items"></div>
     <button class="btn btn-primary btn-block" style="margin-top:20px" onclick="handlePosttest()">送出後測</button>
   </div>
@@ -268,27 +290,30 @@ body{font-family:'Noto Sans TC','Outfit',sans-serif;background:var(--bg);min-hei
     <p style="font-size:15px;color:var(--gray-600);text-align:left;line-height:1.8">
       <strong>研究說明：</strong><br>
       本研究比較不同社群回饋來源（AI虛擬社群 vs. 真人同儕）對消費者行為學習成效的影響。您所屬的組別是「真人社群組」，透過走動詢問同學來收集回饋意見。<br><br>
-      如有任何疑問，歡迎聯繫研究負責人：蕭君華老師。
+      如有任何疑問，歡迎聯繫研究負責人：蕭君華老師 (maehsaio@gapps.knu.edu.tw)。
     </p>
   </div>
 </div>
 
 </div>
 
-<!-- 傳送狀態提示 -->
 <div class="sync-status" id="sync-status" style="opacity:0"></div>
 
 <script>
 const LIKERT_N = 7;
+
+// 7 部分：課程說明 + 5 stages + 期末報告
 const STAGES = [
-  {id:1,title:'階段一：需求認知',sub:'Need Recognition',week:'W1',prompt:'我們發現了這個消費者需求：[請描述你們的痛點與情境]。這是一個真實且迫切的需求嗎？'},
-  {id:2,title:'階段二：資訊蒐集',sub:'Information Search',week:'W2',prompt:'針對這個產品，你會從哪裡蒐集資訊？你最擔心什麼風險？'},
-  {id:3,title:'階段三：方案評估',sub:'Evaluation of Alternatives',week:'W2',prompt:'我們比較了三個品牌 [請列出]，最終選了 [X]。你會選哪個？為什麼？我們的評估有什麼盲點嗎？'},
-  {id:4,title:'階段四：購買決策',sub:'Purchase Decision',week:'W3',prompt:'我們決定買 [X] 了，但室友說那品牌很爛。你覺得該聽他的嗎？為什麼？'},
-  {id:5,title:'階段五：購後行為',sub:'Post-Purchase Behavior',week:'W3',prompt:'買了之後發現 [請描述問題]。如果是你，會退貨還是留著？為什麼？'},
+  {id:0,title:'課程說明',sub:'Course Introduction',prompt:'',video:'f0f7N0pyNs4',isCourse:true},
+  {id:1,title:'階段一：需求認知',sub:'Need Recognition',prompt:'我們發現了這個消費者需求：[請描述你們的痛點與情境]。這是一個真實且迫切的需求嗎？',video:'7CsE5MrogBI'},
+  {id:2,title:'階段二：資訊蒐集',sub:'Information Search',prompt:'針對這個產品，你會從哪裡蒐集資訊？你最擔心什麼風險？',video:'00pYNICw5uo'},
+  {id:3,title:'階段三：方案評估',sub:'Evaluation of Alternatives',prompt:'我們比較了三個品牌 [請列出]，最終選了 [X]。你會選哪個？為什麼？我們的評估有什麼盲點嗎？',video:'bxBbJL4c3QM'},
+  {id:4,title:'階段四：購買決策',sub:'Purchase Decision',prompt:'我們決定買 [X] 了，但室友說那品牌很爛。你覺得該聽他的嗎？為什麼？',video:'2wZFd8zrTfg'},
+  {id:5,title:'階段五：購後行為',sub:'Post-Purchase Behavior',prompt:'買了之後發現 [請描述問題]。如果是你，會退貨還是留著？為什麼？',video:'PR_ELIZpB2o'},
+  {id:6,title:'期末報告與後測',sub:'Final Report & Post-Test',prompt:'',video:'mfrM5OF20HE',isFinal:true},
 ];
 
-const FLOW_LABELS = ['前測','需求\n認知','資訊\n蒐集','方案\n評估','購買\n決策','購後\n行為','後測'];
+const FLOW_LABELS = ['前測','課程\n說明','需求\n認知','資訊\n蒐集','方案\n評估','購買\n決策','購後\n行為','期末\n報告','後測'];
 
 const PRETEST = [
   {sec:'自我效能 Self-Efficacy (SE)',items:[
@@ -348,162 +373,77 @@ function saveState(){localStorage.setItem('socialai_ctrl_v2',JSON.stringify(stat
 
 const SHEET_URL='https://script.google.com/macros/s/AKfycbzTEM5Wt4em-4ezpId6gHwD5yKvYgiNiMqq1St8x6KNtnMfNBD6Mq49av8wiVW2T34r/exec';
 
-// ===== 修正：改用 Google Apps Script 可接受的方式送資料 =====
 function sendToSheet(d){
   if(!SHEET_URL)return;
-  
-  // 方法1: 使用 beacon API (最可靠，不受 CORS 限制)
-  const blob = new Blob([JSON.stringify(d)], {type:'application/json'});
-  const sent = navigator.sendBeacon && navigator.sendBeacon(SHEET_URL, blob);
-  
+  const blob=new Blob([JSON.stringify(d)],{type:'application/json'});
+  const sent=navigator.sendBeacon&&navigator.sendBeacon(SHEET_URL,blob);
   if(!sent){
-    // 方法2: 使用 fetch + no-cors 備援（但改用 text/plain 讓 Apps Script 能收到）
-    fetch(SHEET_URL,{
-      method:'POST',
-      mode:'no-cors',
-      headers:{'Content-Type':'text/plain'},
-      body:JSON.stringify(d)
-    }).then(()=>{
-      showSyncStatus('✓ 資料已送出','ok');
-    }).catch(()=>{
-      showSyncStatus('✗ 傳送失敗，請檢查網路','fail');
-    });
-    return;
+    fetch(SHEET_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify(d)}).then(()=>{showSyncStatus('✓ 資料已送出','ok')}).catch(()=>{showSyncStatus('✗ 傳送失敗，請檢查網路','fail')});return;
   }
   showSyncStatus('✓ 資料已送出','ok');
 }
 
-function showSyncStatus(msg, type){
-  const el=document.getElementById('sync-status');
-  el.textContent=msg;
-  el.className='sync-status '+(type==='ok'?'sync-ok':'sync-fail');
-  el.style.opacity='1';
-  setTimeout(()=>{el.style.opacity='0'},3000);
-}
+function showSyncStatus(msg,type){const el=document.getElementById('sync-status');el.textContent=msg;el.className='sync-status '+(type==='ok'?'sync-ok':'sync-fail');el.style.opacity='1';setTimeout(()=>{el.style.opacity='0'},3000)}
 
 function showPage(id){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0)}
 
 function selR(el,gid){document.querySelectorAll('#'+gid+' .radio-option').forEach(o=>o.classList.remove('selected'));el.classList.add('selected');el.querySelector('input').checked=true}
 
 // ===== LOGIN =====
-// 一律先顯示1個學號輸入
-// 輸入後判斷：新用戶 → 出現第2個學號欄位；舊用戶 → 直接進入確認基本資料
-let isReturningUser = false;
-let loginStep = 1; // 1=第一次按, 2=新用戶已顯示第二欄
+let isReturningUser=false;let loginStep=1;
 
 function handleLogin(){
   const id1=document.getElementById('login-id1').value.trim().toUpperCase();
   const err=document.getElementById('login-error');
-  
   if(!id1){err.textContent='請輸入學號';err.classList.add('show');return}
-  
-  // 先載入 localStorage 看看是否為回訪用戶
   loadState();
-  const returning = state.studentId===id1 && state.consented && state.pretest;
-  
+  const returning=state.studentId===id1&&state.consented&&state.pretest;
   if(returning){
-    // ===== 回訪用戶：只要1次學號 =====
-    err.classList.remove('show');
-    isReturningUser = true;
-    loginStep = 1;
-    
-    if(state.posttest_done){
-      showPage('page-thankyou');
-    } else {
-      fillDemoFromState();
-      showPage('page-demo');
-    }
-  } else {
-    // ===== 新用戶：需要輸入2次學號 =====
-    if(loginStep === 1){
-      // 第一次按：顯示第二個學號欄位
+    err.classList.remove('show');isReturningUser=true;loginStep=1;
+    if(state.posttest_done){showPage('page-thankyou')}else{fillDemoFromState();showPage('page-demo')}
+  }else{
+    if(loginStep===1){
       document.getElementById('login-id2-group').style.display='block';
       document.getElementById('login-id2').focus();
-      err.textContent='首次登入，請再次輸入學號確認';
-      err.classList.add('show');
-      err.style.color='var(--purple-500)'; // 用紫色提示，不是紅色錯誤
-      loginStep = 2;
-      return;
+      err.textContent='首次登入，請再次輸入學號確認';err.classList.add('show');err.style.color='var(--teal-500)';loginStep=2;return;
     }
-    
-    // 第二次按：驗證兩次學號是否一致
-    const id2 = document.getElementById('login-id2').value.trim().toUpperCase();
+    const id2=document.getElementById('login-id2').value.trim().toUpperCase();
     if(!id2){err.textContent='請再次輸入學號確認';err.style.color='';err.classList.add('show');return}
     if(id1!==id2){err.textContent='兩次輸入的學號不一致，請重新確認';err.style.color='';err.classList.add('show');return}
-    
-    err.classList.remove('show');
-    err.style.color='';
-    isReturningUser = false;
-    loginStep = 1;
-    state={studentId:id1,group:'control'};saveState();
-    showPage('page-consent');
+    err.classList.remove('show');err.style.color='';isReturningUser=false;loginStep=1;
+    state={studentId:id1,group:'control'};saveState();showPage('page-consent');
   }
 }
 
-// 把 state 裡已有的基本資料填回表單
 function fillDemoFromState(){
-  document.getElementById('demo-name').value = state.name || '';
-  document.getElementById('demo-birth').value = state.birth || '';
-  
-  // 設定性別 radio
-  if(state.gender){
-    document.querySelectorAll('#demo-gender input').forEach(inp=>{
-      if(inp.value===state.gender){
-        inp.checked=true;
-        inp.closest('.radio-option').classList.add('selected');
-      }
-    });
-  }
-  
-  // 設定 AI 熟悉度 radio
-  if(state.ai_familiarity){
-    document.querySelectorAll('#demo-ai input').forEach(inp=>{
-      if(inp.value===state.ai_familiarity){
-        inp.checked=true;
-        inp.closest('.radio-option').classList.add('selected');
-      }
-    });
-  }
-  
-  // 切換為確認模式
+  document.getElementById('demo-name').value=state.name||'';
+  document.getElementById('demo-birth').value=state.birth||'';
+  if(state.gender){document.querySelectorAll('#demo-gender input').forEach(inp=>{if(inp.value===state.gender){inp.checked=true;inp.closest('.radio-option').classList.add('selected')}})}
+  if(state.ai_familiarity){document.querySelectorAll('#demo-ai input').forEach(inp=>{if(inp.value===state.ai_familiarity){inp.checked=true;inp.closest('.radio-option').classList.add('selected')}})}
   document.getElementById('demo-header-sub').textContent='確認基本資料';
   document.getElementById('demo-card-title').textContent='確認基本資料';
   document.getElementById('demo-confirm-banner').style.display='block';
   document.getElementById('demo-submit-btn').textContent='確認，進入課程總覽';
-  document.getElementById('demo-submit-btn').onclick = handleDemoConfirm;
+  document.getElementById('demo-submit-btn').onclick=handleDemoConfirm;
 }
 
-// CONSENT
 document.getElementById('consent-check').addEventListener('change',function(){document.getElementById('consent-btn').disabled=!this.checked});
 function handleConsent(){if(!document.getElementById('consent-check').checked)return;state.consented=true;state.consent_time=new Date().toISOString();saveState();
-  // 首次用戶：進入基本資料填寫模式
-  document.getElementById('demo-header-sub').textContent='基本資料';
-  document.getElementById('demo-card-title').textContent='基本資料';
-  document.getElementById('demo-confirm-banner').style.display='none';
-  document.getElementById('demo-submit-btn').textContent='下一步：前測問卷';
-  document.getElementById('demo-submit-btn').onclick = handleDemo;
-  showPage('page-demo');
+  document.getElementById('demo-header-sub').textContent='基本資料';document.getElementById('demo-card-title').textContent='基本資料';
+  document.getElementById('demo-confirm-banner').style.display='none';document.getElementById('demo-submit-btn').textContent='下一步：前測問卷';
+  document.getElementById('demo-submit-btn').onclick=handleDemo;showPage('page-demo');
 }
 
-// DEMOGRAPHICS（首次填寫）
 function handleDemo(){
-  const n=document.getElementById('demo-name').value.trim();
-  const g=document.querySelector('#demo-gender input:checked');
-  const b=document.getElementById('demo-birth').value.trim();
-  const a=document.querySelector('#demo-ai input:checked');
+  const n=document.getElementById('demo-name').value.trim(),g=document.querySelector('#demo-gender input:checked'),b=document.getElementById('demo-birth').value.trim(),a=document.querySelector('#demo-ai input:checked');
   if(!n||!g||!b||!a){alert('請填寫所有必填項目');return}
   state.name=n;state.gender=g.value;state.birth=b;state.ai_familiarity=a.value;state.demo_time=new Date().toISOString();saveState();
   renderSurvey('pretest-items',PRETEST,'pre_');showPage('page-pretest');
 }
 
-// DEMOGRAPHICS（回訪確認/修改）
 function handleDemoConfirm(){
-  const n=document.getElementById('demo-name').value.trim();
-  const g=document.querySelector('#demo-gender input:checked');
-  const b=document.getElementById('demo-birth').value.trim();
-  const a=document.querySelector('#demo-ai input:checked');
+  const n=document.getElementById('demo-name').value.trim(),g=document.querySelector('#demo-gender input:checked'),b=document.getElementById('demo-birth').value.trim(),a=document.querySelector('#demo-ai input:checked');
   if(!n||!g||!b||!a){alert('請填寫所有必填項目');return}
-  // 更新 state（如果用戶有修改的話）
   state.name=n;state.gender=g.value;state.birth=b;state.ai_familiarity=a.value;saveState();
   renderDashboard();showPage('page-dashboard');
 }
@@ -512,26 +452,22 @@ function handleDemoConfirm(){
 function renderSurvey(containerId,sections,prefix){
   const c=document.getElementById(containerId);c.innerHTML='';
   sections.forEach(sec=>{
-    const sh=document.createElement('div');sh.className='section-header';
-    sh.textContent=sec.sec;
-    if(sec.note)sh.innerHTML+=`<span class="section-sub">${sec.note}</span>`;
-    c.appendChild(sh);
+    const sh=document.createElement('div');sh.className='section-header';sh.textContent=sec.sec;
+    if(sec.note)sh.innerHTML+=`<span class="section-sub">${sec.note}</span>`;c.appendChild(sh);
     if(sec.type==='mc'){
       sec.items.forEach(item=>{
         const d=document.createElement('div');d.className='q-item';d.id='qi-'+prefix+item.id;
         d.innerHTML=`<div class="q-text"><span class="q-num">${item.id}</span>${item.text}</div>
           <div class="radio-group" id="mc-${prefix}${item.id}">
             ${item.opts.map(o=>`<label class="radio-option" onclick="selR(this,'mc-${prefix}${item.id}')"><input type="radio" name="mc-${prefix}${item.id}" value="${o.charAt(1)}"><span class="radio-dot"></span>${o}</label>`).join('')}
-          </div>`;
-        c.appendChild(d);
+          </div>`;c.appendChild(d);
       });
     }else{
       sec.items.forEach(item=>{
         const d=document.createElement('div');d.className='q-item';d.id='qi-'+prefix+item.id;
         d.innerHTML=`<div class="q-text"><span class="q-num">${item.id.replace(/_post$/,'')}</span>${item.text}</div>
           <div class="likert-row">${Array.from({length:LIKERT_N},(_,i)=>i+1).map(v=>`<button type="button" class="likert-btn" data-id="${prefix}${item.id}" data-val="${v}" onclick="selL(this)">${v}</button>`).join('')}</div>
-          <div class="likert-labels"><span>非常不同意</span><span>非常同意</span></div>`;
-        c.appendChild(d);
+          <div class="likert-labels"><span>非常不同意</span><span>非常同意</span></div>`;c.appendChild(d);
       });
     }
   });
@@ -542,88 +478,56 @@ function selL(btn){btn.parentElement.querySelectorAll('.likert-btn').forEach(b=>
 function collectSurvey(sections,prefix){
   const vals={};let firstMissing=null;
   document.querySelectorAll('.q-item.missing').forEach(el=>el.classList.remove('missing'));
-  sections.forEach(sec=>{
-    sec.items.forEach(item=>{
-      const key=item.id;
-      if(sec.type==='mc'){
-        const sel=document.querySelector(`#mc-${prefix}${item.id} input:checked`);
-        if(sel)vals[key]=sel.value;
-        else{if(!firstMissing){firstMissing=document.getElementById('qi-'+prefix+item.id);firstMissing.classList.add('missing')}}
-      }else{
-        const sel=document.querySelector(`.likert-btn.selected[data-id="${prefix}${item.id}"]`);
-        if(sel)vals[key]=parseInt(sel.dataset.val);
-        else{if(!firstMissing){firstMissing=document.getElementById('qi-'+prefix+item.id);firstMissing.classList.add('missing')}}
-      }
-    });
-  });
+  sections.forEach(sec=>{sec.items.forEach(item=>{
+    const key=item.id;
+    if(sec.type==='mc'){const sel=document.querySelector(`#mc-${prefix}${item.id} input:checked`);if(sel)vals[key]=sel.value;else{if(!firstMissing){firstMissing=document.getElementById('qi-'+prefix+item.id);firstMissing.classList.add('missing')}}}
+    else{const sel=document.querySelector(`.likert-btn.selected[data-id="${prefix}${item.id}"]`);if(sel)vals[key]=parseInt(sel.dataset.val);else{if(!firstMissing){firstMissing=document.getElementById('qi-'+prefix+item.id);firstMissing.classList.add('missing')}}}
+  })});
   if(firstMissing){firstMissing.scrollIntoView({behavior:'smooth',block:'center'});return null}
   return vals;
 }
 
-// PRE-TEST
 function handlePretest(){
-  const vals=collectSurvey(PRETEST,'pre_');
-  if(!vals)return;
+  const vals=collectSurvey(PRETEST,'pre_');if(!vals)return;
   state.pretest=vals;state.pretest_time=new Date().toISOString();state.stages={};saveState();
   sendToSheet({type:'pretest',studentId:state.studentId,data:state});
   renderDashboard();showPage('page-dashboard');
 }
 
-// ===== 流程圖渲染 =====
+// ===== FLOW CHART =====
 function renderFlowChart(){
-  const fc=document.getElementById('flow-chart');
-  fc.innerHTML='';
+  const fc=document.getElementById('flow-chart');fc.innerHTML='';
   const pretestDone=!!state.pretest;
-  const allStagesDone=STAGES.every(s=>state.stages&&state.stages[s.id]);
+  const allStagesDone=STAGES.filter(s=>!s.isCourse&&!s.isFinal).every(s=>state.stages&&state.stages[s.id]);
   const posttestDone=!!state.posttest_done;
 
-  // 計算每個步驟的狀態
   let firstIncomplete=0;
   if(state.stages){
-    for(let i=0;i<STAGES.length;i++){
-      if(!state.stages[STAGES[i].id]){firstIncomplete=i;break}
-      if(i===STAGES.length-1)firstIncomplete=STAGES.length;
-    }
+    const taskStages=STAGES.filter(s=>!s.isCourse&&!s.isFinal);
+    for(let i=0;i<taskStages.length;i++){if(!state.stages[taskStages[i].id]){firstIncomplete=i;break}if(i===taskStages.length-1)firstIncomplete=taskStages.length}
   }
 
-  const steps = [
-    {label:'前測', done:pretestDone, current:false},
-    ...STAGES.map((s,i)=>({
+  const steps=[
+    {label:'前測',done:pretestDone,current:false},
+    {label:'課程\n說明',done:!!(state.stages&&state.stages[0]),current:pretestDone&&!(state.stages&&state.stages[0])},
+    ...STAGES.filter(s=>!s.isCourse&&!s.isFinal).map((s,i)=>({
       label:s.title.replace(/階段.：/,''),
       done:!!(state.stages&&state.stages[s.id]),
-      current:pretestDone && i===firstIncomplete && !(state.stages&&state.stages[s.id]),
-      locked:i>firstIncomplete
+      current:!!(state.stages&&state.stages[0])&&pretestDone&&i===firstIncomplete&&!(state.stages&&state.stages[s.id]),
+      locked:i>firstIncomplete||(!(state.stages&&state.stages[0]))
     })),
-    {label:'後測', done:posttestDone, current:allStagesDone&&!posttestDone, locked:!allStagesDone}
+    {label:'期末\n報告',done:!!(state.stages&&state.stages[6]),current:allStagesDone&&!(state.stages&&state.stages[6]),locked:!allStagesDone},
+    {label:'後測',done:posttestDone,current:!!(state.stages&&state.stages[6])&&!posttestDone,locked:!(state.stages&&state.stages[6])}
   ];
 
   steps.forEach((step,i)=>{
-    // step circle
-    const stepEl=document.createElement('div');
-    stepEl.className='flow-step';
-    if(step.done) stepEl.classList.add('done');
-    else if(step.current) stepEl.classList.add('current');
-    else if(step.locked) stepEl.classList.add('locked');
-
-    const icon=document.createElement('div');
-    icon.className='flow-icon';
+    const stepEl=document.createElement('div');stepEl.className='flow-step';
+    if(step.done)stepEl.classList.add('done');else if(step.current)stepEl.classList.add('current');else if(step.locked)stepEl.classList.add('locked');
+    const icon=document.createElement('div');icon.className='flow-icon';
     icon.textContent=step.done?'✓':(i===0?'前':i===steps.length-1?'後':i);
-
-    const label=document.createElement('div');
-    label.className='flow-label';
-    label.textContent=step.label;
-
-    stepEl.appendChild(icon);
-    stepEl.appendChild(label);
-    fc.appendChild(stepEl);
-
-    // arrow
-    if(i<steps.length-1){
-      const arrow=document.createElement('span');
-      arrow.className='flow-arrow';
-      arrow.textContent='→';
-      fc.appendChild(arrow);
-    }
+    const label=document.createElement('div');label.className='flow-label';label.textContent=step.label;
+    stepEl.appendChild(icon);stepEl.appendChild(label);fc.appendChild(stepEl);
+    if(i<steps.length-1){const arrow=document.createElement('span');arrow.className='flow-arrow';arrow.textContent='→';fc.appendChild(arrow)}
   });
 }
 
@@ -632,55 +536,119 @@ function renderDashboard(){
   document.getElementById('dash-name').textContent=state.name||state.studentId;
   const list=document.getElementById('stage-list');list.innerHTML='';
   if(!state.stages)state.stages={};
-
-  // 渲染流程圖
   renderFlowChart();
 
-  // Find first incomplete stage
-  let firstIncomplete=0;
-  for(let i=0;i<STAGES.length;i++){if(!state.stages[STAGES[i].id]){firstIncomplete=i;break}if(i===STAGES.length-1)firstIncomplete=STAGES.length}
+  // Find first incomplete task stage (id 1-5)
+  const taskStages=STAGES.filter(s=>!s.isCourse&&!s.isFinal);
+  let firstIncomplete=taskStages.length;
+  for(let i=0;i<taskStages.length;i++){if(!state.stages[taskStages[i].id]){firstIncomplete=i;break}}
 
-  STAGES.forEach((s,i)=>{
+  STAGES.forEach((s,idx)=>{
     const done=!!state.stages[s.id];
-    const locked=i>firstIncomplete;
-    const isNext=i===firstIncomplete;
+    let locked=false;
+    if(s.isCourse){locked=false}// 課程說明永遠可開
+    else if(s.isFinal){locked=!taskStages.every(ts=>state.stages[ts.id])}// 需完成所有 task
+    else{
+      const taskIdx=taskStages.indexOf(s);
+      locked=taskIdx>firstIncomplete||!state.stages[0];// 需先看課程說明
+    }
+    const isNext=!done&&!locked;
+
     const div=document.createElement('div');
     div.className=`stage-item ${done?'completed':locked?'locked':''}`;
     div.innerHTML=`
-      <div class="stage-num">${done?'✓':s.id}</div>
-      <div class="stage-info"><div class="stage-title">${s.title}<span class="week-tag">${s.week}</span></div><div class="stage-sub">${s.sub}</div></div>
+      <div class="stage-num">${done?'✓':s.isCourse?'📖':s.isFinal?'📝':s.id}</div>
+      <div class="stage-info"><div class="stage-title">${s.title}</div><div class="stage-sub">${s.sub}</div></div>
       <span class="stage-badge ${done?'badge-done':locked?'badge-locked':'badge-pending'}">${done?'已完成':locked?'未開放':'待填寫'}</span>`;
-    if(!done&&!locked)div.onclick=()=>openFeedback(s.id);
+    if(!done&&!locked){
+      if(s.isCourse){div.onclick=()=>openCourseIntro()}
+      else if(s.isFinal){div.onclick=()=>openFinalReport()}
+      else{div.onclick=()=>openFeedback(s.id)}
+    }
     list.appendChild(div);
   });
 
   // Post-test row
-  const allDone=STAGES.every(s=>state.stages[s.id]);
+  const allDone=taskStages.every(ts=>state.stages[ts.id])&&state.stages[6];
   const ptDiv=document.createElement('div');
   ptDiv.className=`stage-item ${state.posttest_done?'completed':allDone?'':'locked'}`;
   ptDiv.innerHTML=`
-    <div class="stage-num" style="${state.posttest_done?'background:var(--mint-400);color:#fff':allDone?'background:rgba(248,113,113,0.15);color:var(--coral-500)':'background:var(--gray-200);color:var(--gray-400)'}">📝</div>
-    <div class="stage-info"><div class="stage-title">後測問卷<span class="week-tag">W4</span></div><div class="stage-sub">Post-test Survey</div></div>
+    <div class="stage-num" style="${state.posttest_done?'background:var(--teal-500);color:#fff':allDone?'background:var(--pink);color:var(--coral)':'background:var(--gray-200);color:var(--gray-400)'}">📝</div>
+    <div class="stage-info"><div class="stage-title">後測問卷</div><div class="stage-sub">Post-test Survey</div></div>
     <span class="stage-badge ${state.posttest_done?'badge-done':allDone?'badge-pending':'badge-locked'}">${state.posttest_done?'已完成':allDone?'待填寫':'未開放'}</span>`;
   if(allDone&&!state.posttest_done){ptDiv.onclick=()=>{renderSurvey('posttest-items',POSTTEST,'post_');showPage('page-posttest')}}
   list.appendChild(ptDiv);
 }
 
-// FEEDBACK
+// COURSE INTRO (id=0) - just video, mark as done
+function openCourseIntro(){
+  currentStage=STAGES.find(s=>s.id===0);
+  document.getElementById('fb-title').innerHTML=`<div class="icon icon-mint">📖</div>課程說明`;
+  document.getElementById('fb-video').src=`https://www.youtube.com/embed/${currentStage.video}?rel=0`;
+  document.getElementById('fb-video-section').style.display='block';
+  document.getElementById('fb-prompt').innerHTML='<strong>觀看完課程說明影片後，請點擊下方按鈕確認。</strong>';
+  // Hide feedback fields for course intro
+  document.querySelectorAll('.conclusion-section,.feedback-section,[id^="fb-source"]').forEach(el=>el.style.display='none');
+  document.querySelector('#page-feedback .form-group:last-of-type').style.display='none';
+  const btn=document.querySelector('#page-feedback .btn-primary');
+  btn.textContent='我已觀看課程說明';btn.onclick=()=>{
+    if(!state.stages)state.stages={};state.stages[0]={time:new Date().toISOString()};saveState();
+    sendToSheet({type:'feedback',studentId:state.studentId,stage:0,data:{source:'影片觀看'}});
+    renderDashboard();showPage('page-dashboard');
+  };
+  showPage('page-feedback');
+}
+
+// FINAL REPORT (id=6) - just video, mark as done
+function openFinalReport(){
+  currentStage=STAGES.find(s=>s.id===6);
+  document.getElementById('fb-title').innerHTML=`<div class="icon icon-coral">📝</div>期末報告與後測說明`;
+  document.getElementById('fb-video').src=`https://www.youtube.com/embed/${currentStage.video}?rel=0`;
+  document.getElementById('fb-video-section').style.display='block';
+  document.getElementById('fb-prompt').innerHTML='<strong>觀看完期末報告說明影片後，請點擊下方按鈕確認。</strong>';
+  document.querySelectorAll('.conclusion-section,.feedback-section,[id^="fb-source"]').forEach(el=>el.style.display='none');
+  document.querySelector('#page-feedback .form-group:last-of-type').style.display='none';
+  const btn=document.querySelector('#page-feedback .btn-primary');
+  btn.textContent='我已觀看期末報告說明';btn.onclick=()=>{
+    if(!state.stages)state.stages={};state.stages[6]={time:new Date().toISOString()};saveState();
+    sendToSheet({type:'feedback',studentId:state.studentId,stage:6,data:{source:'影片觀看'}});
+    renderDashboard();showPage('page-dashboard');
+  };
+  showPage('page-feedback');
+}
+
+// FEEDBACK (stages 1-5)
 function openFeedback(stageId){
   if(state.stages&&state.stages[stageId])return;
   currentStage=STAGES.find(s=>s.id===stageId);
   document.getElementById('fb-title').innerHTML=`<div class="icon icon-mint">💬</div>${currentStage.title}：回饋紀錄`;
+  // Show video
+  document.getElementById('fb-video').src=`https://www.youtube.com/embed/${currentStage.video}?rel=0`;
+  document.getElementById('fb-video-section').style.display='block';
   document.getElementById('fb-prompt').innerHTML=`<strong>統一提問指令：</strong><br>「${currentStage.prompt}」`;
+  // Show all fields
+  document.querySelectorAll('.conclusion-section,.feedback-section').forEach(el=>el.style.display='block');
+  document.querySelector('#page-feedback .form-group:last-of-type').style.display='block';
+  // Reset
+  document.getElementById('fb-conclusion').value='';document.getElementById('fb-conclusion').classList.remove('error');
   for(let i=1;i<=3;i++){document.getElementById('fb-pos-'+i).value='';document.getElementById('fb-neg-'+i).value='';
     document.getElementById('fb-pos-'+i).classList.remove('error');document.getElementById('fb-neg-'+i).classList.remove('error')}
   document.querySelectorAll('#fb-source .radio-option').forEach(o=>o.classList.remove('selected'));
   document.querySelectorAll('#fb-source input').forEach(i=>i.checked=false);
+  const btn=document.querySelector('#page-feedback .btn-primary');
+  btn.textContent='送出回饋紀錄';btn.onclick=handleFeedback;
   showPage('page-feedback');
 }
 
 function handleFeedback(){
-  const pos=[],neg=[];let firstEmpty=null;
+  // Validate conclusion
+  const conclusionEl=document.getElementById('fb-conclusion');
+  const conclusion=conclusionEl.value.trim();
+  conclusionEl.classList.remove('error');
+  let firstEmpty=null;
+  if(!conclusion){conclusionEl.classList.add('error');if(!firstEmpty)firstEmpty=conclusionEl}
+
+  const pos=[],neg=[];
   for(let i=1;i<=3;i++){
     const pEl=document.getElementById('fb-pos-'+i),nEl=document.getElementById('fb-neg-'+i);
     const p=pEl.value.trim(),n=nEl.value.trim();
@@ -691,39 +659,35 @@ function handleFeedback(){
   }
   const srcEl=document.querySelector('#fb-source input:checked');
   if(!srcEl&&!firstEmpty)firstEmpty=document.querySelector('#fb-source');
-  if(firstEmpty||pos.some(p=>!p)||neg.some(n=>!n)||!srcEl){
+  if(firstEmpty||!conclusion||pos.some(p=>!p)||neg.some(n=>!n)||!srcEl){
     if(firstEmpty)firstEmpty.scrollIntoView({behavior:'smooth',block:'center'});
     if(!srcEl)alert('請選擇回饋來源');return}
   if(!state.stages)state.stages={};
-  state.stages[currentStage.id]={positive:pos,negative:neg,source:srcEl.value,time:new Date().toISOString()};
+  state.stages[currentStage.id]={conclusion:conclusion,positive:pos,negative:neg,source:srcEl.value,time:new Date().toISOString()};
   saveState();sendToSheet({type:'feedback',studentId:state.studentId,stage:currentStage.id,data:state.stages[currentStage.id]});
+  // Stop video
+  document.getElementById('fb-video').src='';
   renderDashboard();showPage('page-dashboard');
 }
 
-// POST-TEST
 function handlePosttest(){
-  const vals=collectSurvey(POSTTEST,'post_');
-  if(!vals)return;
+  const vals=collectSurvey(POSTTEST,'post_');if(!vals)return;
   state.posttest=vals;state.posttest_time=new Date().toISOString();state.posttest_done=true;saveState();
   sendToSheet({type:'posttest',studentId:state.studentId,data:state});showPage('page-thankyou');
 }
-
-// handleLogout 定義在 INIT 區塊
 
 // SECRET RESET
 let _tapCount=0,_tapTimer=null;
 function secretReset(){_tapCount++;if(_tapTimer)clearTimeout(_tapTimer);_tapTimer=setTimeout(()=>{_tapCount=0},2000);if(_tapCount>=5){if(confirm("確定要清除所有測試資料嗎？")){localStorage.removeItem("socialai_ctrl_v2");_tapCount=0;alert("資料已清除，頁面將重新載入");location.reload()}}}
 
-// INIT — 永遠從登入頁開始
+// INIT
 loadState();
-// 登出時也重置 loginStep
 function handleLogout(){
+  // Stop any playing video
+  document.getElementById('fb-video').src='';
   showPage('page-login');
-  document.getElementById('login-id1').value='';
-  document.getElementById('login-id2').value='';
-  document.getElementById('login-id2-group').style.display='none';
-  document.getElementById('login-error').classList.remove('show');
-  loginStep = 1;
+  document.getElementById('login-id1').value='';document.getElementById('login-id2').value='';
+  document.getElementById('login-id2-group').style.display='none';document.getElementById('login-error').classList.remove('show');loginStep=1;
 }
 </script>
 </body>
