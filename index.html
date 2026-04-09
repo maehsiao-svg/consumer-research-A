@@ -7,16 +7,18 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap');
 :root {
-  /* Notion-style palette — deeper tones */
-  --blue:#B8D4F0;--green:#A7E8C8;--pink:#F9CFE0;--yellow:#FDE68A;--purple:#D4C4F7;--orange:#FDCFA1;
-  --teal-500:#1F6B69;--teal-600:#17544F;--sage:#6BA68E;--peach:#E8923A;--coral:#D4553D;
-  --cover:#1E3A5F;--cover-alt:#2E5E85;
+  /* IKEA-style blue & yellow blocks */
+  --blue:#0051BA;--blue-light:#B8D4F0;--blue-pale:#E3EFF9;
+  --yellow:#FFDB00;--yellow-light:#FFF3B0;--yellow-pale:#FFFBE6;
+  --green:#A7E8C8;--pink:#F9CFE0;--purple:#D4C4F7;--orange:#FDCFA1;
+  --teal-500:#0051BA;--teal-600:#003D8F;--sage:#6BA68E;--peach:#E8923A;--coral:#D4553D;
+  --cover:#0051BA;--cover-alt:#003D8F;
   --gray-50:#fafafa;--gray-100:#f0f0f2;--gray-200:#d8d8dc;--gray-300:#bbbbc2;--gray-400:#7A7A85;--gray-500:#555560;--gray-600:#3D3D47;--gray-700:#2A2A33;--gray-800:#1A1A22;
-  --bg:linear-gradient(135deg,#C5DEF0 0%,#D9CBFA 30%,#F5C6D8 60%,#FDE68A 100%);
-  --card-bg:rgba(255,255,255,0.95);--card-border:rgba(30,58,95,0.18);--shadow:0 4px 24px rgba(0,0,0,0.12);--radius:16px;
+  --bg:#E3EFF9;
+  --card-bg:rgba(255,255,255,0.96);--card-border:rgba(0,81,186,0.15);--shadow:0 4px 24px rgba(0,0,0,0.1);--radius:16px;
 }
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Noto Sans TC','Outfit',sans-serif;background:var(--bg);background-attachment:fixed;min-height:100vh;color:var(--gray-800);line-height:1.7}
+body{font-family:'Noto Sans TC','Outfit',sans-serif;background:var(--bg);min-height:100vh;color:var(--gray-800);line-height:1.7}
 .app{max-width:720px;margin:0 auto;padding:20px 16px 60px}
 .header{text-align:center;padding:32px 0 24px}
 .header h1{font-family:'Outfit','Noto Sans TC',sans-serif;font-size:28px;font-weight:700;color:var(--cover);text-shadow:0 1px 4px rgba(0,0,0,0.06)}
@@ -25,91 +27,91 @@ body{font-family:'Noto Sans TC','Outfit',sans-serif;background:var(--bg);backgro
 @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 .card-title{font-size:20px;font-weight:700;color:var(--cover);margin-bottom:16px;display:flex;align-items:center;gap:10px}
 .card-title .icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
-.icon-purple{background:var(--purple);color:var(--cover)}
-.icon-mint{background:var(--green);color:var(--teal-500)}
-.icon-coral{background:var(--pink);color:var(--coral)}
+.icon-purple{background:var(--yellow);color:var(--blue)}
+.icon-mint{background:var(--blue-pale);color:var(--blue)}
+.icon-coral{background:var(--yellow-light);color:var(--blue)}
 .form-group{margin-bottom:18px}
 .form-label{display:block;font-size:15px;font-weight:600;color:var(--gray-800);margin-bottom:6px}
 .form-label .required{color:var(--coral);margin-left:2px}
 .form-input{width:100%;padding:12px 14px;border:1.5px solid var(--gray-200);border-radius:10px;font-size:16px;font-family:inherit;background:#fff;transition:border-color .2s,box-shadow .2s;outline:none}
-.form-input:focus{border-color:var(--teal-500);box-shadow:0 0 0 3px rgba(43,122,120,0.1)}
+.form-input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,81,186,0.12)}
 .form-input.error{border-color:var(--coral);box-shadow:0 0 0 3px rgba(231,111,81,0.1)}
 .error-msg{font-size:13px;color:var(--coral);margin-top:4px;display:none}
 .error-msg.show{display:block}
 .radio-group{display:flex;flex-direction:column;gap:8px}
 .radio-option{display:flex;align-items:center;gap:10px;padding:10px 14px;border:1.5px solid var(--gray-200);border-radius:10px;cursor:pointer;transition:all .2s;font-size:15px;font-weight:500;color:var(--gray-800)}
-.radio-option:hover{border-color:var(--teal-500);background:var(--green)}
-.radio-option.selected{border-color:var(--teal-500);background:var(--green)}
+.radio-option:hover{border-color:var(--blue);background:var(--blue-pale)}
+.radio-option.selected{border-color:var(--blue);background:var(--blue-pale)}
 .radio-option input{display:none}
 .radio-dot{width:18px;height:18px;border-radius:50%;border:2px solid var(--gray-300);transition:all .2s;flex-shrink:0}
-.radio-option.selected .radio-dot{border-color:var(--teal-500);background:var(--teal-500);box-shadow:inset 0 0 0 3px #fff}
+.radio-option.selected .radio-dot{border-color:var(--blue);background:var(--blue);box-shadow:inset 0 0 0 3px #fff}
 .likert-row{display:flex;gap:4px;justify-content:center;margin-top:8px}
 .likert-btn{flex:1;padding:10px 2px;border:1.5px solid var(--gray-200);border-radius:8px;background:#fff;cursor:pointer;text-align:center;font-size:15px;font-family:inherit;transition:all .2s;min-width:0;font-weight:600}
-.likert-btn:hover{border-color:var(--teal-500);background:var(--green)}
-.likert-btn.selected{border-color:var(--teal-500);background:var(--teal-500);color:#fff}
+.likert-btn:hover{border-color:var(--blue);background:var(--blue-pale)}
+.likert-btn.selected{border-color:var(--blue);background:var(--blue);color:#fff}
 .likert-labels{display:flex;justify-content:space-between;font-size:14px;color:var(--gray-700);margin-top:6px;padding:0 4px;font-weight:600}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 28px;border:none;border-radius:12px;font-size:16px;font-weight:700;font-family:inherit;cursor:pointer;transition:all .2s}
-.btn-primary{background:linear-gradient(135deg,var(--teal-500),var(--teal-600));color:#fff;box-shadow:0 4px 16px rgba(31,107,105,0.3)}
-.btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(43,122,120,0.35)}
+.btn-primary{background:var(--blue);color:#fff;box-shadow:0 4px 16px rgba(0,81,186,0.3)}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(0,81,186,0.4)}
 .btn-primary:disabled{opacity:0.5;cursor:not-allowed;transform:none}
-.btn-outline{background:transparent;border:2px solid var(--teal-500);color:var(--cover);padding:8px 16px;font-size:15px;border-radius:8px;font-weight:700}
-.btn-outline:hover{background:var(--green);color:var(--cover)}
+.btn-outline{background:transparent;border:2px solid var(--blue);color:var(--blue);padding:8px 16px;font-size:15px;border-radius:8px;font-weight:700}
+.btn-outline:hover{background:var(--blue-pale);color:var(--blue)}
 .btn-block{width:100%}
 .stage-list{display:flex;flex-direction:column;gap:10px}
 .stage-item{display:flex;align-items:center;gap:14px;padding:16px 18px;border:1.5px solid var(--gray-200);border-radius:12px;cursor:pointer;transition:all .2s}
-.stage-item:hover:not(.locked):not(.completed){border-color:var(--teal-500);background:var(--green)}
-.stage-item.completed{border-color:var(--sage);background:var(--green);cursor:default}
+.stage-item:hover:not(.locked):not(.completed){border-color:var(--blue);background:var(--blue-pale)}
+.stage-item.completed{border-color:var(--blue);background:var(--yellow-pale);cursor:default}
 .stage-item.locked{opacity:0.45;cursor:not-allowed}
-.stage-num{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;flex-shrink:0;background:var(--purple);color:var(--cover)}
-.stage-item.completed .stage-num{background:var(--teal-500);color:#fff}
+.stage-num{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;flex-shrink:0;background:var(--yellow);color:var(--blue)}
+.stage-item.completed .stage-num{background:var(--blue);color:#fff}
 .stage-item.locked .stage-num{background:var(--gray-200);color:var(--gray-400)}
 .stage-info{flex:1}
 .stage-title{font-weight:700;font-size:16px;color:var(--gray-800)}
 .stage-sub{font-size:13px;color:var(--gray-600);font-weight:500}
 .stage-badge{font-size:12px;padding:4px 12px;border-radius:20px;font-weight:700}
-.badge-done{background:var(--green);color:var(--teal-600)}
-.badge-pending{background:var(--yellow);color:#9A6B1E}
+.badge-done{background:var(--yellow);color:var(--blue)}
+.badge-pending{background:var(--blue-pale);color:var(--blue)}
 .badge-locked{background:var(--gray-200);color:var(--gray-500)}
 .q-item{padding:16px 0;border-bottom:1px solid var(--gray-100)}
 .q-item:last-child{border-bottom:none}
 .q-item.missing{background:rgba(231,111,81,0.05);border-radius:8px;padding:16px 12px;border:1px solid rgba(231,111,81,0.2)}
 .q-text{font-size:16px;font-weight:500;color:var(--gray-800);margin-bottom:10px}
-.q-num{font-weight:700;color:var(--teal-600);margin-right:6px}
+.q-num{font-weight:700;color:var(--blue);margin-right:6px}
 .section-header{font-size:17px;font-weight:700;color:var(--cover);margin:28px 0 8px;padding-top:20px;border-top:2px solid var(--gray-200)}
 .section-header:first-child{border-top:none;margin-top:0;padding-top:0}
 .section-sub{font-size:13px;font-weight:500;color:var(--gray-500);margin-left:8px}
 .feedback-section{margin-top:16px}
 .feedback-label{font-size:16px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:6px;color:var(--gray-800)}
-.feedback-label .pos{color:var(--teal-600)}
+.feedback-label .pos{color:var(--blue)}
 .feedback-label .neg{color:var(--coral)}
 .feedback-input{width:100%;padding:12px 14px;border:1.5px solid var(--gray-200);border-radius:10px;font-size:15px;font-family:inherit;resize:vertical;min-height:60px;outline:none;transition:border-color .2s}
-.feedback-input:focus{border-color:var(--teal-500)}
+.feedback-input:focus{border-color:var(--blue)}
 .feedback-input.error{border-color:var(--coral)}
 .topbar{display:flex;justify-content:space-between;align-items:center;padding:12px 0;margin-bottom:8px}
 .topbar-user{font-size:16px;color:var(--gray-800);font-weight:600}
 .topbar-user strong{color:var(--cover);font-weight:700}
 .btn-logout{padding:10px 24px;font-size:15px;border-radius:10px;background:var(--pink);color:var(--coral);border:2px solid var(--coral);cursor:pointer;font-family:inherit;font-weight:700;transition:all .2s}
 .btn-logout:hover{background:var(--coral);color:#fff;border-color:var(--coral)}
-.consent-box{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;background:var(--green);border-radius:12px;margin-top:16px;cursor:pointer}
-.consent-box input{margin-top:3px;width:18px;height:18px;accent-color:var(--teal-500)}
+.consent-box{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;background:var(--yellow-pale);border-radius:12px;margin-top:16px;cursor:pointer;border:1.5px solid var(--yellow)}
+.consent-box input{margin-top:3px;width:18px;height:18px;accent-color:var(--blue)}
 .consent-text{font-size:15px;line-height:1.6;font-weight:500;color:var(--gray-800)}
 .page{display:none}.page.active{display:block}
 .thank-you{text-align:center;padding:40px 0}
-.thank-you h2{font-size:28px;background:linear-gradient(135deg,var(--teal-500),var(--peach));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:16px}
+.thank-you h2{font-size:28px;background:linear-gradient(135deg,var(--blue),var(--yellow));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:16px}
 
 /* ===== 流程圖 ===== */
-.flow-chart{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:0;margin-bottom:20px;padding:16px 8px;background:linear-gradient(135deg,var(--blue),var(--purple));border-radius:14px;border:1px solid rgba(43,76,111,0.1)}
+.flow-chart{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:0;margin-bottom:20px;padding:16px 8px;background:var(--yellow-pale);border-radius:14px;border:2px solid var(--yellow)}
 .flow-step{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:44px;position:relative}
-.flow-icon{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;border:2.5px solid rgba(43,76,111,0.2);background:#fff;color:var(--cover);transition:all .3s}
-.flow-step.done .flow-icon{background:var(--teal-500);border-color:var(--teal-500);color:#fff}
-.flow-step.current .flow-icon{background:var(--peach);border-color:var(--peach);color:#fff;box-shadow:0 0 0 4px rgba(244,162,97,0.25);animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{box-shadow:0 0 0 4px rgba(244,162,97,0.25)}50%{box-shadow:0 0 0 8px rgba(244,162,97,0.1)}}
+.flow-icon{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;border:2.5px solid var(--blue);background:#fff;color:var(--blue);transition:all .3s}
+.flow-step.done .flow-icon{background:var(--blue);border-color:var(--blue);color:#fff}
+.flow-step.current .flow-icon{background:var(--yellow);border-color:var(--yellow);color:var(--blue);box-shadow:0 0 0 4px rgba(255,219,0,0.4);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 4px rgba(255,219,0,0.4)}50%{box-shadow:0 0 0 8px rgba(255,219,0,0.15)}}
 .flow-step.locked .flow-icon{background:var(--gray-100);border-color:var(--gray-200);color:var(--gray-400)}
 .flow-label{font-size:9px;color:var(--gray-700);text-align:center;max-width:50px;line-height:1.2;font-weight:600}
-.flow-step.done .flow-label{color:var(--teal-600);font-weight:700}
-.flow-step.current .flow-label{color:var(--coral);font-weight:700}
-.flow-arrow{font-size:14px;color:var(--gray-400);margin:0 1px;flex-shrink:0;align-self:center;margin-bottom:16px}
-.flow-step.done + .flow-arrow{color:var(--teal-500)}
+.flow-step.done .flow-label{color:var(--blue);font-weight:700}
+.flow-step.current .flow-label{color:var(--cover-alt);font-weight:700}
+.flow-arrow{font-size:14px;color:var(--blue);margin:0 1px;flex-shrink:0;align-self:center;margin-bottom:16px}
+.flow-step.done + .flow-arrow{color:var(--blue)}
 
 /* ===== 影片區塊 ===== */
 .video-section{margin-bottom:20px}
@@ -118,13 +120,13 @@ body{font-family:'Noto Sans TC','Outfit',sans-serif;background:var(--bg);backgro
 .video-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none}
 
 /* ===== 結論欄位 ===== */
-.conclusion-section{margin-bottom:20px;padding:16px;background:var(--yellow);border-radius:12px;border:1px solid rgba(244,162,97,0.2)}
+.conclusion-section{margin-bottom:20px;padding:16px;background:var(--yellow-pale);border-radius:12px;border:2px solid var(--yellow)}
 .conclusion-label{font-size:16px;font-weight:700;color:var(--cover);margin-bottom:8px;display:flex;align-items:center;gap:6px}
 
 /* ===== 傳送狀態提示 ===== */
 .sync-status{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);padding:10px 20px;border-radius:10px;font-size:13px;font-weight:500;z-index:9999;transition:opacity .3s;pointer-events:none}
-.sync-ok{background:var(--teal-500);color:#fff;box-shadow:0 4px 12px rgba(43,122,120,0.3)}
-.sync-fail{background:var(--coral);color:#fff;box-shadow:0 4px 12px rgba(231,111,81,0.3)}
+.sync-ok{background:var(--blue);color:#fff;box-shadow:0 4px 12px rgba(0,81,186,0.3)}
+.sync-fail{background:var(--coral);color:#fff;box-shadow:0 4px 12px rgba(212,85,61,0.3)}
 
 @media(max-width:480px){.app{padding:12px 10px 40px}.card{padding:20px 16px}.likert-btn{font-size:13px;padding:8px 1px}.likert-labels{font-size:12px}.flow-chart{gap:0;padding:12px 4px}.flow-icon{width:28px;height:28px;font-size:11px}.flow-label{font-size:8px;max-width:40px}.flow-arrow{font-size:10px}}
 </style>
@@ -134,7 +136,67 @@ body{font-family:'Noto Sans TC','Outfit',sans-serif;background:var(--bg);backgro
 
 <!-- LOGIN -->
 <div class="page active" id="page-login">
-  <div class="header"><h1 onclick="secretReset()" style="cursor:default">消費者決策研究</h1><p>課程互動平台（控制組）</p></div>
+  <div style="background:var(--yellow);padding:16px 0 0;border-radius:0 0 24px 24px;margin-bottom:16px">
+    <div class="header" style="padding:16px 0 0"><h1 onclick="secretReset()" style="cursor:default;color:var(--blue)">消費者決策研究</h1><p style="color:var(--blue)">課程互動平台（控制組）</p></div>
+    <div style="text-align:center;padding:0 20px 12px">
+      <svg width="260" height="180" viewBox="0 0 680 380" style="max-width:100%">
+        <rect x="0" y="280" width="680" height="100" fill="#F5F0E0" rx="0"/>
+        <rect x="0" y="270" width="680" height="14" fill="#FFDB00" rx="0"/>
+        <polygon points="40,120 140,120 150,160 30,160" fill="#0051BA"/>
+        <polygon points="60,120 80,120 85,160 55,160" fill="#003D8F"/>
+        <polygon points="100,120 120,120 125,160 95,160" fill="#003D8F"/>
+        <rect x="50" y="160" width="90" height="120" fill="#E8E4D8" stroke="#0051BA" stroke-width="1"/>
+        <rect x="65" y="180" width="25" height="40" fill="#FFDB00" rx="2"/>
+        <rect x="100" y="180" width="25" height="40" fill="#B8D4F0" rx="2"/>
+        <polygon points="520,140 640,140 650,175 510,175" fill="#FFDB00"/>
+        <polygon points="545,140 570,140 575,175 540,175" fill="#E8B800"/>
+        <polygon points="595,140 620,140 625,175 590,175" fill="#E8B800"/>
+        <rect x="525" y="175" width="110" height="105" fill="#E8E4D8" stroke="#FFDB00" stroke-width="1"/>
+        <rect x="545" y="195" width="30" height="35" fill="#0051BA" rx="2"/>
+        <rect x="590" y="195" width="30" height="35" fill="#0051BA" rx="2"/>
+        <g transform="translate(320, 180)">
+          <polyline points="0,60 10,20 90,20 95,55 20,55" fill="none" stroke="#0051BA" stroke-width="2.5" stroke-linejoin="round"/>
+          <line x1="95" y1="55" x2="20" y2="55" stroke="#0051BA" stroke-width="2.5"/>
+          <line x1="0" y1="60" x2="-15" y2="75" stroke="#0051BA" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="35" cy="62" r="6" fill="#0051BA"/><circle cx="35" cy="62" r="3" fill="white"/>
+          <circle cx="80" cy="62" r="6" fill="#0051BA"/><circle cx="80" cy="62" r="3" fill="white"/>
+          <rect x="20" y="25" width="22" height="28" fill="#FFDB00" rx="3"/>
+          <rect x="45" y="22" width="18" height="31" fill="#FFE84D" rx="3"/>
+          <rect x="66" y="28" width="20" height="25" fill="#FFDB00" rx="3"/>
+          <rect x="55" y="5" width="20" height="22" fill="#FFDB00" rx="2"/>
+          <path d="M60,5 Q65,-5 70,5" fill="none" stroke="#E8B800" stroke-width="1.5"/>
+        </g>
+        <g transform="translate(280, 120)">
+          <circle cx="20" cy="15" r="16" fill="#F5D0A9"/>
+          <path d="M5,12 Q8,-5 25,-2 Q38,0 35,15" fill="#2D2D2D"/>
+          <rect x="8" y="30" width="24" height="35" fill="#0051BA" rx="4"/>
+          <line x1="8" y1="38" x2="-5" y2="55" stroke="#F5D0A9" stroke-width="5" stroke-linecap="round"/>
+          <line x1="32" y1="38" x2="52" y2="60" stroke="#F5D0A9" stroke-width="5" stroke-linecap="round"/>
+          <line x1="14" y1="65" x2="8" y2="100" stroke="#2D3748" stroke-width="5" stroke-linecap="round"/>
+          <line x1="26" y1="65" x2="35" y2="100" stroke="#2D3748" stroke-width="5" stroke-linecap="round"/>
+          <ellipse cx="5" cy="102" rx="8" ry="4" fill="#0051BA"/>
+          <ellipse cx="38" cy="102" rx="8" ry="4" fill="#0051BA"/>
+        </g>
+        <g transform="translate(248, 160)">
+          <rect x="0" y="0" width="22" height="26" fill="#FFDB00" rx="3"/>
+          <path d="M5,0 Q11,-10 17,0" fill="none" stroke="#E8B800" stroke-width="1.5"/>
+        </g>
+        <text x="370" y="90" font-family="Georgia, serif" font-size="42" font-weight="700" fill="#0051BA">?</text>
+        <text x="405" y="65" font-family="Georgia, serif" font-size="28" font-weight="700" fill="#FFDB00">?</text>
+        <text x="345" y="70" font-family="Georgia, serif" font-size="22" font-weight="700" fill="#003D8F">?</text>
+        <g fill="#FFDB00">
+          <polygon points="430,95 433,105 443,105 435,111 438,121 430,115 422,121 425,111 417,105 427,105"/>
+        </g>
+        <circle cx="460" cy="130" r="3" fill="#0051BA"/>
+        <circle cx="240" cy="95" r="2" fill="#0051BA"/>
+        <g fill="#E8E4D8" opacity="0.6">
+          <ellipse cx="560" cy="55" rx="35" ry="15"/>
+          <ellipse cx="540" cy="50" rx="20" ry="12"/>
+          <ellipse cx="580" cy="50" rx="18" ry="10"/>
+        </g>
+      </svg>
+    </div>
+  </div>
   <div class="card">
     <div class="card-title"><div class="icon icon-purple">🔑</div>登入</div>
     <div class="form-group">
@@ -177,7 +239,7 @@ body{font-family:'Noto Sans TC','Outfit',sans-serif;background:var(--bg);backgro
   <div class="header"><h1>消費者決策研究</h1><p id="demo-header-sub">基本資料</p></div>
   <div class="card">
     <div class="card-title"><div class="icon icon-mint">👤</div><span id="demo-card-title">基本資料</span></div>
-    <div id="demo-confirm-banner" style="display:none;background:var(--green);border-radius:12px;padding:14px 16px;margin-bottom:20px;font-size:15px;color:var(--teal-500)">
+    <div id="demo-confirm-banner" style="display:none;background:var(--yellow-pale);border-radius:12px;padding:14px 16px;margin-bottom:20px;font-size:15px;color:var(--blue);border:1.5px solid var(--yellow)">
       歡迎回來！請確認以下資料是否正確，如需修改可直接編輯。
     </div>
     <div class="form-group"><label class="form-label">姓名<span class="required">*</span></label><input class="form-input" id="demo-name" placeholder="請輸入姓名"></div>
@@ -237,7 +299,7 @@ body{font-family:'Noto Sans TC','Outfit',sans-serif;background:var(--bg);backgro
       <div class="video-title">🎬 課程影片</div>
       <div class="video-wrap"><iframe id="fb-video" src="" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe></div>
     </div>
-    <div id="fb-prompt" style="background:var(--blue);border-radius:12px;padding:14px 16px;margin-bottom:20px;font-size:15px;color:var(--cover)"></div>
+    <div id="fb-prompt" style="background:var(--blue-pale);border-radius:12px;padding:14px 16px;margin-bottom:20px;font-size:15px;color:var(--blue);border:1.5px solid var(--blue)"></div>
     <!-- Conclusion -->
     <div class="conclusion-section">
       <div class="conclusion-label">📌 小組結論答案<span class="required">*</span></div>
@@ -431,7 +493,7 @@ function handleLogin(){
     if(loginStep===1){
       document.getElementById('login-id2-group').style.display='block';
       document.getElementById('login-id2').focus();
-      err.textContent='首次登入，請再次輸入學號確認';err.classList.add('show');err.style.color='var(--teal-500)';loginStep=2;return;
+      err.textContent='首次登入，請再次輸入學號確認';err.classList.add('show');err.style.color='var(--blue)';loginStep=2;return;
     }
     const id2=document.getElementById('login-id2').value.trim().toUpperCase();
     if(!id2){err.textContent='請再次輸入學號確認';err.style.color='';err.classList.add('show');return}
