@@ -375,12 +375,38 @@ const SHEET_URL='https://script.google.com/macros/s/AKfycbzTEM5Wt4em-4ezpId6gHwD
 
 function sendToSheet(d){
   if(!SHEET_URL)return;
-  const blob=new Blob([JSON.stringify(d)],{type:'application/json'});
-  const sent=navigator.sendBeacon&&navigator.sendBeacon(SHEET_URL,blob);
-  if(!sent){
-    fetch(SHEET_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify(d)}).then(()=>{showSyncStatus('✓ 資料已送出','ok')}).catch(()=>{showSyncStatus('✗ 傳送失敗，請檢查網路','fail')});return;
+  try{
+    // Method 1: Try sendBeacon with text/plain (most reliable for GAS)
+    var data = JSON.stringify(d);
+    var beaconSent = false;
+    if(navigator.sendBeacon){
+      beaconSent = navigator.sendBeacon(SHEET_URL, new Blob([data],{type:'text/plain'}));
+    }
+    if(beaconSent){
+      showSyncStatus('✓ 資料已送出','ok');
+      return;
+    }
+    // Method 2: Hidden form + iframe fallback
+    var iframe = document.createElement('iframe');
+    iframe.name = 'gas_submit_' + Date.now();
+    iframe.style.display = 'none';
+    document.body.appendChild(iframe);
+    var form = document.createElement('form');
+    form.method = 'POST';
+    form.action = SHEET_URL;
+    form.target = iframe.name;
+    var input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'data';
+    input.value = data;
+    form.appendChild(input);
+    document.body.appendChild(form);
+    form.submit();
+    showSyncStatus('✓ 資料已送出','ok');
+    setTimeout(()=>{form.remove();iframe.remove()},5000);
+  }catch(err){
+    showSyncStatus('✗ 傳送失敗','fail');
   }
-  showSyncStatus('✓ 資料已送出','ok');
 }
 
 function showSyncStatus(msg,type){const el=document.getElementById('sync-status');el.textContent=msg;el.className='sync-status '+(type==='ok'?'sync-ok':'sync-fail');el.style.opacity='1';setTimeout(()=>{el.style.opacity='0'},3000)}
