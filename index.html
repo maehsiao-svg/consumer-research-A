@@ -11,7 +11,7 @@
   --mint-50:#ecfdf5;--mint-100:#d1fae5;--mint-200:#a7f3d0;--mint-400:#34d399;--mint-500:#10b981;--mint-600:#059669;
   --coral-400:#f87171;--coral-500:#ef4444;--amber-400:#fbbf24;--amber-500:#f59e0b;
   --gray-50:#fafafa;--gray-100:#f4f4f5;--gray-200:#e4e4e7;--gray-300:#d4d4d8;--gray-400:#a1a1aa;--gray-500:#71717a;--gray-600:#52525b;--gray-700:#3f3f46;--gray-800:#27272a;
-  --bg:linear-gradient(135deg,#2e1065 0%,#4c1d95 30%,#5b21b6 60%,#6d28d9 100%);
+  --bg:linear-gradient(135deg,#1e1b4b 0%,#312e81 25%,#4c1d95 50%,#5b21b6 75%,#4338ca 100%);
   --card-bg:rgba(255,255,255,0.92);--card-border:rgba(124,92,212,0.18);--shadow:0 4px 24px rgba(0,0,0,0.15);--radius:16px;
 }
 *{margin:0;padding:0;box-sizing:border-box}
@@ -122,7 +122,7 @@ body{font-family:'Noto Sans TC','Outfit',sans-serif;background:var(--bg);min-hei
 <body>
 <div class="app" id="app">
 
-<!-- LOGIN (首次：輸入2次學號 / 回訪：輸入1次) -->
+<!-- LOGIN (一律先顯示1個學號輸入) -->
 <div class="page active" id="page-login">
   <div class="header"><h1 onclick="secretReset()" style="cursor:default">消費者決策研究</h1><p>課程互動平台（控制組）</p></div>
   <div class="card">
@@ -131,7 +131,7 @@ body{font-family:'Noto Sans TC','Outfit',sans-serif;background:var(--bg);min-hei
       <label class="form-label">請輸入學號<span class="required">*</span></label>
       <input class="form-input" id="login-id1" placeholder="例：B11234567" maxlength="20" style="text-transform:uppercase">
     </div>
-    <div class="form-group" id="login-id2-group">
+    <div class="form-group" id="login-id2-group" style="display:none">
       <label class="form-label">請再次輸入學號<span class="required">*</span></label>
       <input class="form-input" id="login-id2" placeholder="再次輸入確認" maxlength="20" style="text-transform:uppercase">
     </div>
@@ -386,9 +386,10 @@ function showPage(id){document.querySelectorAll('.page').forEach(p=>p.classList.
 function selR(el,gid){document.querySelectorAll('#'+gid+' .radio-option').forEach(o=>o.classList.remove('selected'));el.classList.add('selected');el.querySelector('input').checked=true}
 
 // ===== LOGIN =====
-// 首次：輸入2次學號 → 同意書 → 基本資料 → 前測
-// 回訪：輸入1次學號 → 顯示基本資料(確認/修改) → 課程總覽
+// 一律先顯示1個學號輸入
+// 輸入後判斷：新用戶 → 出現第2個學號欄位；舊用戶 → 直接進入確認基本資料
 let isReturningUser = false;
+let loginStep = 1; // 1=第一次按, 2=新用戶已顯示第二欄
 
 function handleLogin(){
   const id1=document.getElementById('login-id1').value.trim().toUpperCase();
@@ -396,35 +397,44 @@ function handleLogin(){
   
   if(!id1){err.textContent='請輸入學號';err.classList.add('show');return}
   
-  // 檢查是否為回訪用戶
+  // 先載入 localStorage 看看是否為回訪用戶
   loadState();
   const returning = state.studentId===id1 && state.consented && state.pretest;
   
   if(returning){
-    // 回訪用戶：學號只要1次，直接進入基本資料確認頁
+    // ===== 回訪用戶：只要1次學號 =====
     err.classList.remove('show');
     isReturningUser = true;
+    loginStep = 1;
     
     if(state.posttest_done){
       showPage('page-thankyou');
     } else {
-      // 顯示基本資料確認頁（帶入已存資料）
       fillDemoFromState();
       showPage('page-demo');
     }
   } else {
-    // 首次用戶：需要輸入2次學號
-    const id2el = document.getElementById('login-id2');
-    const id2 = id2el.value.trim().toUpperCase();
+    // ===== 新用戶：需要輸入2次學號 =====
+    if(loginStep === 1){
+      // 第一次按：顯示第二個學號欄位
+      document.getElementById('login-id2-group').style.display='block';
+      document.getElementById('login-id2').focus();
+      err.textContent='首次登入，請再次輸入學號確認';
+      err.classList.add('show');
+      err.style.color='var(--purple-500)'; // 用紫色提示，不是紅色錯誤
+      loginStep = 2;
+      return;
+    }
     
-    // 顯示第二次輸入欄位
-    document.getElementById('login-id2-group').style.display='block';
-    
-    if(!id2){err.textContent='請再次輸入學號確認';err.classList.add('show');id2el.focus();return}
-    if(id1!==id2){err.textContent='兩次輸入的學號不一致，請重新確認';err.classList.add('show');return}
+    // 第二次按：驗證兩次學號是否一致
+    const id2 = document.getElementById('login-id2').value.trim().toUpperCase();
+    if(!id2){err.textContent='請再次輸入學號確認';err.style.color='';err.classList.add('show');return}
+    if(id1!==id2){err.textContent='兩次輸入的學號不一致，請重新確認';err.style.color='';err.classList.add('show');return}
     
     err.classList.remove('show');
+    err.style.color='';
     isReturningUser = false;
+    loginStep = 1;
     state={studentId:id1,group:'control'};saveState();
     showPage('page-consent');
   }
@@ -698,27 +708,23 @@ function handlePosttest(){
   sendToSheet({type:'posttest',studentId:state.studentId,data:state});showPage('page-thankyou');
 }
 
-function handleLogout(){showPage('page-login');document.getElementById('login-id1').value='';document.getElementById('login-id2').value=''}
+// handleLogout 定義在 INIT 區塊
 
 // SECRET RESET
 let _tapCount=0,_tapTimer=null;
 function secretReset(){_tapCount++;if(_tapTimer)clearTimeout(_tapTimer);_tapTimer=setTimeout(()=>{_tapCount=0},2000);if(_tapCount>=5){if(confirm("確定要清除所有測試資料嗎？")){localStorage.removeItem("socialai_ctrl_v2");_tapCount=0;alert("資料已清除，頁面將重新載入");location.reload()}}}
 
-// INIT — 永遠從登入頁開始，回訪用戶只需輸入學號1次
+// INIT — 永遠從登入頁開始
 loadState();
-
-// 檢查是否為回訪用戶，如果是就隱藏第二個學號欄位
-(function(){
-  const saved = localStorage.getItem('socialai_ctrl_v2');
-  if(saved){
-    try{
-      const s=JSON.parse(saved);
-      if(s.studentId && s.consented && s.pretest){
-        document.getElementById('login-id2-group').style.display='none';
-      }
-    }catch(e){}
-  }
-})();
+// 登出時也重置 loginStep
+function handleLogout(){
+  showPage('page-login');
+  document.getElementById('login-id1').value='';
+  document.getElementById('login-id2').value='';
+  document.getElementById('login-id2-group').style.display='none';
+  document.getElementById('login-error').classList.remove('show');
+  loginStep = 1;
+}
 </script>
 </body>
 </html>
