@@ -100,17 +100,17 @@ body{font-family:'Noto Sans TC','Outfit',sans-serif;background:var(--bg);min-hei
 .thank-you h2{font-size:28px;background:linear-gradient(135deg,var(--blue),var(--yellow));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:16px}
 
 /* ===== 流程圖 ===== */
-.flow-chart{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:0;margin-bottom:20px;padding:16px 8px;background:var(--yellow-pale);border-radius:14px;border:2px solid var(--yellow)}
-.flow-step{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:44px;position:relative}
-.flow-icon{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;border:2.5px solid var(--blue);background:#fff;color:var(--blue);transition:all .3s}
+.flow-chart{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:0;margin-bottom:20px;padding:18px 10px;background:var(--yellow-pale);border-radius:14px;border:2px solid var(--yellow)}
+.flow-step{display:flex;flex-direction:column;align-items:center;gap:5px;min-width:50px;position:relative}
+.flow-icon{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;border:2.5px solid var(--blue);background:#fff;color:var(--blue);transition:all .3s}
 .flow-step.done .flow-icon{background:var(--blue);border-color:var(--blue);color:#fff}
 .flow-step.current .flow-icon{background:var(--yellow);border-color:var(--yellow);color:var(--blue);box-shadow:0 0 0 4px rgba(255,219,0,0.4);animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{box-shadow:0 0 0 4px rgba(255,219,0,0.4)}50%{box-shadow:0 0 0 8px rgba(255,219,0,0.15)}}
-.flow-step.locked .flow-icon{background:var(--gray-100);border-color:var(--gray-200);color:var(--gray-400)}
-.flow-label{font-size:9px;color:var(--gray-700);text-align:center;max-width:50px;line-height:1.2;font-weight:600}
-.flow-step.done .flow-label{color:var(--blue);font-weight:700}
-.flow-step.current .flow-label{color:var(--cover-alt);font-weight:700}
-.flow-arrow{font-size:14px;color:var(--blue);margin:0 1px;flex-shrink:0;align-self:center;margin-bottom:16px}
+.flow-step.locked .flow-icon{background:var(--gray-200);border-color:var(--gray-300);color:var(--gray-500)}
+.flow-label{font-size:11px;color:var(--gray-700);text-align:center;max-width:56px;line-height:1.3;font-weight:700}
+.flow-step.done .flow-label{color:var(--blue)}
+.flow-step.current .flow-label{color:var(--cover-alt)}
+.flow-arrow{font-size:14px;color:var(--blue);margin:0 1px;flex-shrink:0;align-self:center;margin-bottom:20px}
 .flow-step.done + .flow-arrow{color:var(--blue)}
 
 /* ===== 影片區塊 ===== */
@@ -128,7 +128,7 @@ body{font-family:'Noto Sans TC','Outfit',sans-serif;background:var(--bg);min-hei
 .sync-ok{background:var(--blue);color:#fff;box-shadow:0 4px 12px rgba(0,81,186,0.3)}
 .sync-fail{background:var(--coral);color:#fff;box-shadow:0 4px 12px rgba(212,85,61,0.3)}
 
-@media(max-width:480px){.app{padding:12px 10px 40px}.card{padding:20px 16px}.likert-btn{font-size:13px;padding:8px 1px}.likert-labels{font-size:12px}.flow-chart{gap:0;padding:12px 4px}.flow-icon{width:28px;height:28px;font-size:11px}.flow-label{font-size:8px;max-width:40px}.flow-arrow{font-size:10px}}
+@media(max-width:480px){.app{padding:12px 10px 40px}.card{padding:20px 16px}.likert-btn{font-size:13px;padding:8px 1px}.likert-labels{font-size:12px}.flow-chart{gap:0;padding:14px 6px}.flow-icon{width:32px;height:32px;font-size:12px}.flow-label{font-size:10px;max-width:48px}.flow-arrow{font-size:12px}}
 </style>
 </head>
 <body>
@@ -647,7 +647,7 @@ function renderDashboard(){
     div.innerHTML=`
       <div class="stage-num">${done?'✓':s.isCourse?'📖':s.isFinal?'📝':s.id}</div>
       <div class="stage-info"><div class="stage-title">${s.title}</div><div class="stage-sub">${s.sub}</div></div>
-      <span class="stage-badge ${done?'badge-done':locked?'badge-locked':'badge-pending'}">${done?'已完成':locked?'未開放':'待填寫'}</span>`;
+      <span class="stage-badge ${done?'badge-done':locked?'badge-locked':'badge-pending'}">${done?'已完成':locked?'未開放':(s.isCourse||s.isFinal)?'待觀看':'待填寫'}</span>`;
     if(!done&&!locked){
       if(s.isCourse){div.onclick=()=>openCourseIntro()}
       else if(s.isFinal){div.onclick=()=>openFinalReport()}
@@ -661,7 +661,7 @@ function renderDashboard(){
   const ptDiv=document.createElement('div');
   ptDiv.className=`stage-item ${state.posttest_done?'completed':allDone?'':'locked'}`;
   ptDiv.innerHTML=`
-    <div class="stage-num" style="${state.posttest_done?'background:var(--teal-500);color:#fff':allDone?'background:var(--pink);color:var(--coral)':'background:var(--gray-200);color:var(--gray-400)'}">📝</div>
+    <div class="stage-num" style="${state.posttest_done?'background:var(--blue);color:#fff':allDone?'background:var(--yellow);color:var(--blue)':'background:var(--gray-200);color:var(--gray-400)'}">📝</div>
     <div class="stage-info"><div class="stage-title">後測問卷</div><div class="stage-sub">Post-test Survey</div></div>
     <span class="stage-badge ${state.posttest_done?'badge-done':allDone?'badge-pending':'badge-locked'}">${state.posttest_done?'已完成':allDone?'待填寫':'未開放'}</span>`;
   if(allDone&&!state.posttest_done){ptDiv.onclick=()=>{renderSurvey('posttest-items',POSTTEST,'post_');showPage('page-posttest')}}
