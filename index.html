@@ -293,6 +293,17 @@ body{font-family:'Noto Sans TC','Outfit',sans-serif;background:var(--bg);min-hei
         <label class="radio-option" onclick="selR(this,'demo-aitool')"><input type="radio" name="aitool" value="沒用過"><span class="radio-dot"></span>沒用過</label>
       </div>
     </div>
+    <div class="form-group">
+      <label class="form-label">您使用生成式AI工具的頻率為何？<span class="required">*</span></label>
+      <div class="radio-group" id="demo-aifreq">
+        <label class="radio-option" onclick="selR(this,'demo-aifreq')"><input type="radio" name="aifreq" value="幾乎每天"><span class="radio-dot"></span>幾乎每天</label>
+        <label class="radio-option" onclick="selR(this,'demo-aifreq')"><input type="radio" name="aifreq" value="每週數次"><span class="radio-dot"></span>每週數次</label>
+        <label class="radio-option" onclick="selR(this,'demo-aifreq')"><input type="radio" name="aifreq" value="每週約一次"><span class="radio-dot"></span>每週約一次</label>
+        <label class="radio-option" onclick="selR(this,'demo-aifreq')"><input type="radio" name="aifreq" value="每月數次"><span class="radio-dot"></span>每月數次</label>
+        <label class="radio-option" onclick="selR(this,'demo-aifreq')"><input type="radio" name="aifreq" value="很少使用"><span class="radio-dot"></span>很少使用</label>
+        <label class="radio-option" onclick="selR(this,'demo-aifreq')"><input type="radio" name="aifreq" value="從未使用"><span class="radio-dot"></span>從未使用</label>
+      </div>
+    </div>
     <button class="btn btn-primary btn-block" id="demo-submit-btn" onclick="handleDemo()">下一步：前測問卷</button>
   </div>
 </div>
@@ -543,6 +554,7 @@ function fillDemoFromState(){
   if(state.spending){document.querySelectorAll('#demo-spending input').forEach(inp=>{if(inp.value===state.spending){inp.checked=true;inp.closest('.radio-option').classList.add('selected')}})}
   if(state.ai_familiarity){document.querySelectorAll('#demo-ai input').forEach(inp=>{if(inp.value===state.ai_familiarity){inp.checked=true;inp.closest('.radio-option').classList.add('selected')}})}
   if(state.ai_tool){document.querySelectorAll('#demo-aitool input').forEach(inp=>{if(inp.value===state.ai_tool){inp.checked=true;inp.closest('.radio-option').classList.add('selected')}})}
+  if(state.ai_freq){document.querySelectorAll('#demo-aifreq input').forEach(inp=>{if(inp.value===state.ai_freq){inp.checked=true;inp.closest('.radio-option').classList.add('selected')}})}
   document.getElementById('demo-header-sub').textContent='確認基本資料';
   document.getElementById('demo-card-title').textContent='確認基本資料';
   document.getElementById('demo-confirm-banner').style.display='block';
@@ -558,16 +570,16 @@ function handleConsent(){if(!document.getElementById('consent-check').checked)re
 }
 
 function handleDemo(){
-  const n=document.getElementById('demo-name').value.trim(),g=document.querySelector('#demo-gender input:checked'),b=document.getElementById('demo-birth').value.trim(),d=document.getElementById('demo-dept').value.trim(),gr=document.querySelector('#demo-grade input:checked'),sp=document.querySelector('#demo-spending input:checked'),a=document.querySelector('#demo-ai input:checked'),at=document.querySelector('#demo-aitool input:checked');
-  if(!n||!g||!b||!d||!gr||!sp||!a||!at){alert('請填寫所有必填項目');return}
-  state.name=n;state.gender=g.value;state.birth=b;state.dept=d;state.grade=gr.value;state.spending=sp.value;state.ai_familiarity=a.value;state.ai_tool=at.value;state.demo_time=new Date().toISOString();saveState();
+  const n=document.getElementById('demo-name').value.trim(),g=document.querySelector('#demo-gender input:checked'),b=document.getElementById('demo-birth').value.trim(),d=document.getElementById('demo-dept').value.trim(),gr=document.querySelector('#demo-grade input:checked'),sp=document.querySelector('#demo-spending input:checked'),a=document.querySelector('#demo-ai input:checked'),at=document.querySelector('#demo-aitool input:checked'),af=document.querySelector('#demo-aifreq input:checked');
+  if(!n||!g||!b||!d||!gr||!sp||!a||!at||!af){alert('請填寫所有必填項目');return}
+  state.name=n;state.gender=g.value;state.birth=b;state.dept=d;state.grade=gr.value;state.spending=sp.value;state.ai_familiarity=a.value;state.ai_tool=at.value;state.ai_freq=af.value;state.demo_time=new Date().toISOString();saveState();
   renderSurvey('pretest-items',PRETEST,'pre_');showPage('page-pretest');
 }
 
 function handleDemoConfirm(){
-  const n=document.getElementById('demo-name').value.trim(),g=document.querySelector('#demo-gender input:checked'),b=document.getElementById('demo-birth').value.trim(),d=document.getElementById('demo-dept').value.trim(),gr=document.querySelector('#demo-grade input:checked'),sp=document.querySelector('#demo-spending input:checked'),a=document.querySelector('#demo-ai input:checked'),at=document.querySelector('#demo-aitool input:checked');
-  if(!n||!g||!b||!d||!gr||!sp||!a||!at){alert('請填寫所有必填項目');return}
-  state.name=n;state.gender=g.value;state.birth=b;state.dept=d;state.grade=gr.value;state.spending=sp.value;state.ai_familiarity=a.value;state.ai_tool=at.value;saveState();
+  const n=document.getElementById('demo-name').value.trim(),g=document.querySelector('#demo-gender input:checked'),b=document.getElementById('demo-birth').value.trim(),d=document.getElementById('demo-dept').value.trim(),gr=document.querySelector('#demo-grade input:checked'),sp=document.querySelector('#demo-spending input:checked'),a=document.querySelector('#demo-ai input:checked'),at=document.querySelector('#demo-aitool input:checked'),af=document.querySelector('#demo-aifreq input:checked');
+  if(!n||!g||!b||!d||!gr||!sp||!a||!at||!af){alert('請填寫所有必填項目');return}
+  state.name=n;state.gender=g.value;state.birth=b;state.dept=d;state.grade=gr.value;state.spending=sp.value;state.ai_familiarity=a.value;state.ai_tool=at.value;state.ai_freq=af.value;saveState();
   renderDashboard();showPage('page-dashboard');
 }
 
