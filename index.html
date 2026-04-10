@@ -252,6 +252,26 @@ body{font-family:'Noto Sans TC','Outfit',sans-serif;background:var(--bg);min-hei
       </div>
     </div>
     <div class="form-group"><label class="form-label">出生年份（西元）<span class="required">*</span></label><input class="form-input" id="demo-birth" type="number" placeholder="例：2003" min="1980" max="2010"></div>
+    <div class="form-group"><label class="form-label">就讀科系<span class="required">*</span></label><input class="form-input" id="demo-dept" placeholder="例：企業管理學系"></div>
+    <div class="form-group">
+      <label class="form-label">年級<span class="required">*</span></label>
+      <div class="radio-group" id="demo-grade">
+        <label class="radio-option" onclick="selR(this,'demo-grade')"><input type="radio" name="grade" value="大一"><span class="radio-dot"></span>大一</label>
+        <label class="radio-option" onclick="selR(this,'demo-grade')"><input type="radio" name="grade" value="大二"><span class="radio-dot"></span>大二</label>
+        <label class="radio-option" onclick="selR(this,'demo-grade')"><input type="radio" name="grade" value="大三"><span class="radio-dot"></span>大三</label>
+        <label class="radio-option" onclick="selR(this,'demo-grade')"><input type="radio" name="grade" value="大四"><span class="radio-dot"></span>大四</label>
+        <label class="radio-option" onclick="selR(this,'demo-grade')"><input type="radio" name="grade" value="研究生"><span class="radio-dot"></span>研究生</label>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">每月可支配消費金額（新台幣）<span class="required">*</span></label>
+      <div class="radio-group" id="demo-spending">
+        <label class="radio-option" onclick="selR(this,'demo-spending')"><input type="radio" name="spending" value="5000以下"><span class="radio-dot"></span>5,000 元以下</label>
+        <label class="radio-option" onclick="selR(this,'demo-spending')"><input type="radio" name="spending" value="5001-10000"><span class="radio-dot"></span>5,001 ~ 10,000 元</label>
+        <label class="radio-option" onclick="selR(this,'demo-spending')"><input type="radio" name="spending" value="10001-15000"><span class="radio-dot"></span>10,001 ~ 15,000 元</label>
+        <label class="radio-option" onclick="selR(this,'demo-spending')"><input type="radio" name="spending" value="15001以上"><span class="radio-dot"></span>15,001 元以上</label>
+      </div>
+    </div>
     <div class="form-group">
       <label class="form-label">您自評對生成式AI工具的操作與溝通（下達指令）熟悉度為何？<span class="required">*</span></label>
       <div class="radio-group" id="demo-ai">
@@ -260,6 +280,17 @@ body{font-family:'Noto Sans TC','Outfit',sans-serif;background:var(--bg);min-hei
         <label class="radio-option" onclick="selR(this,'demo-ai')"><input type="radio" name="ai" value="3"><span class="radio-dot"></span>普通</label>
         <label class="radio-option" onclick="selR(this,'demo-ai')"><input type="radio" name="ai" value="4"><span class="radio-dot"></span>熟悉</label>
         <label class="radio-option" onclick="selR(this,'demo-ai')"><input type="radio" name="ai" value="5"><span class="radio-dot"></span>非常熟悉</label>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">您最常使用的生成式AI工具<span class="required">*</span></label>
+      <div class="radio-group" id="demo-aitool">
+        <label class="radio-option" onclick="selR(this,'demo-aitool')"><input type="radio" name="aitool" value="ChatGPT"><span class="radio-dot"></span>ChatGPT</label>
+        <label class="radio-option" onclick="selR(this,'demo-aitool')"><input type="radio" name="aitool" value="Claude"><span class="radio-dot"></span>Claude</label>
+        <label class="radio-option" onclick="selR(this,'demo-aitool')"><input type="radio" name="aitool" value="Gemini"><span class="radio-dot"></span>Gemini</label>
+        <label class="radio-option" onclick="selR(this,'demo-aitool')"><input type="radio" name="aitool" value="Copilot"><span class="radio-dot"></span>Copilot</label>
+        <label class="radio-option" onclick="selR(this,'demo-aitool')"><input type="radio" name="aitool" value="其他"><span class="radio-dot"></span>其他</label>
+        <label class="radio-option" onclick="selR(this,'demo-aitool')"><input type="radio" name="aitool" value="沒用過"><span class="radio-dot"></span>沒用過</label>
       </div>
     </div>
     <button class="btn btn-primary btn-block" id="demo-submit-btn" onclick="handleDemo()">下一步：前測問卷</button>
@@ -506,8 +537,12 @@ function handleLogin(){
 function fillDemoFromState(){
   document.getElementById('demo-name').value=state.name||'';
   document.getElementById('demo-birth').value=state.birth||'';
+  document.getElementById('demo-dept').value=state.dept||'';
   if(state.gender){document.querySelectorAll('#demo-gender input').forEach(inp=>{if(inp.value===state.gender){inp.checked=true;inp.closest('.radio-option').classList.add('selected')}})}
+  if(state.grade){document.querySelectorAll('#demo-grade input').forEach(inp=>{if(inp.value===state.grade){inp.checked=true;inp.closest('.radio-option').classList.add('selected')}})}
+  if(state.spending){document.querySelectorAll('#demo-spending input').forEach(inp=>{if(inp.value===state.spending){inp.checked=true;inp.closest('.radio-option').classList.add('selected')}})}
   if(state.ai_familiarity){document.querySelectorAll('#demo-ai input').forEach(inp=>{if(inp.value===state.ai_familiarity){inp.checked=true;inp.closest('.radio-option').classList.add('selected')}})}
+  if(state.ai_tool){document.querySelectorAll('#demo-aitool input').forEach(inp=>{if(inp.value===state.ai_tool){inp.checked=true;inp.closest('.radio-option').classList.add('selected')}})}
   document.getElementById('demo-header-sub').textContent='確認基本資料';
   document.getElementById('demo-card-title').textContent='確認基本資料';
   document.getElementById('demo-confirm-banner').style.display='block';
@@ -523,16 +558,16 @@ function handleConsent(){if(!document.getElementById('consent-check').checked)re
 }
 
 function handleDemo(){
-  const n=document.getElementById('demo-name').value.trim(),g=document.querySelector('#demo-gender input:checked'),b=document.getElementById('demo-birth').value.trim(),a=document.querySelector('#demo-ai input:checked');
-  if(!n||!g||!b||!a){alert('請填寫所有必填項目');return}
-  state.name=n;state.gender=g.value;state.birth=b;state.ai_familiarity=a.value;state.demo_time=new Date().toISOString();saveState();
+  const n=document.getElementById('demo-name').value.trim(),g=document.querySelector('#demo-gender input:checked'),b=document.getElementById('demo-birth').value.trim(),d=document.getElementById('demo-dept').value.trim(),gr=document.querySelector('#demo-grade input:checked'),sp=document.querySelector('#demo-spending input:checked'),a=document.querySelector('#demo-ai input:checked'),at=document.querySelector('#demo-aitool input:checked');
+  if(!n||!g||!b||!d||!gr||!sp||!a||!at){alert('請填寫所有必填項目');return}
+  state.name=n;state.gender=g.value;state.birth=b;state.dept=d;state.grade=gr.value;state.spending=sp.value;state.ai_familiarity=a.value;state.ai_tool=at.value;state.demo_time=new Date().toISOString();saveState();
   renderSurvey('pretest-items',PRETEST,'pre_');showPage('page-pretest');
 }
 
 function handleDemoConfirm(){
-  const n=document.getElementById('demo-name').value.trim(),g=document.querySelector('#demo-gender input:checked'),b=document.getElementById('demo-birth').value.trim(),a=document.querySelector('#demo-ai input:checked');
-  if(!n||!g||!b||!a){alert('請填寫所有必填項目');return}
-  state.name=n;state.gender=g.value;state.birth=b;state.ai_familiarity=a.value;saveState();
+  const n=document.getElementById('demo-name').value.trim(),g=document.querySelector('#demo-gender input:checked'),b=document.getElementById('demo-birth').value.trim(),d=document.getElementById('demo-dept').value.trim(),gr=document.querySelector('#demo-grade input:checked'),sp=document.querySelector('#demo-spending input:checked'),a=document.querySelector('#demo-ai input:checked'),at=document.querySelector('#demo-aitool input:checked');
+  if(!n||!g||!b||!d||!gr||!sp||!a||!at){alert('請填寫所有必填項目');return}
+  state.name=n;state.gender=g.value;state.birth=b;state.dept=d;state.grade=gr.value;state.spending=sp.value;state.ai_familiarity=a.value;state.ai_tool=at.value;saveState();
   renderDashboard();showPage('page-dashboard');
 }
 
@@ -716,7 +751,8 @@ function openFeedback(stageId){
   document.getElementById('fb-prompt').innerHTML=`<strong>統一提問指令：</strong><br>「${currentStage.prompt}」`;
   // Show all fields
   document.querySelectorAll('.conclusion-section,.feedback-section').forEach(el=>el.style.display='block');
-  document.querySelector('#page-feedback .form-group:last-of-type').style.display='block';
+  // Explicitly show the source form-group (may have been hidden by openCourseIntro/openFinalReport)
+  document.querySelectorAll('#page-feedback .form-group').forEach(el=>el.style.display='block');
   // Reset
   document.getElementById('fb-conclusion').value='';document.getElementById('fb-conclusion').classList.remove('error');
   for(let i=1;i<=3;i++){document.getElementById('fb-pos-'+i).value='';document.getElementById('fb-neg-'+i).value='';
