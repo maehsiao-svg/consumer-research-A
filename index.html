@@ -71,6 +71,7 @@ body{font-family:'Noto Sans TC','Outfit',sans-serif;background:var(--bg);min-hei
 .stage-badge{font-size:12px;padding:4px 12px;border-radius:20px;font-weight:700}
 .badge-done{background:var(--yellow);color:var(--blue)}
 .badge-pending{background:var(--blue-pale);color:var(--blue)}
+.badge-draft{background:#FFF4E0;color:#D97706;border:1px solid #F5C572}
 .badge-locked{background:var(--gray-200);color:var(--gray-500)}
 .q-item{padding:16px 0;border-bottom:1px solid var(--gray-100)}
 .q-item:last-child{border-bottom:none}
@@ -123,10 +124,40 @@ body{font-family:'Noto Sans TC','Outfit',sans-serif;background:var(--bg);min-hei
 .conclusion-section{margin-bottom:20px;padding:16px;background:var(--yellow-pale);border-radius:12px;border:2px solid var(--yellow)}
 .conclusion-label{font-size:16px;font-weight:700;color:var(--cover);margin-bottom:8px;display:flex;align-items:center;gap:6px}
 
+/* ===== Draft 提示橫條 ===== */
+.draft-banner{background:#FFF4E0;border:2px solid #F5C572;border-radius:12px;padding:14px 16px;margin-bottom:16px;display:flex;align-items:flex-start;gap:10px;font-size:15px;color:#92400E}
+.draft-banner .draft-icon{font-size:20px;flex-shrink:0}
+.draft-banner strong{color:#B45309}
+
+/* ===== 唯讀歷史頁 ===== */
+.history-card{background:#fff;border:1.5px solid var(--gray-200);border-radius:12px;padding:18px 20px;margin-bottom:14px}
+.history-card-title{font-size:14px;font-weight:700;color:var(--blue);margin-bottom:6px}
+.history-card-content{font-size:15px;color:var(--gray-800);line-height:1.7;white-space:pre-wrap;word-break:break-word}
+.history-pos-list, .history-neg-list{margin-top:6px}
+.history-pos-list li, .history-neg-list li{margin-bottom:8px;padding:10px 14px;border-radius:8px;list-style-position:inside;line-height:1.6}
+.history-pos-list li{background:var(--blue-pale);border-left:3px solid var(--blue)}
+.history-neg-list li{background:#FEEAE6;border-left:3px solid var(--coral)}
+
+/* ===== 確認對話框 ===== */
+.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);display:none;align-items:center;justify-content:center;z-index:9998;padding:20px}
+.modal-overlay.show{display:flex}
+.modal-box{background:#fff;border-radius:16px;padding:24px;max-width:480px;width:100%;max-height:85vh;overflow-y:auto;box-shadow:0 12px 40px rgba(0,0,0,0.3)}
+.modal-title{font-size:20px;font-weight:700;color:var(--coral);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.modal-text{font-size:15px;color:var(--gray-700);line-height:1.7;margin-bottom:16px}
+.modal-buttons{display:flex;gap:10px;margin-top:20px}
+.modal-buttons .btn{flex:1;padding:12px 16px;font-size:15px}
+.btn-cancel{background:var(--gray-100);color:var(--gray-700);border:1.5px solid var(--gray-300)}
+.btn-cancel:hover{background:var(--gray-200)}
+.btn-confirm{background:var(--blue);color:#fff}
+.btn-confirm:hover{background:var(--cover-alt)}
+
 /* ===== 傳送狀態提示 ===== */
 .sync-status{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);padding:10px 20px;border-radius:10px;font-size:13px;font-weight:500;z-index:9999;transition:opacity .3s;pointer-events:none}
 .sync-ok{background:var(--blue);color:#fff;box-shadow:0 4px 12px rgba(0,81,186,0.3)}
 .sync-fail{background:var(--coral);color:#fff;box-shadow:0 4px 12px rgba(212,85,61,0.3)}
+
+/* ===== 版本號（左下角小字） ===== */
+.version-tag{position:fixed;bottom:8px;left:8px;font-size:10px;color:var(--gray-300);opacity:0.5;pointer-events:none;z-index:1}
 
 @media(max-width:480px){.app{padding:12px 10px 40px}.card{padding:20px 16px}.likert-btn{font-size:13px;padding:8px 1px}.likert-labels{font-size:12px}.flow-chart{gap:0;padding:14px 6px}.flow-icon{width:32px;height:32px;font-size:12px}.flow-label{font-size:10px;max-width:48px}.flow-arrow{font-size:12px}}
 </style>
@@ -240,7 +271,7 @@ body{font-family:'Noto Sans TC','Outfit',sans-serif;background:var(--bg);min-hei
   <div class="card">
     <div class="card-title"><div class="icon icon-mint">👤</div><span id="demo-card-title">基本資料</span></div>
     <div id="demo-confirm-banner" style="display:none;background:var(--yellow-pale);border-radius:12px;padding:14px 16px;margin-bottom:20px;font-size:15px;color:var(--blue);border:1.5px solid var(--yellow)">
-      歡迎回來！請確認以下資料是否正確，如需修改可直接編輯。
+      歡迎回來！請確認以下資料是否正確，<strong>可修改，確認無誤後送出</strong>。
     </div>
     <div class="form-group"><label class="form-label">姓名<span class="required">*</span></label><input class="form-input" id="demo-name" placeholder="請輸入姓名"></div>
     <div class="form-group">
@@ -313,6 +344,9 @@ body{font-family:'Noto Sans TC','Outfit',sans-serif;background:var(--bg);min-hei
   <div class="header"><h1>消費者決策研究</h1><p>前測問卷</p></div>
   <div class="card">
     <div class="card-title"><div class="icon icon-purple">📝</div>前測問卷</div>
+    <div id="pretest-resume-banner" style="display:none;background:var(--yellow-pale);border-radius:12px;padding:12px 14px;margin-bottom:14px;font-size:14px;color:var(--blue);border:1.5px solid var(--yellow)">
+      歡迎回來！您之前已完成基本資料，<strong>請繼續完成前測，才能進入課程總覽</strong>。
+    </div>
     <p style="font-size:14px;color:var(--gray-500);margin-bottom:4px">請依據您目前的真實感受作答</p>
     <p style="font-size:15px;color:var(--gray-700);margin-bottom:16px;font-weight:600;background:var(--yellow);padding:8px 12px;border-radius:8px">1＝非常不同意　2＝不同意　3＝有點不同意　4＝普通　5＝有點同意　6＝同意　7＝非常同意</p>
     <div id="pretest-items"></div>
@@ -333,9 +367,19 @@ body{font-family:'Noto Sans TC','Outfit',sans-serif;background:var(--bg);min-hei
 
 <!-- FEEDBACK (with video + conclusion) -->
 <div class="page" id="page-feedback">
-  <div class="topbar"><button class="btn-outline" onclick="showPage('page-dashboard')">← 返回總覽</button><button class="btn-logout" onclick="handleLogout()">⏻ 登出</button></div>
+  <div class="topbar"><button class="btn-outline" onclick="leaveFeedback()">← 返回總覽</button><button class="btn-logout" onclick="handleLogout()">⏻ 登出</button></div>
   <div class="card">
     <div class="card-title" id="fb-title"></div>
+
+    <!-- Draft 提示橫條（只在有草稿時顯示） -->
+    <div class="draft-banner" id="draft-banner" style="display:none">
+      <span class="draft-icon">📝</span>
+      <div>
+        <strong>已自動儲存上次的進度</strong><br>
+        <span style="font-size:13px">您之前填的內容已自動恢復，<strong>繼續完成即可送出</strong>。</span>
+      </div>
+    </div>
+
     <!-- Video -->
     <div class="video-section" id="fb-video-section">
       <div class="video-title">🎬 課程影片</div>
@@ -343,33 +387,45 @@ body{font-family:'Noto Sans TC','Outfit',sans-serif;background:var(--bg);min-hei
     </div>
     <div id="fb-prompt" style="background:var(--blue-pale);border-radius:12px;padding:14px 16px;margin-bottom:20px;font-size:15px;color:var(--blue);border:1.5px solid var(--blue)"></div>
     <!-- Conclusion -->
-    <div class="conclusion-section">
+    <div class="conclusion-section" id="conclusion-section">
       <div class="conclusion-label">📌 小組結論答案<span class="required">*</span></div>
       <p style="font-size:13px;color:var(--gray-500);margin-bottom:8px">請填寫小組討論後的最終結論（同組成員應填寫相同結論）</p>
       <textarea class="feedback-input" id="fb-conclusion" placeholder="輸入你們小組的結論答案..." style="min-height:80px"></textarea>
     </div>
-    <p style="font-size:14px;color:var(--gray-500);margin-bottom:16px">請走動詢問同學或從LINE群組收集回饋後，挑選最具代表性的3個正面意見和3個反面意見記錄於下方。</p>
-    <div class="feedback-section">
+    <p style="font-size:14px;color:var(--gray-500);margin-bottom:16px" id="fb-instruction">請走動詢問同學或從LINE群組收集回饋後，挑選最具代表性的3個正面意見和3個反面意見記錄於下方。</p>
+    <div class="feedback-section" id="fb-pos-section">
       <div class="feedback-label"><span class="pos">👍</span> 正面意見</div>
       <div class="form-group"><label class="form-label">正面意見 1<span class="required">*</span></label><textarea class="feedback-input" id="fb-pos-1" placeholder="記錄收到的正面回饋..."></textarea></div>
       <div class="form-group"><label class="form-label">正面意見 2<span class="required">*</span></label><textarea class="feedback-input" id="fb-pos-2" placeholder="記錄收到的正面回饋..."></textarea></div>
       <div class="form-group"><label class="form-label">正面意見 3<span class="required">*</span></label><textarea class="feedback-input" id="fb-pos-3" placeholder="記錄收到的正面回饋..."></textarea></div>
     </div>
-    <div class="feedback-section" style="margin-top:20px">
+    <div class="feedback-section" style="margin-top:20px" id="fb-neg-section">
       <div class="feedback-label"><span class="neg">👎</span> 反面意見</div>
       <div class="form-group"><label class="form-label">反面意見 1<span class="required">*</span></label><textarea class="feedback-input" id="fb-neg-1" placeholder="記錄收到的反面回饋..."></textarea></div>
       <div class="form-group"><label class="form-label">反面意見 2<span class="required">*</span></label><textarea class="feedback-input" id="fb-neg-2" placeholder="記錄收到的反面回饋..."></textarea></div>
       <div class="form-group"><label class="form-label">反面意見 3<span class="required">*</span></label><textarea class="feedback-input" id="fb-neg-3" placeholder="記錄收到的反面回饋..."></textarea></div>
     </div>
-    <div class="form-group" style="margin-top:16px">
+    <div class="form-group" style="margin-top:16px" id="fb-source-group">
       <label class="form-label">回饋來源<span class="required">*</span></label>
       <div class="radio-group" id="fb-source">
-        <label class="radio-option" onclick="selR(this,'fb-source')"><input type="radio" name="fb-source" value="面對面"><span class="radio-dot"></span>面對面詢問同學</label>
-        <label class="radio-option" onclick="selR(this,'fb-source')"><input type="radio" name="fb-source" value="LINE群組"><span class="radio-dot"></span>LINE群組</label>
-        <label class="radio-option" onclick="selR(this,'fb-source')"><input type="radio" name="fb-source" value="其他"><span class="radio-dot"></span>其他</label>
+        <label class="radio-option" onclick="selR(this,'fb-source');saveDraftCurrent()"><input type="radio" name="fb-source" value="面對面"><span class="radio-dot"></span>面對面詢問同學</label>
+        <label class="radio-option" onclick="selR(this,'fb-source');saveDraftCurrent()"><input type="radio" name="fb-source" value="LINE群組"><span class="radio-dot"></span>LINE群組</label>
+        <label class="radio-option" onclick="selR(this,'fb-source');saveDraftCurrent()"><input type="radio" name="fb-source" value="其他"><span class="radio-dot"></span>其他</label>
       </div>
     </div>
-    <button class="btn btn-primary btn-block" style="margin-top:20px" onclick="handleFeedback()">送出回饋紀錄</button>
+    <button class="btn btn-primary btn-block" style="margin-top:20px" id="fb-submit-btn" onclick="confirmFeedback()">送出回饋紀錄</button>
+  </div>
+</div>
+
+<!-- HISTORY (唯讀) -->
+<div class="page" id="page-history">
+  <div class="topbar"><button class="btn-outline" onclick="showPage('page-dashboard')">← 返回總覽</button><button class="btn-logout" onclick="handleLogout()">⏻ 登出</button></div>
+  <div class="card">
+    <div class="card-title" id="hist-title"></div>
+    <div style="background:var(--yellow-pale);border:1.5px solid var(--yellow);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:14px;color:var(--blue)">
+      🔒 此頁面為唯讀，僅供查看與小組討論使用。
+    </div>
+    <div id="hist-content"></div>
   </div>
 </div>
 
@@ -401,9 +457,36 @@ body{font-family:'Noto Sans TC','Outfit',sans-serif;background:var(--bg);min-hei
 
 </div>
 
+<!-- 送出前確認對話框 -->
+<div class="modal-overlay" id="confirm-modal">
+  <div class="modal-box">
+    <div class="modal-title">⚠️ 送出前最後確認</div>
+    <div class="modal-text">
+      送出後將<strong>無法修改</strong>本階段的內容，請確認您的小組結論、3 個正面意見、3 個反面意見、回饋來源都已填寫正確。
+    </div>
+    <div id="confirm-preview" style="background:var(--blue-pale);border-radius:10px;padding:14px;font-size:14px;line-height:1.7;color:var(--gray-700);max-height:280px;overflow-y:auto"></div>
+    <div class="modal-buttons">
+      <button class="btn btn-cancel" onclick="closeConfirm()">再檢查</button>
+      <button class="btn btn-confirm" onclick="doSubmitFeedback()">確認送出</button>
+    </div>
+  </div>
+</div>
+
 <div class="sync-status" id="sync-status" style="opacity:0"></div>
+<div class="version-tag">v2.0-20260424</div>
 
 <script>
+// ===== 版 A 控制組 - v2.0（2026-04-24）=====
+// 本次修復：
+//   A. 修「資料來源」選項消失 bug
+//   B. 加歷史回饋唯讀頁面 + Dashboard「查看回饋」按鈕
+//   C. 強制前測（沒做完前測 → 下次登入直接帶到前測頁）
+//   D. 第二次登入修改基本資料會寫回 Sheet
+//   E. Draft 自動儲存（結論/3+3/來源都會即時存）+ 送出前確認對話框
+//   G. 強制停止影片（離開回饋頁/觀看完課程都會停止）
+// Code.gs 不動、Sheet 結構不動、送出格式不動
+// =====================================================
+
 const LIKERT_N = 7;
 
 // 7 部分：課程說明 + 5 stages + 期末報告
@@ -416,8 +499,6 @@ const STAGES = [
   {id:5,title:'階段五：購後行為',sub:'Post-Purchase Behavior',prompt:'買了之後發現 [請描述問題]。如果是你，會退貨還是留著？為什麼？',video:'PR_ELIZpB2o'},
   {id:6,title:'期末報告與後測',sub:'Final Report & Post-Test',prompt:'',video:'mfrM5OF20HE',isFinal:true},
 ];
-
-const FLOW_LABELS = ['前測','課程\n說明','需求\n認知','資訊\n蒐集','方案\n評估','購買\n決策','購後\n行為','期末\n報告','後測'];
 
 const PRETEST = [
   {sec:'自我效能 Self-Efficacy (SE)',items:[
@@ -475,12 +556,46 @@ let state={}, currentStage=null;
 function loadState(){const s=localStorage.getItem('socialai_ctrl_v2');if(s)state=JSON.parse(s)}
 function saveState(){localStorage.setItem('socialai_ctrl_v2',JSON.stringify(state))}
 
+// ===== Draft 功能 =====
+function draftKey(stageId){return 'socialai_ctrl_draft_s'+stageId}
+function saveDraft(stageId,draft){try{localStorage.setItem(draftKey(stageId),JSON.stringify(draft))}catch(e){}}
+function loadDraft(stageId){try{const s=localStorage.getItem(draftKey(stageId));return s?JSON.parse(s):null}catch(e){return null}}
+function clearDraft(stageId){try{localStorage.removeItem(draftKey(stageId))}catch(e){}}
+function hasDraft(stageId){
+  const d=loadDraft(stageId);
+  if(!d)return false;
+  // draft 至少要有一個欄位有內容才算
+  if(d.conclusion)return true;
+  if(d.positive&&d.positive.some(p=>p))return true;
+  if(d.negative&&d.negative.some(n=>n))return true;
+  if(d.source)return true;
+  return false;
+}
+// 把目前頁面所有欄位存成 draft（每次改動都會呼叫）
+function saveDraftCurrent(){
+  if(!currentStage)return;
+  const stageId=currentStage.id;
+  const conclusion=document.getElementById('fb-conclusion').value.trim();
+  const pos=[1,2,3].map(i=>document.getElementById('fb-pos-'+i).value.trim());
+  const neg=[1,2,3].map(i=>document.getElementById('fb-neg-'+i).value.trim());
+  const srcEl=document.querySelector('#fb-source input:checked');
+  const draft={
+    conclusion:conclusion,
+    positive:pos,
+    negative:neg,
+    source:srcEl?srcEl.value:''
+  };
+  // 只有真的有內容才存（避免空 draft 觸發橘色標記）
+  if(conclusion||pos.some(p=>p)||neg.some(n=>n)||(srcEl&&srcEl.value)){
+    saveDraft(stageId,draft);
+  }
+}
+
 const SHEET_URL='https://script.google.com/macros/s/AKfycbzTEM5Wt4em-4ezpId6gHwD5yKvYgiNiMqq1St8x6KNtnMfNBD6Mq49av8wiVW2T34r/exec';
 
 function sendToSheet(d){
   if(!SHEET_URL)return;
   try{
-    // Method 1: Try sendBeacon with text/plain (most reliable for GAS)
     var data = JSON.stringify(d);
     var beaconSent = false;
     if(navigator.sendBeacon){
@@ -490,7 +605,6 @@ function sendToSheet(d){
       showSyncStatus('✓ 資料已送出','ok');
       return;
     }
-    // Method 2: Hidden form + iframe fallback
     var iframe = document.createElement('iframe');
     iframe.name = 'gas_submit_' + Date.now();
     iframe.style.display = 'none';
@@ -519,6 +633,25 @@ function showPage(id){document.querySelectorAll('.page').forEach(p=>p.classList.
 
 function selR(el,gid){document.querySelectorAll('#'+gid+' .radio-option').forEach(o=>o.classList.remove('selected'));el.classList.add('selected');el.querySelector('input').checked=true}
 
+// 強制停止影片（給多處重用）
+function stopVideo(){
+  var v=document.getElementById('fb-video');
+  if(v)v.src='';
+}
+
+// 離開回饋頁（順便存 draft + 停影片）
+function leaveFeedback(){
+  if(currentStage&&!isStageDone(currentStage.id)){
+    saveDraftCurrent();
+  }
+  stopVideo();
+  showPage('page-dashboard');
+}
+
+function isStageDone(stageId){
+  return !!(state.stages&&state.stages[stageId]);
+}
+
 // ===== LOGIN =====
 let isReturningUser=false;let loginStep=1;
 
@@ -527,10 +660,25 @@ function handleLogin(){
   const err=document.getElementById('login-error');
   if(!id1){err.textContent='請輸入學號';err.classList.add('show');return}
   loadState();
-  const returning=state.studentId===id1&&state.consented&&state.pretest;
-  if(returning){
+  // 先判斷是否完整 returning user（連前測都做完）
+  const fullReturning=state.studentId===id1&&state.consented&&state.pretest;
+  // 再判斷是否做了基本資料但沒前測（C 修復）
+  const halfReturning=state.studentId===id1&&state.consented&&state.name&&!state.pretest;
+
+  if(fullReturning){
     err.classList.remove('show');isReturningUser=true;loginStep=1;
-    if(state.posttest_done){showPage('page-thankyou')}else{fillDemoFromState();showPage('page-demo')}
+    if(state.posttest_done){
+      showPage('page-thankyou');
+    }else{
+      fillDemoFromState();
+      showPage('page-demo');
+    }
+  }else if(halfReturning){
+    // C 修復：直接帶到前測頁，不重做同意書 + 基本資料
+    err.classList.remove('show');isReturningUser=true;loginStep=1;
+    document.getElementById('pretest-resume-banner').style.display='block';
+    renderSurvey('pretest-items',PRETEST,'pre_');
+    showPage('page-pretest');
   }else{
     if(loginStep===1){
       document.getElementById('login-id2-group').style.display='block';
@@ -558,7 +706,7 @@ function fillDemoFromState(){
   document.getElementById('demo-header-sub').textContent='確認基本資料';
   document.getElementById('demo-card-title').textContent='確認基本資料';
   document.getElementById('demo-confirm-banner').style.display='block';
-  document.getElementById('demo-submit-btn').textContent='確認，進入課程總覽';
+  document.getElementById('demo-submit-btn').textContent='可修改，確認無誤送出';
   document.getElementById('demo-submit-btn').onclick=handleDemoConfirm;
 }
 
@@ -576,10 +724,13 @@ function handleDemo(){
   renderSurvey('pretest-items',PRETEST,'pre_');showPage('page-pretest');
 }
 
+// D 修復：第二次登入修改基本資料 → 寫回 Sheet
 function handleDemoConfirm(){
   const n=document.getElementById('demo-name').value.trim(),g=document.querySelector('#demo-gender input:checked'),b=document.getElementById('demo-birth').value.trim(),d=document.getElementById('demo-dept').value.trim(),gr=document.querySelector('#demo-grade input:checked'),sp=document.querySelector('#demo-spending input:checked'),a=document.querySelector('#demo-ai input:checked'),at=document.querySelector('#demo-aitool input:checked'),af=document.querySelector('#demo-aifreq input:checked');
   if(!n||!g||!b||!d||!gr||!sp||!a||!at||!af){alert('請填寫所有必填項目');return}
   state.name=n;state.gender=g.value;state.birth=b;state.dept=d;state.grade=gr.value;state.spending=sp.value;state.ai_familiarity=a.value;state.ai_tool=at.value;state.ai_freq=af.value;saveState();
+  // 寫回 Sheet（後端 writePretest 會以學號 update 同一列的基本資料 + 前測欄位）
+  sendToSheet({type:'pretest',studentId:state.studentId,data:state});
   renderDashboard();showPage('page-dashboard');
 }
 
@@ -624,8 +775,12 @@ function collectSurvey(sections,prefix){
 
 function handlePretest(){
   const vals=collectSurvey(PRETEST,'pre_');if(!vals)return;
-  state.pretest=vals;state.pretest_time=new Date().toISOString();state.stages={};saveState();
+  state.pretest=vals;state.pretest_time=new Date().toISOString();
+  if(!state.stages)state.stages={};
+  saveState();
   sendToSheet({type:'pretest',studentId:state.studentId,data:state});
+  // 隱藏前測恢復橫條（避免下次又看到）
+  document.getElementById('pretest-resume-banner').style.display='none';
   renderDashboard();showPage('page-dashboard');
 }
 
@@ -639,7 +794,11 @@ function renderFlowChart(){
   let firstIncomplete=0;
   if(state.stages){
     const taskStages=STAGES.filter(s=>!s.isCourse&&!s.isFinal);
-    for(let i=0;i<taskStages.length;i++){if(!state.stages[taskStages[i].id]){firstIncomplete=i;break}if(i===taskStages.length-1)firstIncomplete=taskStages.length}
+    let found=false;
+    for(let i=0;i<taskStages.length;i++){
+      if(!state.stages[taskStages[i].id]){firstIncomplete=i;found=true;break}
+    }
+    if(!found)firstIncomplete=taskStages.length;
   }
 
   const steps=[
@@ -673,7 +832,6 @@ function renderDashboard(){
   if(!state.stages)state.stages={};
   renderFlowChart();
 
-  // Find first incomplete task stage (id 1-5)
   const taskStages=STAGES.filter(s=>!s.isCourse&&!s.isFinal);
   let firstIncomplete=taskStages.length;
   for(let i=0;i<taskStages.length;i++){if(!state.stages[taskStages[i].id]){firstIncomplete=i;break}}
@@ -681,20 +839,28 @@ function renderDashboard(){
   STAGES.forEach((s,idx)=>{
     const done=!!state.stages[s.id];
     let locked=false;
-    if(s.isCourse){locked=false}// 課程說明永遠可開
-    else if(s.isFinal){locked=!taskStages.every(ts=>state.stages[ts.id])}// 需完成所有 task
+    if(s.isCourse){locked=false}
+    else if(s.isFinal){locked=!taskStages.every(ts=>state.stages[ts.id])}
     else{
       const taskIdx=taskStages.indexOf(s);
-      locked=taskIdx>firstIncomplete||!state.stages[0];// 需先看課程說明
+      locked=taskIdx>firstIncomplete||!state.stages[0];
     }
-    const isNext=!done&&!locked;
+    const hasDraftForStage=!done&&!locked&&!s.isCourse&&!s.isFinal&&hasDraft(s.id);
+
+    let badgeHtml;
+    if(done)badgeHtml='<span class="stage-badge badge-done">已完成</span>';
+    else if(locked)badgeHtml='<span class="stage-badge badge-locked">未開放</span>';
+    else if(hasDraftForStage)badgeHtml='<span class="stage-badge badge-draft">繼續填寫</span>';
+    else if(s.isCourse||s.isFinal)badgeHtml='<span class="stage-badge badge-pending">待觀看</span>';
+    else badgeHtml='<span class="stage-badge badge-pending">待填寫</span>';
 
     const div=document.createElement('div');
     div.className=`stage-item ${done?'completed':locked?'locked':''}`;
     div.innerHTML=`
       <div class="stage-num">${done?'✓':s.isCourse?'📖':s.isFinal?'📝':s.id}</div>
       <div class="stage-info"><div class="stage-title">${s.title}</div><div class="stage-sub">${s.sub}</div></div>
-      <span class="stage-badge ${done?'badge-done':locked?'badge-locked':'badge-pending'}">${done?'已完成':locked?'未開放':(s.isCourse||s.isFinal)?'待觀看':'待填寫'}</span>`;
+      ${done&&!s.isCourse&&!s.isFinal?'<button class="btn-outline" style="padding:6px 12px;font-size:13px;margin-right:8px" onclick="event.stopPropagation();openHistory('+s.id+')">查看回饋</button>':''}
+      ${badgeHtml}`;
     if(!done&&!locked){
       if(s.isCourse){div.onclick=()=>openCourseIntro()}
       else if(s.isFinal){div.onclick=()=>openFinalReport()}
@@ -715,38 +881,55 @@ function renderDashboard(){
   list.appendChild(ptDiv);
 }
 
-// COURSE INTRO (id=0) - just video, mark as done
+// COURSE INTRO (id=0)
 function openCourseIntro(){
   currentStage=STAGES.find(s=>s.id===0);
   document.getElementById('fb-title').innerHTML=`<div class="icon icon-mint">📖</div>課程說明`;
   document.getElementById('fb-video').src=`https://www.youtube.com/embed/${currentStage.video}?rel=0`;
   document.getElementById('fb-video-section').style.display='block';
   document.getElementById('fb-prompt').innerHTML='<strong>觀看完課程說明影片後，請點擊下方按鈕確認。</strong>';
-  // Hide feedback fields for course intro
-  document.querySelectorAll('.conclusion-section,.feedback-section,[id^="fb-source"]').forEach(el=>el.style.display='none');
-  document.querySelector('#page-feedback .form-group:last-of-type').style.display='none';
-  const btn=document.querySelector('#page-feedback .btn-primary');
-  btn.textContent='我已觀看課程說明';btn.onclick=()=>{
-    if(!state.stages)state.stages={};state.stages[0]={time:new Date().toISOString()};saveState();
+  // Hide feedback fields
+  document.getElementById('draft-banner').style.display='none';
+  document.getElementById('conclusion-section').style.display='none';
+  document.getElementById('fb-instruction').style.display='none';
+  document.getElementById('fb-pos-section').style.display='none';
+  document.getElementById('fb-neg-section').style.display='none';
+  document.getElementById('fb-source-group').style.display='none';
+  // Course confirm button
+  const btn=document.getElementById('fb-submit-btn');
+  btn.textContent='我已觀看課程說明';
+  btn.onclick=()=>{
+    if(!state.stages)state.stages={};
+    state.stages[0]={time:new Date().toISOString()};
+    saveState();
     sendToSheet({type:'feedback',studentId:state.studentId,stage:0,data:{source:'影片觀看'}});
+    stopVideo(); // G 修復
     renderDashboard();showPage('page-dashboard');
   };
   showPage('page-feedback');
 }
 
-// FINAL REPORT (id=6) - just video, mark as done
+// FINAL REPORT (id=6)
 function openFinalReport(){
   currentStage=STAGES.find(s=>s.id===6);
   document.getElementById('fb-title').innerHTML=`<div class="icon icon-coral">📝</div>期末報告與後測說明`;
   document.getElementById('fb-video').src=`https://www.youtube.com/embed/${currentStage.video}?rel=0`;
   document.getElementById('fb-video-section').style.display='block';
   document.getElementById('fb-prompt').innerHTML='<strong>觀看完期末報告說明影片後，請點擊下方按鈕確認。</strong>';
-  document.querySelectorAll('.conclusion-section,.feedback-section,[id^="fb-source"]').forEach(el=>el.style.display='none');
-  document.querySelector('#page-feedback .form-group:last-of-type').style.display='none';
-  const btn=document.querySelector('#page-feedback .btn-primary');
-  btn.textContent='我已觀看期末報告說明';btn.onclick=()=>{
-    if(!state.stages)state.stages={};state.stages[6]={time:new Date().toISOString()};saveState();
+  document.getElementById('draft-banner').style.display='none';
+  document.getElementById('conclusion-section').style.display='none';
+  document.getElementById('fb-instruction').style.display='none';
+  document.getElementById('fb-pos-section').style.display='none';
+  document.getElementById('fb-neg-section').style.display='none';
+  document.getElementById('fb-source-group').style.display='none';
+  const btn=document.getElementById('fb-submit-btn');
+  btn.textContent='我已觀看期末報告說明';
+  btn.onclick=()=>{
+    if(!state.stages)state.stages={};
+    state.stages[6]={time:new Date().toISOString()};
+    saveState();
     sendToSheet({type:'feedback',studentId:state.studentId,stage:6,data:{source:'影片觀看'}});
+    stopVideo(); // J 修復
     renderDashboard();showPage('page-dashboard');
   };
   showPage('page-feedback');
@@ -757,27 +940,69 @@ function openFeedback(stageId){
   if(state.stages&&state.stages[stageId])return;
   currentStage=STAGES.find(s=>s.id===stageId);
   document.getElementById('fb-title').innerHTML=`<div class="icon icon-mint">💬</div>${currentStage.title}：回饋紀錄`;
-  // Show video
   document.getElementById('fb-video').src=`https://www.youtube.com/embed/${currentStage.video}?rel=0`;
   document.getElementById('fb-video-section').style.display='block';
   document.getElementById('fb-prompt').innerHTML=`<strong>統一提問指令：</strong><br>「${currentStage.prompt}」`;
-  // Show all fields
-  document.querySelectorAll('.conclusion-section,.feedback-section').forEach(el=>el.style.display='block');
-  // Explicitly show the source form-group (may have been hidden by openCourseIntro/openFinalReport)
-  document.querySelectorAll('#page-feedback .form-group').forEach(el=>el.style.display='block');
-  // Reset
-  document.getElementById('fb-conclusion').value='';document.getElementById('fb-conclusion').classList.remove('error');
-  for(let i=1;i<=3;i++){document.getElementById('fb-pos-'+i).value='';document.getElementById('fb-neg-'+i).value='';
-    document.getElementById('fb-pos-'+i).classList.remove('error');document.getElementById('fb-neg-'+i).classList.remove('error')}
-  document.querySelectorAll('#fb-source .radio-option').forEach(o=>o.classList.remove('selected'));
-  document.querySelectorAll('#fb-source input').forEach(i=>i.checked=false);
-  const btn=document.querySelector('#page-feedback .btn-primary');
-  btn.textContent='送出回饋紀錄';btn.onclick=handleFeedback;
+  // Show all fields (A 修復：明確顯示每個區塊，包含 fb-source 和 fb-source-group)
+  document.getElementById('conclusion-section').style.display='block';
+  document.getElementById('fb-instruction').style.display='block';
+  document.getElementById('fb-pos-section').style.display='block';
+  document.getElementById('fb-neg-section').style.display='block';
+  document.getElementById('fb-source-group').style.display='';
+  document.getElementById('fb-source').style.display='';
+
+  // E 修復：嘗試恢復 draft
+  const draft=loadDraft(stageId);
+  if(draft){
+    document.getElementById('draft-banner').style.display='flex';
+    document.getElementById('fb-conclusion').value=draft.conclusion||'';
+    for(let i=1;i<=3;i++){
+      document.getElementById('fb-pos-'+i).value=(draft.positive&&draft.positive[i-1])||'';
+      document.getElementById('fb-neg-'+i).value=(draft.negative&&draft.negative[i-1])||'';
+    }
+    // 恢復 source 選項
+    document.querySelectorAll('#fb-source .radio-option').forEach(o=>o.classList.remove('selected'));
+    document.querySelectorAll('#fb-source input').forEach(i=>i.checked=false);
+    if(draft.source){
+      document.querySelectorAll('#fb-source input').forEach(inp=>{
+        if(inp.value===draft.source){
+          inp.checked=true;
+          inp.closest('.radio-option').classList.add('selected');
+        }
+      });
+    }
+  }else{
+    document.getElementById('draft-banner').style.display='none';
+    document.getElementById('fb-conclusion').value='';
+    for(let i=1;i<=3;i++){
+      document.getElementById('fb-pos-'+i).value='';
+      document.getElementById('fb-neg-'+i).value='';
+    }
+    document.querySelectorAll('#fb-source .radio-option').forEach(o=>o.classList.remove('selected'));
+    document.querySelectorAll('#fb-source input').forEach(i=>i.checked=false);
+  }
+  // Reset error
+  document.getElementById('fb-conclusion').classList.remove('error');
+  for(let i=1;i<=3;i++){
+    document.getElementById('fb-pos-'+i).classList.remove('error');
+    document.getElementById('fb-neg-'+i).classList.remove('error');
+  }
+  // 綁定每次輸入時自動存 draft
+  const inputIds=['fb-conclusion','fb-pos-1','fb-pos-2','fb-pos-3','fb-neg-1','fb-neg-2','fb-neg-3'];
+  inputIds.forEach(id=>{
+    const el=document.getElementById(id);
+    el.oninput=saveDraftCurrent;
+  });
+  // Submit button
+  const btn=document.getElementById('fb-submit-btn');
+  btn.textContent='送出回饋紀錄';
+  btn.onclick=confirmFeedback;
   showPage('page-feedback');
 }
 
-function handleFeedback(){
-  // Validate conclusion
+// E 修復：送出前先驗證 + 顯示確認對話框
+function confirmFeedback(){
+  // Validate
   const conclusionEl=document.getElementById('fb-conclusion');
   const conclusion=conclusionEl.value.trim();
   conclusionEl.classList.remove('error');
@@ -794,16 +1019,87 @@ function handleFeedback(){
     pos.push(p);neg.push(n);
   }
   const srcEl=document.querySelector('#fb-source input:checked');
-  if(!srcEl&&!firstEmpty)firstEmpty=document.querySelector('#fb-source');
-  if(firstEmpty||!conclusion||pos.some(p=>!p)||neg.some(n=>!n)||!srcEl){
-    if(firstEmpty)firstEmpty.scrollIntoView({behavior:'smooth',block:'center'});
-    if(!srcEl)alert('請選擇回饋來源');return}
+
+  if(firstEmpty||!srcEl){
+    if(firstEmpty){
+      firstEmpty.scrollIntoView({behavior:'smooth',block:'center'});
+      alert('請填寫所有必填項目');
+    }else if(!srcEl){
+      document.getElementById('fb-source-group').scrollIntoView({behavior:'smooth',block:'center'});
+      alert('請選擇回饋來源');
+    }
+    return;
+  }
+
+  // 驗證通過 → 顯示確認對話框
+  const previewHtml=`
+    <div style="margin-bottom:10px"><strong style="color:var(--blue)">📌 結論：</strong><br>${escapeHtml(conclusion)}</div>
+    <div style="margin-bottom:10px"><strong style="color:var(--blue)">👍 正面意見：</strong><br>1. ${escapeHtml(pos[0])}<br>2. ${escapeHtml(pos[1])}<br>3. ${escapeHtml(pos[2])}</div>
+    <div style="margin-bottom:10px"><strong style="color:var(--coral)">👎 反面意見：</strong><br>1. ${escapeHtml(neg[0])}<br>2. ${escapeHtml(neg[1])}<br>3. ${escapeHtml(neg[2])}</div>
+    <div><strong style="color:var(--blue)">📍 回饋來源：</strong>${escapeHtml(srcEl.value)}</div>
+  `;
+  document.getElementById('confirm-preview').innerHTML=previewHtml;
+  document.getElementById('confirm-modal').classList.add('show');
+}
+
+function closeConfirm(){
+  document.getElementById('confirm-modal').classList.remove('show');
+}
+
+// 真正的送出
+function doSubmitFeedback(){
+  closeConfirm();
+  const conclusion=document.getElementById('fb-conclusion').value.trim();
+  const pos=[1,2,3].map(i=>document.getElementById('fb-pos-'+i).value.trim());
+  const neg=[1,2,3].map(i=>document.getElementById('fb-neg-'+i).value.trim());
+  const srcEl=document.querySelector('#fb-source input:checked');
+  if(!srcEl)return;
+
   if(!state.stages)state.stages={};
-  state.stages[currentStage.id]={conclusion:conclusion,positive:pos,negative:neg,source:srcEl.value,time:new Date().toISOString()};
-  saveState();sendToSheet({type:'feedback',studentId:state.studentId,stage:currentStage.id,data:state.stages[currentStage.id]});
-  // Stop video
-  document.getElementById('fb-video').src='';
+  state.stages[currentStage.id]={
+    conclusion:conclusion,positive:pos,negative:neg,source:srcEl.value,
+    time:new Date().toISOString()
+  };
+  saveState();
+  sendToSheet({type:'feedback',studentId:state.studentId,stage:currentStage.id,data:state.stages[currentStage.id]});
+  // E 修復：送出成功 → 清掉 draft
+  clearDraft(currentStage.id);
+  stopVideo();
   renderDashboard();showPage('page-dashboard');
+}
+
+function escapeHtml(s){return String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+
+// B 修復：開啟唯讀歷史頁
+function openHistory(stageId){
+  const s=STAGES.find(st=>st.id===stageId);
+  const data=state.stages&&state.stages[stageId];
+  if(!data)return;
+  document.getElementById('hist-title').innerHTML=`<div class="icon icon-mint">📋</div>${s.title}：回饋紀錄`;
+  const html=`
+    <div class="history-card">
+      <div class="history-card-title">📌 小組結論</div>
+      <div class="history-card-content">${escapeHtml(data.conclusion||'')}</div>
+    </div>
+    <div class="history-card">
+      <div class="history-card-title" style="color:var(--blue)">👍 正面意見</div>
+      <ol class="history-pos-list">
+        ${(data.positive||[]).map(t=>`<li>${escapeHtml(t)}</li>`).join('')}
+      </ol>
+    </div>
+    <div class="history-card">
+      <div class="history-card-title" style="color:var(--coral)">👎 反面意見</div>
+      <ol class="history-neg-list">
+        ${(data.negative||[]).map(t=>`<li>${escapeHtml(t)}</li>`).join('')}
+      </ol>
+    </div>
+    <div class="history-card">
+      <div class="history-card-title">📍 回饋來源</div>
+      <div class="history-card-content">${escapeHtml(data.source||'')}</div>
+    </div>
+  `;
+  document.getElementById('hist-content').innerHTML=html;
+  showPage('page-history');
 }
 
 function handlePosttest(){
@@ -812,18 +1108,33 @@ function handlePosttest(){
   sendToSheet({type:'posttest',studentId:state.studentId,data:state});showPage('page-thankyou');
 }
 
-// SECRET RESET
+// SECRET RESET（清掉所有 socialai_ctrl_* key）
 let _tapCount=0,_tapTimer=null;
-function secretReset(){_tapCount++;if(_tapTimer)clearTimeout(_tapTimer);_tapTimer=setTimeout(()=>{_tapCount=0},2000);if(_tapCount>=5){if(confirm("確定要清除所有測試資料嗎？")){localStorage.removeItem("socialai_ctrl_v2");_tapCount=0;alert("資料已清除，頁面將重新載入");location.reload()}}}
+function secretReset(){
+  _tapCount++;
+  if(_tapTimer)clearTimeout(_tapTimer);
+  _tapTimer=setTimeout(()=>{_tapCount=0},2000);
+  if(_tapCount>=5){
+    if(confirm("確定要清除所有測試資料嗎？這會清除這支裝置上的所有進度（包括 draft）。")){
+      localStorage.removeItem("socialai_ctrl_v2");
+      // 同步清所有 draft
+      for(let i=1;i<=5;i++)localStorage.removeItem('socialai_ctrl_draft_s'+i);
+      _tapCount=0;
+      alert("資料已清除，頁面將重新載入");
+      location.reload();
+    }
+  }
+}
 
 // INIT
 loadState();
 function handleLogout(){
-  // Stop any playing video
-  document.getElementById('fb-video').src='';
+  stopVideo();
   showPage('page-login');
   document.getElementById('login-id1').value='';document.getElementById('login-id2').value='';
-  document.getElementById('login-id2-group').style.display='none';document.getElementById('login-error').classList.remove('show');loginStep=1;
+  document.getElementById('login-id2-group').style.display='none';document.getElementById('login-error').classList.remove('show');
+  document.getElementById('pretest-resume-banner').style.display='none';
+  loginStep=1;
 }
 </script>
 </body>
