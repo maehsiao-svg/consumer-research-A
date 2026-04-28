@@ -156,8 +156,22 @@ body{font-family:'Noto Sans TC','Outfit',sans-serif;background:var(--bg);min-hei
 .sync-ok{background:var(--blue);color:#fff;box-shadow:0 4px 12px rgba(0,81,186,0.3)}
 .sync-fail{background:var(--coral);color:#fff;box-shadow:0 4px 12px rgba(212,85,61,0.3)}
 
-/* ===== 版本號（左下角小字） ===== */
-.version-tag{position:fixed;bottom:8px;left:8px;font-size:10px;color:var(--gray-300);opacity:0.5;pointer-events:none;z-index:1}
+/* ===== v2.1 新增：登入時連線提示 ===== */
+.login-loading{text-align:center;padding:30px 20px;color:var(--blue)}
+.login-loading .spinner{display:inline-block;width:32px;height:32px;border:3px solid var(--blue-pale);border-top-color:var(--blue);border-radius:50%;animation:spin 0.8s linear infinite;margin-bottom:12px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ===== v2.1 新增：登入失敗 + 重試按鈕 ===== */
+.login-error-box{background:#FEEAE6;border:2px solid var(--coral);border-radius:12px;padding:18px 20px;margin:16px 0;text-align:center;display:none}
+.login-error-box.show{display:block}
+.login-error-box .err-icon{font-size:32px;margin-bottom:8px}
+.login-error-box .err-title{font-size:16px;font-weight:700;color:var(--coral);margin-bottom:8px}
+.login-error-box .err-text{font-size:14px;color:var(--gray-700);margin-bottom:14px;line-height:1.6}
+.login-error-box .btn-retry-login{background:var(--coral);color:#fff;padding:10px 24px;font-size:15px;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-family:inherit}
+.login-error-box .btn-retry-login:hover{background:#B83E2A}
+
+/* ===== 版本號（左下角小標籤） ===== */
+.version-tag{position:fixed;bottom:6px;left:6px;font-size:11px;color:#fff;background:var(--blue);padding:3px 8px;border-radius:6px;opacity:0.85;pointer-events:none;z-index:1;font-weight:700;letter-spacing:0.3px}
 
 @media(max-width:480px){.app{padding:12px 10px 40px}.card{padding:20px 16px}.likert-btn{font-size:13px;padding:8px 1px}.likert-labels{font-size:12px}.flow-chart{gap:0;padding:14px 6px}.flow-icon{width:32px;height:32px;font-size:12px}.flow-label{font-size:10px;max-width:48px}.flow-arrow{font-size:12px}}
 </style>
@@ -228,7 +242,7 @@ body{font-family:'Noto Sans TC','Outfit',sans-serif;background:var(--bg);min-hei
       </svg>
     </div>
   </div>
-  <div class="card">
+  <div class="card" id="login-card">
     <div class="card-title"><div class="icon icon-purple">🔑</div>登入</div>
     <div class="form-group">
       <label class="form-label">請輸入學號<span class="required">*</span></label>
@@ -240,6 +254,25 @@ body{font-family:'Noto Sans TC','Outfit',sans-serif;background:var(--bg);min-hei
     </div>
     <div class="error-msg" id="login-error"></div>
     <button class="btn btn-primary btn-block" onclick="handleLogin()">進入平台</button>
+  </div>
+
+  <!-- v2.1 新增：載入中提示 -->
+  <div class="card" id="login-loading-card" style="display:none">
+    <div class="login-loading">
+      <div class="spinner"></div>
+      <div style="font-weight:700;font-size:16px;margin-bottom:6px">正在載入您的進度...</div>
+      <div style="font-size:13px;color:var(--gray-500)">請稍候，正在從伺服器恢復您之前做過的內容</div>
+    </div>
+  </div>
+
+  <!-- v2.1 新增：載入失敗 + 重試 -->
+  <div class="card" id="login-error-card" style="display:none">
+    <div class="login-error-box show">
+      <div class="err-icon">⚠️</div>
+      <div class="err-title">連線失敗</div>
+      <div class="err-text" id="login-err-detail">無法連接到伺服器，可能是網路不穩定，請按下方按鈕重試。</div>
+      <button class="btn-retry-login" onclick="retryLogin()">重新嘗試</button>
+    </div>
   </div>
 </div>
 
@@ -365,13 +398,12 @@ body{font-family:'Noto Sans TC','Outfit',sans-serif;background:var(--bg);min-hei
   </div>
 </div>
 
-<!-- FEEDBACK (with video + conclusion) -->
+<!-- FEEDBACK -->
 <div class="page" id="page-feedback">
   <div class="topbar"><button class="btn-outline" onclick="leaveFeedback()">← 返回總覽</button><button class="btn-logout" onclick="handleLogout()">⏻ 登出</button></div>
   <div class="card">
     <div class="card-title" id="fb-title"></div>
 
-    <!-- Draft 提示橫條（只在有草稿時顯示） -->
     <div class="draft-banner" id="draft-banner" style="display:none">
       <span class="draft-icon">📝</span>
       <div>
@@ -380,13 +412,11 @@ body{font-family:'Noto Sans TC','Outfit',sans-serif;background:var(--bg);min-hei
       </div>
     </div>
 
-    <!-- Video -->
     <div class="video-section" id="fb-video-section">
       <div class="video-title">🎬 課程影片</div>
       <div class="video-wrap"><iframe id="fb-video" src="" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe></div>
     </div>
     <div id="fb-prompt" style="background:var(--blue-pale);border-radius:12px;padding:14px 16px;margin-bottom:20px;font-size:15px;color:var(--blue);border:1.5px solid var(--blue)"></div>
-    <!-- Conclusion -->
     <div class="conclusion-section" id="conclusion-section">
       <div class="conclusion-label">📌 小組結論答案<span class="required">*</span></div>
       <p style="font-size:13px;color:var(--gray-500);margin-bottom:8px">請填寫小組討論後的最終結論（同組成員應填寫相同結論）</p>
@@ -417,7 +447,7 @@ body{font-family:'Noto Sans TC','Outfit',sans-serif;background:var(--bg);min-hei
   </div>
 </div>
 
-<!-- HISTORY (唯讀) -->
+<!-- HISTORY -->
 <div class="page" id="page-history">
   <div class="topbar"><button class="btn-outline" onclick="showPage('page-dashboard')">← 返回總覽</button><button class="btn-logout" onclick="handleLogout()">⏻ 登出</button></div>
   <div class="card">
@@ -473,30 +503,38 @@ body{font-family:'Noto Sans TC','Outfit',sans-serif;background:var(--bg);min-hei
 </div>
 
 <div class="sync-status" id="sync-status" style="opacity:0"></div>
-<div class="version-tag">v2.0-20260424</div>
+<div class="version-tag">v2.1-20260428</div>
 
 <script>
-// ===== 版 A 控制組 - v2.0（2026-04-24）=====
-// 本次修復：
-//   A. 修「資料來源」選項消失 bug
-//   B. 加歷史回饋唯讀頁面 + Dashboard「查看回饋」按鈕
-//   C. 強制前測（沒做完前測 → 下次登入直接帶到前測頁）
-//   D. 第二次登入修改基本資料會寫回 Sheet
-//   E. Draft 自動儲存（結論/3+3/來源都會即時存）+ 送出前確認對話框
-//   G. 強制停止影片（離開回饋頁/觀看完課程都會停止）
-// Code.gs 不動、Sheet 結構不動、送出格式不動
+// ===== 版 A 控制組 - v2.1（2026-04-28）=====
+// 本次修復（v2.1）：
+//   1. 解決 Safari ITP 7 天清 localStorage 問題
+//      → 學生輸入學號後，先從 Sheet 查詢進度，如有資料自動恢復
+//      → iPhone 學生即使 localStorage 被清，也能從 Sheet 恢復進度
+//   2. API 失敗 → 顯示「連線失敗」+ 重試按鈕（保護學生進度）
+// 保留 v2.0 修復（A/B/C/D/E/G/J）：
+//   - 「資料來源」選項保證顯示
+//   - 唯讀歷史回饋頁面 + Dashboard「查看回饋」按鈕
+//   - halfReturning 邏輯（沒做完前測 → 直接帶到前測頁）
+//   - 第二次登入修改基本資料寫回 Sheet
+//   - Draft 自動儲存 + 送出前確認對話框
+//   - 影片強制停止
+// 不影響：
+//   - SHEET_URL 不變（用 Manage Deployments → New Version 部署）
+//   - localStorage key 不變（socialai_ctrl_v2）
+//   - 送資料格式不變
+//   - Sheet 結構不變（83 欄）
 // =====================================================
 
 const LIKERT_N = 7;
 
-// 7 部分：課程說明 + 5 stages + 期末報告
 const STAGES = [
   {id:0,title:'課程說明',sub:'Course Introduction',prompt:'',video:'f0f7N0pyNs4',isCourse:true},
   {id:1,title:'階段一：需求認知',sub:'Need Recognition',prompt:'我們發現了這個消費者需求：[請描述你們的痛點與情境]。這是一個真實且迫切的需求嗎？',video:'7CsE5MrogBI'},
   {id:2,title:'階段二：資訊蒐集',sub:'Information Search',prompt:'針對這個產品，你會從哪裡蒐集資訊？你最擔心什麼風險？',video:'00pYNICw5uo'},
   {id:3,title:'階段三：方案評估',sub:'Evaluation of Alternatives',prompt:'我們比較了三個品牌 [請列出]，最終選了 [X]。你會選哪個？為什麼？我們的評估有什麼盲點嗎？',video:'bxBbJL4c3QM'},
   {id:4,title:'階段四：購買決策',sub:'Purchase Decision',prompt:'我們決定買 [X] 了，但室友說那品牌很爛。你覺得該聽他的嗎？為什麼？',video:'2wZFd8zrTfg'},
-  {id:5,title:'階段五：購後行為',sub:'Post-Purchase Behavior',prompt:'買了之後發現 [請描述問題]。如果是你，會退貨還是留著？為什麼？',video:'PR_ELIZpB2o'},
+  {id:5,title:'階段五:購後行為',sub:'Post-Purchase Behavior',prompt:'買了之後發現 [請描述問題]。如果是你，會退貨還是留著？為什麼？',video:'PR_ELIZpB2o'},
   {id:6,title:'期末報告與後測',sub:'Final Report & Post-Test',prompt:'',video:'mfrM5OF20HE',isFinal:true},
 ];
 
@@ -553,6 +591,7 @@ const POSTTEST = [
 ];
 
 let state={}, currentStage=null;
+let pendingLoginId='';  // v2.1 新增：記錄正在 retry 的學號
 function loadState(){const s=localStorage.getItem('socialai_ctrl_v2');if(s)state=JSON.parse(s)}
 function saveState(){localStorage.setItem('socialai_ctrl_v2',JSON.stringify(state))}
 
@@ -564,14 +603,12 @@ function clearDraft(stageId){try{localStorage.removeItem(draftKey(stageId))}catc
 function hasDraft(stageId){
   const d=loadDraft(stageId);
   if(!d)return false;
-  // draft 至少要有一個欄位有內容才算
   if(d.conclusion)return true;
   if(d.positive&&d.positive.some(p=>p))return true;
   if(d.negative&&d.negative.some(n=>n))return true;
   if(d.source)return true;
   return false;
 }
-// 把目前頁面所有欄位存成 draft（每次改動都會呼叫）
 function saveDraftCurrent(){
   if(!currentStage)return;
   const stageId=currentStage.id;
@@ -585,7 +622,6 @@ function saveDraftCurrent(){
     negative:neg,
     source:srcEl?srcEl.value:''
   };
-  // 只有真的有內容才存（避免空 draft 觸發橘色標記）
   if(conclusion||pos.some(p=>p)||neg.some(n=>n)||(srcEl&&srcEl.value)){
     saveDraft(stageId,draft);
   }
@@ -633,13 +669,11 @@ function showPage(id){document.querySelectorAll('.page').forEach(p=>p.classList.
 
 function selR(el,gid){document.querySelectorAll('#'+gid+' .radio-option').forEach(o=>o.classList.remove('selected'));el.classList.add('selected');el.querySelector('input').checked=true}
 
-// 強制停止影片（給多處重用）
 function stopVideo(){
   var v=document.getElementById('fb-video');
   if(v)v.src='';
 }
 
-// 離開回饋頁（順便存 draft + 停影片）
 function leaveFeedback(){
   if(currentStage&&!isStageDone(currentStage.id)){
     saveDraftCurrent();
@@ -652,7 +686,7 @@ function isStageDone(stageId){
   return !!(state.stages&&state.stages[stageId]);
 }
 
-// ===== LOGIN =====
+// ===== LOGIN（v2.1 大幅改寫）=====
 let isReturningUser=false;let loginStep=1;
 
 function handleLogin(){
@@ -660,12 +694,9 @@ function handleLogin(){
   const err=document.getElementById('login-error');
   if(!id1){err.textContent='請輸入學號';err.classList.add('show');return}
   loadState();
-  // 先判斷是否完整 returning user（連前測都做完）
-  const fullReturning=state.studentId===id1&&state.consented&&state.pretest;
-  // 再判斷是否做了基本資料但沒前測（C 修復）
-  const halfReturning=state.studentId===id1&&state.consented&&state.name&&!state.pretest;
-
-  if(fullReturning){
+  // 階段 1：先看 localStorage 完整 returning user（連前測都做完）
+  const localFullReturning=state.studentId===id1&&state.consented&&state.pretest;
+  if(localFullReturning){
     err.classList.remove('show');isReturningUser=true;loginStep=1;
     if(state.posttest_done){
       showPage('page-thankyou');
@@ -673,24 +704,103 @@ function handleLogin(){
       fillDemoFromState();
       showPage('page-demo');
     }
-  }else if(halfReturning){
-    // C 修復：直接帶到前測頁，不重做同意書 + 基本資料
-    err.classList.remove('show');isReturningUser=true;loginStep=1;
-    document.getElementById('pretest-resume-banner').style.display='block';
-    renderSurvey('pretest-items',PRETEST,'pre_');
-    showPage('page-pretest');
-  }else{
-    if(loginStep===1){
-      document.getElementById('login-id2-group').style.display='block';
-      document.getElementById('login-id2').focus();
-      err.textContent='首次登入，請再次輸入學號確認';err.classList.add('show');err.style.color='var(--blue)';loginStep=2;return;
-    }
-    const id2=document.getElementById('login-id2').value.trim().toUpperCase();
-    if(!id2){err.textContent='請再次輸入學號確認';err.style.color='';err.classList.add('show');return}
-    if(id1!==id2){err.textContent='兩次輸入的學號不一致，請重新確認';err.style.color='';err.classList.add('show');return}
-    err.classList.remove('show');err.style.color='';isReturningUser=false;loginStep=1;
-    state={studentId:id1,group:'control'};saveState();showPage('page-consent');
+    return;
   }
+  // 階段 2：localStorage 不完整 → 從 Sheet 查詢
+  err.classList.remove('show');
+  pendingLoginId=id1;
+  fetchStudentFromSheet(id1);
+}
+
+// v2.1 新增：從 Sheet 查詢學生
+function fetchStudentFromSheet(studentId){
+  // 顯示載入中
+  document.getElementById('login-card').style.display='none';
+  document.getElementById('login-error-card').style.display='none';
+  document.getElementById('login-loading-card').style.display='block';
+
+  const url=SHEET_URL+'?action=load&studentId='+encodeURIComponent(studentId);
+
+  fetch(url,{method:'GET'})
+    .then(function(r){
+      if(!r.ok)throw new Error('伺服器回應錯誤 '+r.status);
+      return r.text();
+    })
+    .then(function(raw){
+      var data;
+      try{data=JSON.parse(raw)}
+      catch(e){throw new Error('伺服器回應格式錯誤')}
+
+      // 結果 A：Sheet 有這個學號 → 載入並走 returning
+      if(data.status==='ok'&&data.data){
+        state=data.data;
+        saveState();
+        document.getElementById('login-loading-card').style.display='none';
+        document.getElementById('login-card').style.display='block';
+
+        if(state.posttest_done){
+          showPage('page-thankyou');
+        }else if(state.consented&&state.pretest){
+          // fullReturning：基本資料 + 前測都有 → 帶到 demo 確認頁
+          isReturningUser=true;
+          fillDemoFromState();
+          showPage('page-demo');
+        }else if(state.consented&&state.name&&!state.pretest){
+          // halfReturning：基本資料有但沒前測 → 帶到前測頁（C 修復保留）
+          isReturningUser=true;
+          document.getElementById('pretest-resume-banner').style.display='block';
+          renderSurvey('pretest-items',PRETEST,'pre_');
+          showPage('page-pretest');
+        }else{
+          // 同意書/基本資料還沒做 → 走全新流程
+          startFreshLogin(studentId);
+        }
+        return;
+      }
+
+      // 結果 B：Sheet 沒這個學號 → 全新使用者
+      if(data.status==='not_found'){
+        document.getElementById('login-loading-card').style.display='none';
+        document.getElementById('login-card').style.display='block';
+        startFreshLogin(studentId);
+        return;
+      }
+
+      // 其他狀況（Code.gs 出錯）→ 顯示錯誤
+      throw new Error(data.message||'伺服器回應異常');
+    })
+    .catch(function(err){
+      console.error('Login fetch error:',err);
+      document.getElementById('login-loading-card').style.display='none';
+      document.getElementById('login-error-card').style.display='block';
+      document.getElementById('login-err-detail').textContent=
+        '無法連接到伺服器：'+err.message+'。請確認網路連線後按下方按鈕重試。';
+    });
+}
+
+// v2.1 新增：API 失敗時的「重試」
+function retryLogin(){
+  if(pendingLoginId){
+    fetchStudentFromSheet(pendingLoginId);
+  }else{
+    document.getElementById('login-error-card').style.display='none';
+    document.getElementById('login-card').style.display='block';
+  }
+}
+
+// 走全新流程：兩次學號 → 同意書 → 基本資料 → 前測
+function startFreshLogin(id1){
+  const err=document.getElementById('login-error');
+  if(loginStep===1){
+    document.getElementById('login-id2-group').style.display='block';
+    document.getElementById('login-id2').focus();
+    err.textContent='首次登入，請再次輸入學號確認';err.classList.add('show');err.style.color='var(--blue)';loginStep=2;return;
+  }
+  const id2=document.getElementById('login-id2').value.trim().toUpperCase();
+  if(!id2){err.textContent='請再次輸入學號確認';err.style.color='';err.classList.add('show');return}
+  if(id1!==id2){err.textContent='兩次輸入的學號不一致，請重新確認';err.style.color='';err.classList.add('show');return}
+  err.classList.remove('show');err.style.color='';isReturningUser=false;loginStep=1;
+  state={studentId:id1,group:'control'};saveState();showPage('page-consent');
 }
 
 function fillDemoFromState(){
@@ -724,17 +834,14 @@ function handleDemo(){
   renderSurvey('pretest-items',PRETEST,'pre_');showPage('page-pretest');
 }
 
-// D 修復：第二次登入修改基本資料 → 寫回 Sheet
 function handleDemoConfirm(){
   const n=document.getElementById('demo-name').value.trim(),g=document.querySelector('#demo-gender input:checked'),b=document.getElementById('demo-birth').value.trim(),d=document.getElementById('demo-dept').value.trim(),gr=document.querySelector('#demo-grade input:checked'),sp=document.querySelector('#demo-spending input:checked'),a=document.querySelector('#demo-ai input:checked'),at=document.querySelector('#demo-aitool input:checked'),af=document.querySelector('#demo-aifreq input:checked');
   if(!n||!g||!b||!d||!gr||!sp||!a||!at||!af){alert('請填寫所有必填項目');return}
   state.name=n;state.gender=g.value;state.birth=b;state.dept=d;state.grade=gr.value;state.spending=sp.value;state.ai_familiarity=a.value;state.ai_tool=at.value;state.ai_freq=af.value;saveState();
-  // 寫回 Sheet（後端 writePretest 會以學號 update 同一列的基本資料 + 前測欄位）
   sendToSheet({type:'pretest',studentId:state.studentId,data:state});
   renderDashboard();showPage('page-dashboard');
 }
 
-// LIKERT RENDER
 function renderSurvey(containerId,sections,prefix){
   const c=document.getElementById(containerId);c.innerHTML='';
   sections.forEach(sec=>{
@@ -779,12 +886,10 @@ function handlePretest(){
   if(!state.stages)state.stages={};
   saveState();
   sendToSheet({type:'pretest',studentId:state.studentId,data:state});
-  // 隱藏前測恢復橫條（避免下次又看到）
   document.getElementById('pretest-resume-banner').style.display='none';
   renderDashboard();showPage('page-dashboard');
 }
 
-// ===== FLOW CHART =====
 function renderFlowChart(){
   const fc=document.getElementById('flow-chart');fc.innerHTML='';
   const pretestDone=!!state.pretest;
@@ -805,7 +910,7 @@ function renderFlowChart(){
     {label:'前測',done:pretestDone,current:false},
     {label:'課程\n說明',done:!!(state.stages&&state.stages[0]),current:pretestDone&&!(state.stages&&state.stages[0])},
     ...STAGES.filter(s=>!s.isCourse&&!s.isFinal).map((s,i)=>({
-      label:s.title.replace(/階段.：/,''),
+      label:s.title.replace(/階段.[：:]/,''),
       done:!!(state.stages&&state.stages[s.id]),
       current:!!(state.stages&&state.stages[0])&&pretestDone&&i===firstIncomplete&&!(state.stages&&state.stages[s.id]),
       locked:i>firstIncomplete||(!(state.stages&&state.stages[0]))
@@ -825,7 +930,6 @@ function renderFlowChart(){
   });
 }
 
-// DASHBOARD
 function renderDashboard(){
   document.getElementById('dash-name').textContent=state.name||state.studentId;
   const list=document.getElementById('stage-list');list.innerHTML='';
@@ -869,7 +973,6 @@ function renderDashboard(){
     list.appendChild(div);
   });
 
-  // Post-test row
   const allDone=taskStages.every(ts=>state.stages[ts.id])&&state.stages[6];
   const ptDiv=document.createElement('div');
   ptDiv.className=`stage-item ${state.posttest_done?'completed':allDone?'':'locked'}`;
@@ -881,21 +984,18 @@ function renderDashboard(){
   list.appendChild(ptDiv);
 }
 
-// COURSE INTRO (id=0)
 function openCourseIntro(){
   currentStage=STAGES.find(s=>s.id===0);
   document.getElementById('fb-title').innerHTML=`<div class="icon icon-mint">📖</div>課程說明`;
   document.getElementById('fb-video').src=`https://www.youtube.com/embed/${currentStage.video}?rel=0`;
   document.getElementById('fb-video-section').style.display='block';
   document.getElementById('fb-prompt').innerHTML='<strong>觀看完課程說明影片後，請點擊下方按鈕確認。</strong>';
-  // Hide feedback fields
   document.getElementById('draft-banner').style.display='none';
   document.getElementById('conclusion-section').style.display='none';
   document.getElementById('fb-instruction').style.display='none';
   document.getElementById('fb-pos-section').style.display='none';
   document.getElementById('fb-neg-section').style.display='none';
   document.getElementById('fb-source-group').style.display='none';
-  // Course confirm button
   const btn=document.getElementById('fb-submit-btn');
   btn.textContent='我已觀看課程說明';
   btn.onclick=()=>{
@@ -903,13 +1003,12 @@ function openCourseIntro(){
     state.stages[0]={time:new Date().toISOString()};
     saveState();
     sendToSheet({type:'feedback',studentId:state.studentId,stage:0,data:{source:'影片觀看'}});
-    stopVideo(); // G 修復
+    stopVideo();
     renderDashboard();showPage('page-dashboard');
   };
   showPage('page-feedback');
 }
 
-// FINAL REPORT (id=6)
 function openFinalReport(){
   currentStage=STAGES.find(s=>s.id===6);
   document.getElementById('fb-title').innerHTML=`<div class="icon icon-coral">📝</div>期末報告與後測說明`;
@@ -929,13 +1028,12 @@ function openFinalReport(){
     state.stages[6]={time:new Date().toISOString()};
     saveState();
     sendToSheet({type:'feedback',studentId:state.studentId,stage:6,data:{source:'影片觀看'}});
-    stopVideo(); // J 修復
+    stopVideo();
     renderDashboard();showPage('page-dashboard');
   };
   showPage('page-feedback');
 }
 
-// FEEDBACK (stages 1-5)
 function openFeedback(stageId){
   if(state.stages&&state.stages[stageId])return;
   currentStage=STAGES.find(s=>s.id===stageId);
@@ -943,7 +1041,6 @@ function openFeedback(stageId){
   document.getElementById('fb-video').src=`https://www.youtube.com/embed/${currentStage.video}?rel=0`;
   document.getElementById('fb-video-section').style.display='block';
   document.getElementById('fb-prompt').innerHTML=`<strong>統一提問指令：</strong><br>「${currentStage.prompt}」`;
-  // Show all fields (A 修復：明確顯示每個區塊，包含 fb-source 和 fb-source-group)
   document.getElementById('conclusion-section').style.display='block';
   document.getElementById('fb-instruction').style.display='block';
   document.getElementById('fb-pos-section').style.display='block';
@@ -951,7 +1048,6 @@ function openFeedback(stageId){
   document.getElementById('fb-source-group').style.display='';
   document.getElementById('fb-source').style.display='';
 
-  // E 修復：嘗試恢復 draft
   const draft=loadDraft(stageId);
   if(draft){
     document.getElementById('draft-banner').style.display='flex';
@@ -960,7 +1056,6 @@ function openFeedback(stageId){
       document.getElementById('fb-pos-'+i).value=(draft.positive&&draft.positive[i-1])||'';
       document.getElementById('fb-neg-'+i).value=(draft.negative&&draft.negative[i-1])||'';
     }
-    // 恢復 source 選項
     document.querySelectorAll('#fb-source .radio-option').forEach(o=>o.classList.remove('selected'));
     document.querySelectorAll('#fb-source input').forEach(i=>i.checked=false);
     if(draft.source){
@@ -981,28 +1076,23 @@ function openFeedback(stageId){
     document.querySelectorAll('#fb-source .radio-option').forEach(o=>o.classList.remove('selected'));
     document.querySelectorAll('#fb-source input').forEach(i=>i.checked=false);
   }
-  // Reset error
   document.getElementById('fb-conclusion').classList.remove('error');
   for(let i=1;i<=3;i++){
     document.getElementById('fb-pos-'+i).classList.remove('error');
     document.getElementById('fb-neg-'+i).classList.remove('error');
   }
-  // 綁定每次輸入時自動存 draft
   const inputIds=['fb-conclusion','fb-pos-1','fb-pos-2','fb-pos-3','fb-neg-1','fb-neg-2','fb-neg-3'];
   inputIds.forEach(id=>{
     const el=document.getElementById(id);
     el.oninput=saveDraftCurrent;
   });
-  // Submit button
   const btn=document.getElementById('fb-submit-btn');
   btn.textContent='送出回饋紀錄';
   btn.onclick=confirmFeedback;
   showPage('page-feedback');
 }
 
-// E 修復：送出前先驗證 + 顯示確認對話框
 function confirmFeedback(){
-  // Validate
   const conclusionEl=document.getElementById('fb-conclusion');
   const conclusion=conclusionEl.value.trim();
   conclusionEl.classList.remove('error');
@@ -1031,7 +1121,6 @@ function confirmFeedback(){
     return;
   }
 
-  // 驗證通過 → 顯示確認對話框
   const previewHtml=`
     <div style="margin-bottom:10px"><strong style="color:var(--blue)">📌 結論：</strong><br>${escapeHtml(conclusion)}</div>
     <div style="margin-bottom:10px"><strong style="color:var(--blue)">👍 正面意見：</strong><br>1. ${escapeHtml(pos[0])}<br>2. ${escapeHtml(pos[1])}<br>3. ${escapeHtml(pos[2])}</div>
@@ -1046,7 +1135,6 @@ function closeConfirm(){
   document.getElementById('confirm-modal').classList.remove('show');
 }
 
-// 真正的送出
 function doSubmitFeedback(){
   closeConfirm();
   const conclusion=document.getElementById('fb-conclusion').value.trim();
@@ -1062,7 +1150,6 @@ function doSubmitFeedback(){
   };
   saveState();
   sendToSheet({type:'feedback',studentId:state.studentId,stage:currentStage.id,data:state.stages[currentStage.id]});
-  // E 修復：送出成功 → 清掉 draft
   clearDraft(currentStage.id);
   stopVideo();
   renderDashboard();showPage('page-dashboard');
@@ -1070,7 +1157,6 @@ function doSubmitFeedback(){
 
 function escapeHtml(s){return String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
 
-// B 修復：開啟唯讀歷史頁
 function openHistory(stageId){
   const s=STAGES.find(st=>st.id===stageId);
   const data=state.stages&&state.stages[stageId];
@@ -1108,7 +1194,6 @@ function handlePosttest(){
   sendToSheet({type:'posttest',studentId:state.studentId,data:state});showPage('page-thankyou');
 }
 
-// SECRET RESET（清掉所有 socialai_ctrl_* key）
 let _tapCount=0,_tapTimer=null;
 function secretReset(){
   _tapCount++;
@@ -1117,7 +1202,6 @@ function secretReset(){
   if(_tapCount>=5){
     if(confirm("確定要清除所有測試資料嗎？這會清除這支裝置上的所有進度（包括 draft）。")){
       localStorage.removeItem("socialai_ctrl_v2");
-      // 同步清所有 draft
       for(let i=1;i<=5;i++)localStorage.removeItem('socialai_ctrl_draft_s'+i);
       _tapCount=0;
       alert("資料已清除，頁面將重新載入");
@@ -1126,7 +1210,6 @@ function secretReset(){
   }
 }
 
-// INIT
 loadState();
 function handleLogout(){
   stopVideo();
@@ -1134,7 +1217,12 @@ function handleLogout(){
   document.getElementById('login-id1').value='';document.getElementById('login-id2').value='';
   document.getElementById('login-id2-group').style.display='none';document.getElementById('login-error').classList.remove('show');
   document.getElementById('pretest-resume-banner').style.display='none';
+  // v2.1 新增：重置 login state
+  document.getElementById('login-card').style.display='block';
+  document.getElementById('login-loading-card').style.display='none';
+  document.getElementById('login-error-card').style.display='none';
   loginStep=1;
+  pendingLoginId='';
 }
 </script>
 </body>
